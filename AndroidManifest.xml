@@ -14,7 +14,9 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.adapp.AddPhotoActivity"
+            android:name="com.adapp.UserLoginActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,6 +24,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.adapp.AddPhotoActivity"></activity>
+        <activity android:name="com.adapp.CategoryListActivity"></activity>
+        <activity android:name="com.adapp.MessageSentActivity"></activity>
+        <activity android:name="com.adapp.NewAdActivity"></activity>
+        <activity android:name="com.adapp.ProductListActivity"></activity>
+        <activity android:name="com.adapp.ProductViewActivity"></activity>
+        <activity android:name="com.adapp.SendMessageActivity"></activity>
+        
     </application>
 
 </manifest>

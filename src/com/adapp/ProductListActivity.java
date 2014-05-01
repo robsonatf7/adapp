@@ -1,5 +1,7 @@
 package com.adapp;
 
-public class ProductListActivity {
+import android.app.Activity;
+
+public class ProductListActivity extends Activity{
 
 }

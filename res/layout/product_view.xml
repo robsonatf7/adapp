@@ -54,6 +54,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Comprar" />
+
+        <Button
+            android:id="@+id/product_view_pro_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Produtos" />
+
+        <Button
+            android:id="@+id/product_view_cat_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Categorias" />
+
     </LinearLayout>
 
 </LinearLayout>
