@@ -62,8 +62,8 @@ public class CategoryListAdapter extends BaseAdapter {
 			LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = li.inflate(R.layout.category_row, parent, false);
 			holder = new ViewHolder();
-			holder.textViewName = (TextView) convertView.findViewById(R.id.product_row_name);
-			holder.textViewTotal = (TextView) convertView.findViewById(R.id.product_row_price);
+			holder.textViewName = (TextView) convertView.findViewById(R.id.category_row_name);
+			holder.textViewTotal = (TextView) convertView.findViewById(R.id.category_row_total);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
