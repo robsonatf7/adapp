@@ -11,7 +11,7 @@
         android:gravity="center_horizontal|center_vertical" >
 
         <ImageView
-            android:id="@+id/add_photo_image"
+            android:id="@+id/ad_view_photo_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/abc_ab_bottom_solid_dark_holo" />
@@ -24,7 +24,7 @@
         android:gravity="center_horizontal|center_vertical" >
 
         <TextView
-            android:id="@+id/product_view_price"
+            android:id="@+id/ad_view_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="R$ 100,00" />
@@ -37,7 +37,7 @@
         android:gravity="center_horizontal|center_vertical" >
 
         <TextView
-            android:id="@+id/product_view_description"
+            android:id="@+id/ad_view_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="nononononononononono" />
@@ -50,19 +50,19 @@
         android:gravity="center_horizontal|center_vertical" >
 
         <Button
-            android:id="@+id/product_view_buy_button"
+            android:id="@+id/ad_view_buy_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Comprar" />
 
         <Button
-            android:id="@+id/product_view_pro_button"
+            android:id="@+id/ad_view_pro_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Produtos" />
 
         <Button
-            android:id="@+id/product_view_cat_button"
+            android:id="@+id/ad_view_cat_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Categorias" />

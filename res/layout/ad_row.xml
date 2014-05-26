@@ -3,18 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
-    <ListView
-        android:id="@+id/productList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" >
-    </ListView>
     
-    <Button
-        android:id="@+id/productListButton"
+    <TextView 
+        android:id="@+id/ad_row_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:text="@+id/ad_row_text"
+        android:textSize="40sp"/>
 
 </LinearLayout>

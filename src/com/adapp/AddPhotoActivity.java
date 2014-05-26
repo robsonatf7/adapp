@@ -15,14 +15,14 @@ public class AddPhotoActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.add_photo);
+		setContentView(R.layout.ad_photo);
 		onClickFinishAd();
 	}
 
 	private void onClickFinishAd() {
 		
 		final Context context = this;
-		finishAd = (Button) findViewById(R.id.add_photo_finish_button);
+		finishAd = (Button) findViewById(R.id.ad_photo_finish_button);
 		finishAd.setOnClickListener(new OnClickListener() {
 			
 			@Override

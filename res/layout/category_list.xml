@@ -5,14 +5,14 @@
     android:padding="5dp" >
 
     <ListView
-        android:id="@+id/listView1"
+        android:id="@+id/category_list_view"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:layout_weight="1" >
     </ListView>
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/category_list_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Button" />

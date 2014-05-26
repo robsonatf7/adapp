@@ -26,7 +26,7 @@ public class MessageSentActivity extends Activity{
 			
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(context, ProductListActivity.class);
+				Intent intent = new Intent(context, AdListActivity.class);
 				startActivity(intent);
 			}
 		});

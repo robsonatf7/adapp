@@ -26,7 +26,7 @@ public class CategoryListAdapter extends ArrayAdapter<String> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View rowView = inflater.inflate(R.layout.category_row, parent, false);
-		TextView textView = (TextView) rowView.findViewById(R.id.label);
+		TextView textView = (TextView) rowView.findViewById(R.id.category_row_text);
 		textView.setText(values[position]);
 		
 		return rowView;

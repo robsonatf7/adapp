@@ -15,7 +15,7 @@ public class ProductViewActivity extends Activity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.product_view);
+		setContentView(R.layout.ad_view);
 		onClickBuy();
 		onClickPro();
 		onClickCat();
@@ -23,7 +23,7 @@ public class ProductViewActivity extends Activity{
 
 	private void onClickCat() {
 		final Context context = this;
-		cat = (Button) findViewById(R.id.product_view_cat_button);
+		cat = (Button) findViewById(R.id.ad_view_cat_button);
 		cat.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -36,12 +36,12 @@ public class ProductViewActivity extends Activity{
 
 	private void onClickPro() {
 		final Context context = this;
-		pro = (Button) findViewById(R.id.product_view_pro_button);
+		pro = (Button) findViewById(R.id.ad_view_pro_button);
 		pro.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(context, ProductListActivity.class);
+				Intent intent = new Intent(context, AdListActivity.class);
 				startActivity(intent);
 			}
 		});
@@ -49,7 +49,7 @@ public class ProductViewActivity extends Activity{
 
 	private void onClickBuy() {
 		final Context context = this;
-		buy = (Button) findViewById(R.id.product_view_buy_button);
+		buy = (Button) findViewById(R.id.ad_view_buy_button);
 		buy.setOnClickListener(new OnClickListener() {
 			
 			@Override
