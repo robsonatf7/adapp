@@ -39,12 +39,10 @@ import android.widget.Toast;
 public class CategoryListActivity extends Activity {
 
 		Button newAd;
-//		static final String[] Categories = new String[] {
-//			"Casa", "Carro", "Celular"
-//		};
 		ListView categoryList;
-		ArrayList<String> categoryArrayList = new ArrayList<String>();
-		ArrayAdapter<String> categoryAdapter;
+		ArrayList<String> categoriesArray = new ArrayList<String>();
+		CategoryListAdapter categoryListAdapter;
+		String[] categoriesString = {""};
 		Context context;
 		String feedUrl = "http://192.168.0.16:3000/categories.json";
 			
@@ -52,23 +50,17 @@ public class CategoryListActivity extends Activity {
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
 			setContentView(R.layout.category_list);
+			
 			context = this;
-			
-//			CategoryListAdapter categoryListAdapter = new CategoryListAdapter(this, Categories);
-//			ListView listView = (ListView) findViewById(R.id.listView1);
-//			listView.setAdapter(categoryListAdapter);
-			
-//			categoryList.setOnItemClickListener(new ListClickHandler());
-			
-			CategoryListAdapter categoryListAdapter = new CategoryListAdapter(this, categoryArrayList);
-			
-//			categoryList = (ListView) findViewById(R.id.category_list_view);
-//			categoryAdapter = new ArrayAdapter<String>(this, R.layout.category_row, 0, categoryArrayList);
-//			categoryList.setAdapter(categoryAdapter);
-			
 			CategoryListTask loaderTask = new CategoryListTask();
 			loaderTask.execute();
+						
+			CategoryListAdapter categoryListAdapter = new CategoryListAdapter(this, categoriesString);	
+			ListView listView = (ListView) findViewById(R.id.category_list_view);
+			listView.setAdapter(categoryListAdapter);
 			
+			categoryList.setOnItemClickListener(new ListClickHandler());
+		
 			onClickNewAd();
 			
 		}
@@ -91,7 +83,6 @@ public class CategoryListActivity extends Activity {
 		}
 		
 		private class ListClickHandler implements OnItemClickListener {
-
 			@Override
 			public void onItemClick(AdapterView<?> Adapter, View view, int position, long arg3) {
 				
@@ -100,11 +91,9 @@ public class CategoryListActivity extends Activity {
 				
 				Toast.makeText(context, text + "Clicked at Position" + position, Toast.LENGTH_SHORT).show();
 			}
-			
-
 		}
 		
-		public class CategoryListTask extends AsyncTask<Void, Void, Void> {
+		public class CategoryListTask extends AsyncTask<Void, Void, String[]> {
 			
 			ProgressDialog dialog;
 
@@ -117,7 +106,7 @@ public class CategoryListActivity extends Activity {
 			}
 
 			@Override
-			protected Void doInBackground(Void... params) {
+			protected String[] doInBackground(Void... params) {
 				
 				HttpClient client = new DefaultHttpClient();
 				HttpGet getRequest = new HttpGet(feedUrl);
@@ -142,22 +131,15 @@ public class CategoryListActivity extends Activity {
 					
 					String jsonData = builder.toString();
 					
-					JSONObject json = new JSONObject(jsonData);
-					JSONArray categories = json.getJSONArray("categories");
-					for (int i = 0; i <categories.length(); i++) {
-						JSONObject object = categories.getJSONObject(i);
+					JSONArray json = new JSONArray(jsonData);
+					for (int i = 0; i < json.length(); i++) {
+						JSONObject object = json.getJSONObject(i);
 						JSONObject category = object.getJSONObject("category");
-						categoryArrayList.add(category.getString("name"));
+						String name = category.getString("name");
+						categoriesArray.add(name);
 					}
 					
-//					JSONObject json = new JSONObject(jsonData);
-//					JSONObject categories = json.getJSONObject("categories");
-//					JSONArray category = categories.getJSONArray("category");
-					
-//					for (int i = 0; i < category.length(); i++) {
-//						JSONObject cat = category.getJSONObject(i);
-//						categoryArrayList.add(cat.getString("name"));
-//					}
+					categoriesString = categoriesArray.toArray(new String[categoriesArray.size()]);
 					
 				} catch (ClientProtocolException e) {
 					e.printStackTrace();
@@ -167,18 +149,20 @@ public class CategoryListActivity extends Activity {
 					e.printStackTrace();
 				}
 				
-				return null;
+				return categoriesString;
 			
 			}
 			
-			
 			@Override
-			protected void onPostExecute(Void result) {
+			protected void onPostExecute(String[] result) {
 				dialog.dismiss();
-				categoryAdapter.notifyDataSetChanged();
+				
+				CategoryListAdapter categoryListAdapter = new CategoryListAdapter(context, result);	
+				ListView listView = (ListView) findViewById(R.id.category_list_view);
+				listView.setAdapter(categoryListAdapter);
+				
 				super.onPostExecute(result);
 			}
 			
 		}
-	
 }

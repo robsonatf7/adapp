@@ -1,8 +1,11 @@
 package com.adapp.adapters;
 
+import java.util.ArrayList;
+
 import com.adapp.R;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +23,10 @@ public class CategoryListAdapter extends ArrayAdapter<String> {
 		super(context, R.layout.category_row, values);
 		this.context = context;
 		this.values = values;
+		
+//		for (String s : values){
+//			Log.i("categoreisString", s);
+//		}
 	}
 	
 	@Override
