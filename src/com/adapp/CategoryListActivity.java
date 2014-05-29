@@ -24,12 +24,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -64,8 +62,6 @@ public class CategoryListActivity extends Activity {
 			
 		}
 		
-
-
 		public void onClickNewAd() {
 			
 			final Context context = this;
@@ -99,7 +95,7 @@ public class CategoryListActivity extends Activity {
 			@Override
 			protected void onPreExecute() {
 				dialog = new ProgressDialog(context);
-				dialog.setTitle("Loading videos");
+				dialog.setTitle("Loading categories");
 				dialog.show();
 				super.onPreExecute();
 			}
