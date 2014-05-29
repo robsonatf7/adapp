@@ -39,7 +39,6 @@ import android.widget.Toast;
 public class CategoryListActivity extends Activity {
 
 		Button newAd;
-		ListView categoryList;
 		ArrayList<String> categoriesArray = new ArrayList<String>();
 		CategoryListAdapter categoryListAdapter;
 		String[] categoriesString = {""};
@@ -59,7 +58,7 @@ public class CategoryListActivity extends Activity {
 			ListView listView = (ListView) findViewById(R.id.category_list_view);
 			listView.setAdapter(categoryListAdapter);
 			
-			categoryList.setOnItemClickListener(new ListClickHandler());
+			listView.setOnItemClickListener(new ListClickHandler());
 		
 			onClickNewAd();
 			
