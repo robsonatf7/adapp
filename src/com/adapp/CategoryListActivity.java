@@ -17,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.adapp.adapters.CategoryListAdapter;
+import com.adapp.models.CategoryModel;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -24,6 +25,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -37,9 +39,10 @@ import android.widget.Toast;
 public class CategoryListActivity extends Activity {
 
 		Button newAd;
-		ArrayList<String> categoriesArray = new ArrayList<String>();
+		ArrayList<String> categoriesNamesArray = new ArrayList<String>();
 		CategoryListAdapter categoryListAdapter;
 		String[] categoriesString = {""};
+		JSONArray categoriesJson = new JSONArray();
 		Context context;
 		String feedUrl = "http://192.168.0.16:3000/categories.json";
 			
@@ -82,13 +85,15 @@ public class CategoryListActivity extends Activity {
 			public void onItemClick(AdapterView<?> Adapter, View view, int position, long arg3) {
 				
 				TextView listText = (TextView) view.findViewById(R.id.category_row_text);
-				String text = listText.getText().toString();
-				
-				Toast.makeText(context, text + "Clicked at Position" + position, Toast.LENGTH_SHORT).show();
+				String categoryName = listText.getText().toString();
+
+				Intent intent = new Intent(context, AdListActivity.class);
+				intent.putExtra("categoryName", categoryName);
+				startActivity(intent);
 			}
 		}
 		
-		public class CategoryListTask extends AsyncTask<Void, Void, String[]> {
+		public class CategoryListTask extends AsyncTask<Void, Void, JSONArray> {
 			
 			ProgressDialog dialog;
 
@@ -101,62 +106,37 @@ public class CategoryListActivity extends Activity {
 			}
 
 			@Override
-			protected String[] doInBackground(Void... params) {
+			protected JSONArray doInBackground(Void... params) {
+				CategoryModel jParser = new CategoryModel();
+				JSONArray json = jParser.getJSONFromUrl(feedUrl);
+				return json;
+			}
+			
+			@Override
+			protected void onPostExecute(JSONArray json) {
+				dialog.dismiss();
 				
-				HttpClient client = new DefaultHttpClient();
-				HttpGet getRequest = new HttpGet(feedUrl);
-				
-				try {
-					HttpResponse response = client.execute(getRequest);
-					StatusLine statusLine = response.getStatusLine();
-					int statusCode = statusLine.getStatusCode();
-					
-					if(statusCode != 200) {
-						return null;
-					}
-				
-					InputStream jsonStream = response.getEntity().getContent();
-					BufferedReader reader = new BufferedReader(new InputStreamReader(jsonStream));
-					StringBuilder builder = new StringBuilder();
-					String line;
-					
-					while((line = reader.readLine()) != null) {
-						builder.append(line);
-					}
-					
-					String jsonData = builder.toString();
-					
-					JSONArray json = new JSONArray(jsonData);
+				try{
 					for (int i = 0; i < json.length(); i++) {
-						JSONObject object = json.getJSONObject(i);
-						JSONObject category = object.getJSONObject("category");
+						JSONObject category = json.getJSONObject(i);
 						String name = category.getString("name");
-						categoriesArray.add(name);
+						categoriesNamesArray.add(name);
 					}
-					
-					categoriesString = categoriesArray.toArray(new String[categoriesArray.size()]);
-					
-				} catch (ClientProtocolException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
 				
-				return categoriesString;
-			
-			}
-			
-			@Override
-			protected void onPostExecute(String[] result) {
-				dialog.dismiss();
+				categoriesString = categoriesNamesArray.toArray(new String[categoriesNamesArray.size()]);
 				
-				CategoryListAdapter categoryListAdapter = new CategoryListAdapter(context, result);	
+				for (String s : categoriesString){
+					Log.i("categoreisString", s);
+				}
+				
+				CategoryListAdapter categoryListAdapter = new CategoryListAdapter(context, categoriesString);	
 				ListView listView = (ListView) findViewById(R.id.category_list_view);
 				listView.setAdapter(categoryListAdapter);
 				
-				super.onPostExecute(result);
+				super.onPostExecute(json);
 			}
 			
 		}

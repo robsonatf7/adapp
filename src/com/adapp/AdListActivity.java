@@ -24,6 +24,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -40,11 +41,15 @@ public class AdListActivity extends Activity {
 	AdListAdapter adListAdapter;
 	String[] adsString = {""};
 	Context context;
-	String feedUrl = "http://192.168.0.16:3000/ads.json";
+//	Intent intent = getIntent();
+//	System.out.println(intent);
+//	String catName = intent.getStringExtra("categoryName");
+//	String feedUrl = "http://192.168.0.16:3000/ads.json?category_name="+ catName;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+//	}
 		setContentView(R.layout.ad_list);
 		
 		context = this;
@@ -101,6 +106,11 @@ public class AdListActivity extends Activity {
 		
 		@Override
 		protected String[] doInBackground(Void... params) {
+			
+			Intent intent = getIntent();
+			//System.out.println(intent);
+			String catName = intent.getStringExtra("categoryName");
+			String feedUrl = "http://192.168.0.16:3000/ads.json?category_name="+ catName;
 			
 			HttpClient client = new DefaultHttpClient();
 			HttpGet getRequest = new HttpGet(feedUrl);
