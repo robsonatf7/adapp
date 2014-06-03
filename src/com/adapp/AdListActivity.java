@@ -1,22 +1,13 @@
 package com.adapp;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.adapp.adapters.AdListAdapter;
+import com.adapp.models.AdModel;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -24,7 +15,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -37,19 +27,15 @@ import android.widget.Toast;
 public class AdListActivity extends Activity {
 	
 	Button newAdOne;
-	ArrayList<String> adsArray = new ArrayList<String>();
+	ArrayList<String> adsTitlesArray = new ArrayList<String>();
 	AdListAdapter adListAdapter;
 	String[] adsString = {""};
 	Context context;
-//	Intent intent = getIntent();
-//	System.out.println(intent);
-//	String catName = intent.getStringExtra("categoryName");
-//	String feedUrl = "http://192.168.0.16:3000/ads.json?category_name="+ catName;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//	}
+
 		setContentView(R.layout.ad_list);
 		
 		context = this;
@@ -92,7 +78,7 @@ public class AdListActivity extends Activity {
 		}
 	}
 	
-	public class AdListTask extends AsyncTask<Void, Void, String[]> {
+	public class AdListTask extends AsyncTask<Void, Void, JSONArray> {
 		
 		ProgressDialog dialog;
 		
@@ -105,66 +91,39 @@ public class AdListActivity extends Activity {
 		}
 		
 		@Override
-		protected String[] doInBackground(Void... params) {
+		protected JSONArray doInBackground(Void... params) {
 			
 			Intent intent = getIntent();
-			//System.out.println(intent);
 			String catName = intent.getStringExtra("categoryName");
 			String feedUrl = "http://192.168.0.16:3000/ads.json?category_name="+ catName;
 			
-			HttpClient client = new DefaultHttpClient();
-			HttpGet getRequest = new HttpGet(feedUrl);
+			AdModel jParser = new AdModel();
+			JSONArray json = jParser.getJSONFromUrl(feedUrl);
+			return json;
+			
+		}
+		
+		@Override
+		protected void onPostExecute(JSONArray json) {
+			dialog.dismiss();
 			
 			try {
-				HttpResponse response = client.execute(getRequest);
-				StatusLine statusLine = response.getStatusLine();
-				int statusCode = statusLine.getStatusCode();
-				
-				if (statusCode != 200) {
-					return null;
-				}
-				
-				InputStream jsonStream = response.getEntity().getContent();
-				BufferedReader reader = new BufferedReader(new InputStreamReader(jsonStream));
-				StringBuilder builder = new StringBuilder();
-				String line;
-				
-				while((line = reader.readLine()) != null) {
-					builder.append(line);
-				}
-				
-				String jsonData = builder.toString();
-				
-				JSONArray json = new JSONArray(jsonData);
 				for (int i = 0; i < json.length(); i++) {
-					JSONObject object = json.getJSONObject(i);
-					JSONObject ad = object.getJSONObject("ad");
+					JSONObject ad = json.getJSONObject(i);
 					String title = ad.getString("title");
-					adsArray.add(title);
+					adsTitlesArray.add(title);
 				}
-				
-				adsString = adsArray.toArray(new String[adsArray.size()]);
-				
-			} catch (ClientProtocolException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 			
-			return adsString;
-		}
-		
-		@Override
-		protected void onPostExecute(String[] result) {
-			dialog.dismiss();
+			adsString = adsTitlesArray.toArray(new String[adsTitlesArray.size()]);
 			
-			AdListAdapter adListAdapter = new AdListAdapter(context, result);
+			AdListAdapter adListAdapter = new AdListAdapter(context, adsString);
 			ListView listView = (ListView) findViewById(R.id.ad_list);
 			listView.setAdapter(adListAdapter);
 			
-			super.onPostExecute(result);
+			super.onPostExecute(json);
 		}
 	}
 }
