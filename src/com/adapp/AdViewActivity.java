@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Button;
@@ -25,8 +26,8 @@ public class AdViewActivity extends Activity{
 
 	Button buy, pro, cat;
 	Context context;
-	String passedVar=null;
-	private TextView passedView=null;
+	String position = null;
+	String feedUrl = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +40,6 @@ public class AdViewActivity extends Activity{
 		context = this;
 		AdViewTask loaderTask = new AdViewTask();
 		loaderTask.execute();
-		
-		//passedVar=getIntent().getStringExtra("position");
-		//passedView=(TextView)findViewById(R.id.ad_view_price);
-		//passedView.setText(passedVar);
 	}
 
 	private void onClickCat() {
@@ -99,9 +96,9 @@ public class AdViewActivity extends Activity{
 		@Override
 		protected JSONArray doInBackground(Void... params) {
 			
-			//Intent intent = getIntent();
-			//String catName = intent.getStringExtra("categoryName");
-			String feedUrl = "http://192.168.0.16:3000/ads.json?category_name="+ "Casa";
+			Intent i = getIntent();
+			Bundle e = i.getExtras();
+			feedUrl = e.getString("feedUrl");
 			
 			AdListModel jParser = new AdListModel();
 			JSONArray json = jParser.getJSONFromUrl(feedUrl);
@@ -112,28 +109,29 @@ public class AdViewActivity extends Activity{
 		@Override
 		protected void onPostExecute(JSONArray json) {
 			dialog.dismiss();
-			passedVar=getIntent().getStringExtra("position");
+			
+			Intent intent = getIntent();
+			Bundle extras = intent.getExtras();
+			
+			position = extras.getString("position");
+			int positionInt = Integer.parseInt(position);
+			
+			String price = "";
+			String description = "";
 			
 			try {
-				for (int i = 0; i < json.length(); i++) {
-					JSONObject ad = json.getJSONObject(i);
-					String id = ad.getString("id");
-					if (id == passedVar) {
-						break;
-					}
-//					adsTitlesArray.add(title);
-				}
+				JSONObject ad = json.getJSONObject(positionInt);
+				price = ad.getString("price");
+				description = ad.getString("description");
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
-			JSONObject ad = json.getJSONObject(i);
-			String id = ad.getString("id");
-			Log.i("id", id);
-//			adsString = adsTitlesArray.toArray(new String[adsTitlesArray.size()]);
 			
-//			AdListAdapter adListAdapter = new AdListAdapter(context, adsString);
-//			ListView listView = (ListView) findViewById(R.id.ad_list);
-//			listView.setAdapter(adListAdapter);
+			TextView viewPrice = (TextView) findViewById(R.id.ad_view_price);
+			viewPrice.setText(price);
+			
+			TextView viewDescription = (TextView) findViewById(R.id.ad_view_description);
+			viewDescription.setText(description);
 
 			
 			super.onPostExecute(json);

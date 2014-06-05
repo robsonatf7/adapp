@@ -32,13 +32,13 @@ public class AdListActivity extends Activity {
 	AdListAdapter adListAdapter;
 	String[] adsString = {""};
 	Context context;
+	String feedUrl;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.ad_list);
-		
+
 		context = this;
 		AdListTask loaderTask = new AdListTask();
 		loaderTask.execute();
@@ -72,8 +72,15 @@ public class AdListActivity extends Activity {
 		@Override
 		public void onItemClick(AdapterView<?> Adapter, View view, int position, long id) {
 
+			Intent i = getIntent();
+			String catName = i.getStringExtra("categoryName");
+			String feedUrl = "http://192.168.0.16:3000/ads.json?category_name="+ catName;
+			
 			Intent intent = new Intent(context, AdViewActivity.class);
-			intent.putExtra("position", String.valueOf(id));
+			Bundle extras = new Bundle();
+			extras.putString("feedUrl", feedUrl);
+			extras.putString("position", String.valueOf(id));
+			intent.putExtras(extras);
 			startActivity(intent);
 		}
 	}
