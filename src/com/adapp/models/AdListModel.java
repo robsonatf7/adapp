@@ -15,14 +15,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class CategoryModel {
+public class AdListModel {
 	
-	JSONArray categoriesJson = new JSONArray();
+	JSONArray adsJson = new JSONArray();
 	
-	public CategoryModel(){
+	public AdListModel() {
 	}
 	
 	public JSONArray getJSONFromUrl(String url){
+		
 		HttpClient client = new DefaultHttpClient();
 		HttpGet getRequest = new HttpGet(url);
 		
@@ -31,10 +32,10 @@ public class CategoryModel {
 			StatusLine statusLine = response.getStatusLine();
 			int statusCode = statusLine.getStatusCode();
 			
-			if(statusCode != 200) {
+			if (statusCode != 200) {
 				return null;
 			}
-		
+			
 			InputStream jsonStream = response.getEntity().getContent();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(jsonStream));
 			StringBuilder builder = new StringBuilder();
@@ -45,12 +46,12 @@ public class CategoryModel {
 			}
 			
 			String jsonData = builder.toString();
-			JSONArray json = new JSONArray(jsonData);
 			
+			JSONArray json = new JSONArray(jsonData);
 			for (int i = 0; i < json.length(); i++) {
 				JSONObject object = json.getJSONObject(i);
-				JSONObject category = object.getJSONObject("category");
-				categoriesJson.put(category);
+				JSONObject ad = object.getJSONObject("ad");
+				adsJson.put(ad);
 			}
 			
 		} catch (ClientProtocolException e) {
@@ -61,7 +62,7 @@ public class CategoryModel {
 			e.printStackTrace();
 		}
 		
-		return categoriesJson;
+		return adsJson;
 	}
-	
+
 }

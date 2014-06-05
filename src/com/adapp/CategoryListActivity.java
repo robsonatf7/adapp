@@ -7,7 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.adapp.adapters.CategoryListAdapter;
-import com.adapp.models.CategoryModel;
+import com.adapp.models.CategoryListModel;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -95,7 +95,7 @@ public class CategoryListActivity extends Activity {
 
 			@Override
 			protected JSONArray doInBackground(Void... params) {
-				CategoryModel jParser = new CategoryModel();
+				CategoryListModel jParser = new CategoryListModel();
 				JSONArray json = jParser.getJSONFromUrl(feedUrl);
 				return json;
 			}

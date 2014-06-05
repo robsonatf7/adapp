@@ -7,7 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.adapp.adapters.AdListAdapter;
-import com.adapp.models.AdModel;
+import com.adapp.models.AdListModel;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -69,12 +70,11 @@ public class AdListActivity extends Activity {
 	private class ListClickHandler implements OnItemClickListener {
 		
 		@Override
-		public void onItemClick(AdapterView<?> Adapter, View view, int position, long arg3) {
-			
-			TextView listText = (TextView) view.findViewById(R.id.ad_row_text);
-			String text = listText.getText().toString();
-			
-			Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+		public void onItemClick(AdapterView<?> Adapter, View view, int position, long id) {
+
+			Intent intent = new Intent(context, AdViewActivity.class);
+			intent.putExtra("position", String.valueOf(id));
+			startActivity(intent);
 		}
 	}
 	
@@ -97,7 +97,7 @@ public class AdListActivity extends Activity {
 			String catName = intent.getStringExtra("categoryName");
 			String feedUrl = "http://192.168.0.16:3000/ads.json?category_name="+ catName;
 			
-			AdModel jParser = new AdModel();
+			AdListModel jParser = new AdListModel();
 			JSONArray json = jParser.getJSONFromUrl(feedUrl);
 			return json;
 			
