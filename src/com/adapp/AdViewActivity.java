@@ -1,5 +1,10 @@
 package com.adapp;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,9 +18,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.util.Log;
@@ -118,11 +126,14 @@ public class AdViewActivity extends Activity{
 			
 			String price = "";
 			String description = "";
+			String image = "";
+			//String imageURL = "";
 			
 			try {
 				JSONObject ad = json.getJSONObject(positionInt);
 				price = ad.getString("price");
 				description = ad.getString("description");
+				image = ad.getString("image");
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -132,7 +143,11 @@ public class AdViewActivity extends Activity{
 			
 			TextView viewDescription = (TextView) findViewById(R.id.ad_view_description);
 			viewDescription.setText(description);
+			
+			String imageURL = "http://192.168.0.16:3000" + image;
 
+			WebView web = (WebView) findViewById(R.id.ad_webview_photo_image);
+			web.loadUrl(imageURL);
 			
 			super.onPostExecute(json);
 		}

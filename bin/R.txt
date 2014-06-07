@@ -255,10 +255,10 @@ int id ad_row_text 0x7f050041
 int id ad_view_buy_button 0x7f05003f
 int id ad_view_cat_button 0x7f050046
 int id ad_view_description 0x7f050044
-int id ad_view_photo_image 0x7f050042
 int id ad_view_photo_image1 0x7f05003e
 int id ad_view_price 0x7f050043
 int id ad_view_pro_button 0x7f050045
+int id ad_webview_photo_image 0x7f050042
 int id always 0x7f05000b
 int id beginning 0x7f050011
 int id category_list_button 0x7f050048
