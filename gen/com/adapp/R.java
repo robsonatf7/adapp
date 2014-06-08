@@ -1100,10 +1100,10 @@ containing a value of this type.
         public static final int ad_view_buy_button=0x7f05003f;
         public static final int ad_view_cat_button=0x7f050046;
         public static final int ad_view_description=0x7f050044;
+        public static final int ad_view_photo_image=0x7f050042;
         public static final int ad_view_photo_image1=0x7f05003e;
         public static final int ad_view_price=0x7f050043;
         public static final int ad_view_pro_button=0x7f050045;
-        public static final int ad_webview_photo_image=0x7f050042;
         public static final int always=0x7f05000b;
         public static final int beginning=0x7f050011;
         public static final int category_list_button=0x7f050048;
