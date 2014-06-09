@@ -12,7 +12,7 @@
 
         <Spinner
             android:id="@+id/new_ad_category"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
     </LinearLayout>
@@ -25,10 +25,11 @@
 
         <EditText
             android:id="@+id/new_ad_title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:ems="10" >
+            android:ems="10"
+            android:hint="escreva o titulo do anuncio" >
 
             <requestFocus />
         </EditText>
@@ -42,10 +43,11 @@
 
         <EditText
             android:id="@+id/new_ad_price"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:ems="10" />
+            android:ems="10"
+            android:hint="escreva o preco do artigo" />
     </LinearLayout>
 
     <LinearLayout
@@ -56,10 +58,11 @@
 
         <EditText
             android:id="@+id/new_ad_description"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:ems="10" />
+            android:ems="10"
+            android:hint="descreva o artigo" />
     </LinearLayout>
 
     <LinearLayout
