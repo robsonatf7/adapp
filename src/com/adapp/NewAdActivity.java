@@ -107,11 +107,13 @@ public class NewAdActivity extends Activity {
 				
 				Intent intent = new Intent(context, AddPhotoActivity.class);
 				Bundle extras = new Bundle();
+				
 				extras.putString("category", value1);
 				extras.putString("title", value2);
 				extras.putString("price", value3);
 				extras.putString("description", value4);
 				intent.putExtras(extras);
+				
 				startActivity(intent);
 			}
 		});
