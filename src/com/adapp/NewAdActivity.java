@@ -1,6 +1,7 @@
 package com.adapp;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,10 +30,10 @@ public class NewAdActivity extends Activity {
 	String feedUrl = "http://192.168.0.16:3000/categories.json";
 	ArrayList<SpinnerCategory> spinnerCategories = new ArrayList<SpinnerCategory>();
 	ArrayList<String> spinnerCategoryNames = new ArrayList<String>();
-	JSONObject adData = new JSONObject();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.new_ad);
 		
@@ -41,6 +42,7 @@ public class NewAdActivity extends Activity {
 		loaderTask.execute();
 		
 		onClickCreateAd();
+		
 	}
 
 	public class SpinnerCategory {
@@ -78,21 +80,6 @@ public class NewAdActivity extends Activity {
 			Spinner mySpinner = (Spinner) findViewById(R.id.new_ad_category);
 			mySpinner.setAdapter (new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, spinnerCategoryNames));
 			
-			
-			String value1 = "category";
-			
-			String value2 = "price";
-			
-			String value3 = "description";
-			
-			try {
-				adData.accumulate("category", value1);
-				adData.accumulate("price", value2);
-				adData.accumulate("description", value3);
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
 		
 	}
@@ -105,7 +92,26 @@ public class NewAdActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
+
+				Spinner adCategory = (Spinner)findViewById(R.id.new_ad_category);
+				String value1 = adCategory.getSelectedItem().toString();
+				
+				TextView adTitle = (TextView)findViewById(R.id.new_ad_title);
+				String value2 = adTitle.getText().toString();
+
+				TextView adPrice = (TextView)findViewById(R.id.new_ad_price);
+				String value3 = adPrice.getText().toString();
+				
+				TextView adDescription = (TextView)findViewById(R.id.new_ad_description);
+				String value4 = adDescription.getText().toString();
+				
 				Intent intent = new Intent(context, AddPhotoActivity.class);
+				Bundle extras = new Bundle();
+				extras.putString("category", value1);
+				extras.putString("title", value2);
+				extras.putString("price", value3);
+				extras.putString("description", value4);
+				intent.putExtras(extras);
 				startActivity(intent);
 			}
 		});

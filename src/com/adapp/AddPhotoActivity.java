@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -17,6 +18,17 @@ public class AddPhotoActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ad_photo);
 		onClickFinishAd();
+		
+		Intent intent = getIntent();
+		String adCategory = intent.getStringExtra("category");
+		String adTitle = intent.getStringExtra("title");
+		String adPrice = intent.getStringExtra("price");
+		String adDescription = intent.getStringExtra("description");
+		
+		Log.i("oioioioi", adCategory);
+		Log.i("alalala", adTitle);
+		Log.i("nononono", adPrice);
+		Log.i("bubububu", adDescription);
 	}
 
 	private void onClickFinishAd() {

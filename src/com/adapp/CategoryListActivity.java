@@ -116,10 +116,6 @@ public class CategoryListActivity extends Activity {
 				
 				categoriesString = categoriesNamesArray.toArray(new String[categoriesNamesArray.size()]);
 				
-				for (String s : categoriesString){
-					Log.i("categoreisString", s);
-				}
-				
 				CategoryListAdapter categoryListAdapter = new CategoryListAdapter(context, categoriesString);	
 				ListView listView = (ListView) findViewById(R.id.category_list_view);
 				listView.setAdapter(categoryListAdapter);
