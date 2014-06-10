@@ -30,6 +30,7 @@ public class NewAdActivity extends Activity {
 	String feedUrl = "http://192.168.0.16:3000/categories.json";
 	ArrayList<SpinnerCategory> spinnerCategories = new ArrayList<SpinnerCategory>();
 	ArrayList<String> spinnerCategoryNames = new ArrayList<String>();
+	int categoryId;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,17 @@ public class NewAdActivity extends Activity {
 		public void setName(String name) {
 			this.name = name;
 		}
+		
+		public int id;
+		
+		public int getId(){
+			return id;
+		}
+		
+		public void setId(int id){
+			this.id = id;
+		}
+		
 	}
 	
 	public class NewAdSpinnerTask extends AsyncTask<Void, Void, JSONArray> {
@@ -69,10 +81,15 @@ public class NewAdActivity extends Activity {
 			
 			try {
 				for (int i = 0; i < json.length(); i++) {
+					
 					JSONObject category = json.getJSONObject(i);
 					SpinnerCategory spinnerCategory = new SpinnerCategory();
+					
 					spinnerCategory.setName(category.optString("name"));
 					spinnerCategoryNames.add(category.optString("name"));
+					
+					spinnerCategory.setId(category.optInt("id"));
+					categoryId = category.optInt("id");
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -93,8 +110,8 @@ public class NewAdActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 
-				Spinner adCategory = (Spinner)findViewById(R.id.new_ad_category);
-				String value1 = adCategory.getSelectedItem().toString();
+				//Spinner adCategory = (Spinner)findViewById(R.id.new_ad_category);
+				int value1 = categoryId;
 				
 				TextView adTitle = (TextView)findViewById(R.id.new_ad_title);
 				String value2 = adTitle.getText().toString();
@@ -108,7 +125,7 @@ public class NewAdActivity extends Activity {
 				Intent intent = new Intent(context, AddPhotoActivity.class);
 				Bundle extras = new Bundle();
 				
-				extras.putString("category", value1);
+				extras.putInt("categoryId", value1);
 				extras.putString("title", value2);
 				extras.putString("price", value3);
 				extras.putString("description", value4);

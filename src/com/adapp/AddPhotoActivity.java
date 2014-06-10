@@ -1,19 +1,25 @@
 package com.adapp;
 
+import java.io.InputStream;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
+import org.apache.http.protocol.HTTP;
 import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.widget.Button;
 import android.util.Log;
 import android.view.View;
@@ -39,35 +45,48 @@ public class AddPhotoActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				
-				Intent i = getIntent();
-				String adCategory = i.getStringExtra("category");
-				String adTitle = i.getStringExtra("title");
-				String adPrice = i.getStringExtra("price");
-				String adDescription = i.getStringExtra("description");
-				
-				JSONObject newAd = new JSONObject();
-				try {
-					newAd.put("category", adCategory);
-					newAd.put("title", adTitle);
-					newAd.put("price", adPrice);
-					newAd.put("description", adDescription);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				
-				String jsonStr = newAd.toString();
-				
-				int TIMEOUT_MILLISEC = 10000;
-				HttpParams httpParams = new BasicHttpParams();
-				HttpConnectionParams.setConnectionTimeout(httpParams, TIMEOUT_MILLISEC);
-				HttpConnectionParams.setSoTimeout(httpParams, TIMEOUT_MILLISEC);
-				HttpClient client = new DefaultHttpClient(httpParams);
-				
-				HttpPost request = new HttpPost(serverUrl);
-				request.setEntity(new ByteArrayEntity(postMessage.toString().getBytes("UTF8")));
-				HttpResponse response = client.execute(request);
-				
+
+				Thread t = new Thread() {
+
+					public void run() {
+			            	
+						Intent i = getIntent();
+						int adCategory = i.getIntExtra("categoryId", 0);
+						String adTitle = i.getStringExtra("title");
+						String adPrice = i.getStringExtra("price");
+						String adDescription = i.getStringExtra("description");
+			            	
+			            Looper.prepare(); //For Preparing Message Pool for the child Thread
+			            HttpClient client = new DefaultHttpClient();
+			            HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000); //Timeout Limit
+			            HttpResponse response;
+			            JSONObject json = new JSONObject();
+
+			            try {
+			            	HttpPost post = new HttpPost("http://192.168.0.16:3000/ads");
+			                json.put("category_id", adCategory);
+			                json.put("title", adTitle);
+			                json.put("price", adPrice);
+			                json.put("description", adDescription);
+			                StringEntity se = new StringEntity( json.toString());  
+			                se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+			                post.setEntity(se);
+			                response = client.execute(post);
+
+			                if(response!=null){
+			                	InputStream in = response.getEntity().getContent(); //Get the data in the entity
+			                }
+
+			            } catch(Exception e) {
+			            	e.printStackTrace();
+			            }
+
+			            	Looper.loop();
+			            }
+			        };
+
+			        t.start();      
+
 				Intent intent = new Intent(context, NewAdActivity.class);
 				startActivity(intent);
 			}
