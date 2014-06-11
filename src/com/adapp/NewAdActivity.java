@@ -7,7 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.adapp.models.CategoryListModel;
+import com.adapp.models.CategoryModel;
 
 import android.R.string;
 import android.app.Activity;
@@ -72,7 +72,7 @@ public class NewAdActivity extends Activity {
 
 		@Override
 		protected JSONArray doInBackground(Void... params) {
-			CategoryListModel jParser = new CategoryListModel();
+			CategoryModel jParser = new CategoryModel();
 			JSONArray json = jParser.getJSONFromUrl(feedUrl);
 			return json;
 		}

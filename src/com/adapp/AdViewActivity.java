@@ -1,8 +1,6 @@
 package com.adapp;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.apache.http.HttpEntity;
@@ -15,9 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.adapp.AdListActivity.AdListTask;
-import com.adapp.adapters.AdListAdapter;
-import com.adapp.models.AdListModel;
+import com.adapp.models.AdModel;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -27,12 +23,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -43,6 +36,8 @@ public class AdViewActivity extends Activity{
 	String position = null;
 	String feedUrl = null;
 	ImageView img;
+	AdModel jParser = new AdModel();
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -110,23 +105,82 @@ public class AdViewActivity extends Activity{
 		@Override
 		protected JSONArray doInBackground(Void... params) {
 			
-			Intent intent = getIntent();
-			Bundle extras = intent.getExtras();
-			position = extras.getString("position");
-			int positionInt = Integer.parseInt(position);
+//			Intent intent = getIntent();
+//			Bundle extras = intent.getExtras();
+//			position = extras.getString("position");
+//			int positionInt = Integer.parseInt(position);
 			
 			Intent i = getIntent();
 			Bundle e = i.getExtras();
 			feedUrl = e.getString("feedUrl");
 			
+//			String price = "";
+//			String description = "";
+//			String image = "";
+			
+			//AdModel jParser = new AdModel();
+			JSONArray json = jParser.getJSONFromUrl(feedUrl);
+
+//			try {
+//				JSONObject ad = json.getJSONObject(positionInt);
+//				price = ad.getString("price");
+//				description = ad.getString("description");
+//				image = ad.getString("image");
+//			} catch (JSONException ex) {
+//				ex.printStackTrace();
+//			}
+//			
+//			TextView viewPrice = (TextView) findViewById(R.id.ad_view_price);
+//			viewPrice.setText(price);
+//			
+//			TextView viewDescription = (TextView) findViewById(R.id.ad_view_description);
+//			viewDescription.setText(description);
+//
+//			final String imageURL = "http://192.168.0.16:3000" + image;
+//				
+//			ImageView img;
+//			AdModel iParser = new AdModel();
+//					
+//			Bitmap bitmap = iParser.getBitmapFromUrl(imageURL);
+//			img = (ImageView) findViewById(R.id.ad_view_photo_image);
+//			img.setImageBitmap(bitmap);
+		
+//			try {
+//			        URL url = new URL(imageURL);
+//			        HttpGet httpRequest = null;
+//			        httpRequest = new HttpGet(url.toURI());
+//			        HttpClient httpclient = new DefaultHttpClient();
+//			        HttpResponse response = (HttpResponse) httpclient
+//			                .execute(httpRequest);
+//
+//			        HttpEntity entity = response.getEntity();
+//			        BufferedHttpEntity b_entity = new BufferedHttpEntity(entity);
+//			        InputStream input = b_entity.getContent();
+//
+//			        Bitmap bitmap = BitmapFactory.decodeStream(input);
+//
+//			        img.setImageBitmap(bitmap);
+//
+//			    } catch (Exception ex) {
+//
+//			    }
+			return json;
+		}
+		
+		@Override
+		protected void onPostExecute(JSONArray json) {
+			
+			dialog.dismiss();
+			
+			Intent intent = getIntent();
+			Bundle extras = intent.getExtras();
+			position = extras.getString("position");
+			int positionInt = Integer.parseInt(position);
+			
 			String price = "";
 			String description = "";
 			String image = "";
-			//String imageURL = "";
 			
-			AdListModel jParser = new AdListModel();
-			JSONArray json = jParser.getJSONFromUrl(feedUrl);
-
 			try {
 				JSONObject ad = json.getJSONObject(positionInt);
 				price = ad.getString("price");
@@ -141,73 +195,16 @@ public class AdViewActivity extends Activity{
 			
 			TextView viewDescription = (TextView) findViewById(R.id.ad_view_description);
 			viewDescription.setText(description);
-			
-			//String imageURL = "http://192.168.0.16:3000" + image;
-			
-			String imageURL = "http://192.168.0.16:3000" + image;
-			
+
+			final String imageURL = "http://192.168.0.16:3000" + image;
+				
+			Bitmap bitmap = jParser.getBitmapFromUrl(imageURL);
+			System.out.println(bitmap);
 			img = (ImageView) findViewById(R.id.ad_view_photo_image);
-			try {
-			        URL url = new URL(imageURL);
-			        //try this url = "http://0.tqn.com/d/webclipart/1/0/5/l/4/floral-icon-5.jpg"
-			        HttpGet httpRequest = null;
-
-			        httpRequest = new HttpGet(url.toURI());
-
-			        HttpClient httpclient = new DefaultHttpClient();
-			        HttpResponse response = (HttpResponse) httpclient
-			                .execute(httpRequest);
-
-			        HttpEntity entity = response.getEntity();
-			        BufferedHttpEntity b_entity = new BufferedHttpEntity(entity);
-			        InputStream input = b_entity.getContent();
-
-			        Bitmap bitmap = BitmapFactory.decodeStream(input);
-
-			        img.setImageBitmap(bitmap);
-
-			    } catch (Exception ex) {
-
-			    }
-			return json;
-		}
-		
-		@Override
-		protected void onPostExecute(JSONArray json) {
-			dialog.dismiss();
-			
-//			Intent intent = getIntent();
-//			Bundle extras = intent.getExtras();
-//			
-//			position = extras.getString("position");
-//			int positionInt = Integer.parseInt(position);
-//			
-//			String price = "";
-//			String description = "";
-//			String image = "";
-//			//String imageURL = "";
-//			
-//			try {
-//				JSONObject ad = json.getJSONObject(positionInt);
-//				price = ad.getString("price");
-//				description = ad.getString("description");
-//				image = ad.getString("image");
-//			} catch (JSONException e) {
-//				e.printStackTrace();
-//			}
-//			
-//			TextView viewPrice = (TextView) findViewById(R.id.ad_view_price);
-//			viewPrice.setText(price);
-//			
-//			TextView viewDescription = (TextView) findViewById(R.id.ad_view_description);
-//			viewDescription.setText(description);
-//			
-//			//String imageURL = "http://192.168.0.16:3000" + image;
-
-			//WebView web = (WebView) findViewById(R.id.ad_webview_photo_image);
-			//web.loadUrl(imageURL);
+			img.setImageBitmap(bitmap);
 			
 			super.onPostExecute(json);
+			
 		}
 	}
 }

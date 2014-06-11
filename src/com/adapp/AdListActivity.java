@@ -7,7 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.adapp.adapters.AdListAdapter;
-import com.adapp.models.AdListModel;
+import com.adapp.models.AdModel;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -104,7 +104,7 @@ public class AdListActivity extends Activity {
 			String catName = intent.getStringExtra("categoryName");
 			String feedUrl = "http://192.168.0.16:3000/ads.json?category_name="+ catName;
 			
-			AdListModel jParser = new AdListModel();
+			AdModel jParser = new AdModel();
 			JSONArray json = jParser.getJSONFromUrl(feedUrl);
 			return json;
 			

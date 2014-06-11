@@ -15,11 +15,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class CategoryListModel {
+public class CategoryModel {
 	
 	JSONArray categoriesJson = new JSONArray();
 	
-	public CategoryListModel(){
+	public CategoryModel(){
 	}
 	
 	public JSONArray getJSONFromUrl(String url){
