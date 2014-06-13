@@ -35,7 +35,6 @@ public class AdViewActivity extends Activity{
 	Context context;
 	String position = null;
 	String feedUrl = null;
-	ImageView img;
 	AdModel jParser = new AdModel();
 	
 	@Override
@@ -105,82 +104,22 @@ public class AdViewActivity extends Activity{
 		@Override
 		protected JSONArray doInBackground(Void... params) {
 			
-//			Intent intent = getIntent();
-//			Bundle extras = intent.getExtras();
-//			position = extras.getString("position");
-//			int positionInt = Integer.parseInt(position);
-			
-			Intent i = getIntent();
-			Bundle e = i.getExtras();
-			feedUrl = e.getString("feedUrl");
-			
-//			String price = "";
-//			String description = "";
-//			String image = "";
-			
-			//AdModel jParser = new AdModel();
-			JSONArray json = jParser.getJSONFromUrl(feedUrl);
-
-//			try {
-//				JSONObject ad = json.getJSONObject(positionInt);
-//				price = ad.getString("price");
-//				description = ad.getString("description");
-//				image = ad.getString("image");
-//			} catch (JSONException ex) {
-//				ex.printStackTrace();
-//			}
-//			
-//			TextView viewPrice = (TextView) findViewById(R.id.ad_view_price);
-//			viewPrice.setText(price);
-//			
-//			TextView viewDescription = (TextView) findViewById(R.id.ad_view_description);
-//			viewDescription.setText(description);
-//
-//			final String imageURL = "http://192.168.0.16:3000" + image;
-//				
-//			ImageView img;
-//			AdModel iParser = new AdModel();
-//					
-//			Bitmap bitmap = iParser.getBitmapFromUrl(imageURL);
-//			img = (ImageView) findViewById(R.id.ad_view_photo_image);
-//			img.setImageBitmap(bitmap);
-		
-//			try {
-//			        URL url = new URL(imageURL);
-//			        HttpGet httpRequest = null;
-//			        httpRequest = new HttpGet(url.toURI());
-//			        HttpClient httpclient = new DefaultHttpClient();
-//			        HttpResponse response = (HttpResponse) httpclient
-//			                .execute(httpRequest);
-//
-//			        HttpEntity entity = response.getEntity();
-//			        BufferedHttpEntity b_entity = new BufferedHttpEntity(entity);
-//			        InputStream input = b_entity.getContent();
-//
-//			        Bitmap bitmap = BitmapFactory.decodeStream(input);
-//
-//			        img.setImageBitmap(bitmap);
-//
-//			    } catch (Exception ex) {
-//
-//			    }
-			return json;
-		}
-		
-		@Override
-		protected void onPostExecute(JSONArray json) {
-			
-			dialog.dismiss();
-			
 			Intent intent = getIntent();
 			Bundle extras = intent.getExtras();
 			position = extras.getString("position");
 			int positionInt = Integer.parseInt(position);
 			
+			Intent i = getIntent();
+			Bundle e = i.getExtras();
+			feedUrl = e.getString("feedUrl");
+			
 			String price = "";
 			String description = "";
 			String image = "";
 			
+			AdModel jParser = new AdModel();
+			JSONArray json = jParser.getJSONFromUrl(feedUrl);
+
 			try {
 				JSONObject ad = json.getJSONObject(positionInt);
 				price = ad.getString("price");
@@ -197,12 +136,32 @@ public class AdViewActivity extends Activity{
 			viewDescription.setText(description);
 
 			final String imageURL = "http://192.168.0.16:3000" + image;
-				
-			Bitmap bitmap = jParser.getBitmapFromUrl(imageURL);
-			System.out.println(bitmap);
-			img = (ImageView) findViewById(R.id.ad_view_photo_image);
-			img.setImageBitmap(bitmap);
+			ImageView img = (ImageView)findViewById(R.id.ad_view_photo_image);
+			try {
+			        URL url = new URL(imageURL);
+			        HttpGet httpRequest = null;
+			        httpRequest = new HttpGet(url.toURI());
+			        HttpClient httpclient = new DefaultHttpClient();
+			        HttpResponse response = (HttpResponse) httpclient
+			                .execute(httpRequest);
+
+			        HttpEntity entity = response.getEntity();
+			        BufferedHttpEntity b_entity = new BufferedHttpEntity(entity);
+			        InputStream input = b_entity.getContent();
+
+			        Bitmap bitmap = BitmapFactory.decodeStream(input);
+			        img.setImageBitmap(bitmap);
+			        
+			    } catch (Exception ex) {
+			    	ex.printStackTrace();
+			    }
+			return json;
+		}
+		
+		@Override
+		protected void onPostExecute(JSONArray json) {
 			
+			dialog.dismiss();
 			super.onPostExecute(json);
 			
 		}

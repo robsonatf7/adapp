@@ -21,6 +21,9 @@ import org.json.JSONObject;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
+import android.widget.ImageView;
+
+import com.adapp.R;
 
 public class AdModel {
 	
@@ -70,30 +73,6 @@ public class AdModel {
 		}
 		
 		return adsJson;
-	}
-	
-	public Bitmap getBitmapFromUrl(String imageURL) {
-		
-		Bitmap bitmap = null;
-		HttpGet httpRequest = null;
-		HttpClient httpclient = new DefaultHttpClient();
-		
-		try {
-	        URL urlImage = new URL(imageURL);
-	        httpRequest = new HttpGet(urlImage.toURI());
-	        HttpResponse httpResponse = (HttpResponse) httpclient.execute(httpRequest);
-	        
-	        HttpEntity entity = httpResponse.getEntity();
-	        BufferedHttpEntity b_entity = new BufferedHttpEntity(entity);
-	        InputStream input = b_entity.getContent();
-	        
-	        bitmap = BitmapFactory.decodeStream(input);
-	        
-	    } catch (Exception ex) {
-	    	ex.printStackTrace();
-	    }
-		System.out.println(bitmap);
-		return bitmap;
 	}
 
 }

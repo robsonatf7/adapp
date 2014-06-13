@@ -90,6 +90,8 @@ public class NewAdActivity extends Activity {
 					
 					spinnerCategory.setId(category.optInt("id"));
 					categoryId = category.optInt("id");
+					
+					spinnerCategories.add(spinnerCategory);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -116,6 +118,13 @@ public class NewAdActivity extends Activity {
 				TextView adTitle = (TextView)findViewById(R.id.new_ad_title);
 				String value2 = adTitle.getText().toString();
 
+				for (SpinnerCategory s : spinnerCategories) {
+					s.setName("name");
+					String catName = s.getName();
+					System.out.println(catName);
+				}
+				System.out.println(spinnerCategories);
+				
 				TextView adPrice = (TextView)findViewById(R.id.new_ad_price);
 				String value3 = adPrice.getText().toString();
 				
