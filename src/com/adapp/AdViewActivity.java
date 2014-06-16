@@ -78,7 +78,7 @@ public class AdViewActivity extends Activity{
 
 	private void onClickBuy() {
 		final Context context = this;
-		buy = (Button) findViewById(R.id.ad_view_buy_button);
+		buy = (Button) findViewById(R.id.add_photo_add_picture);
 		buy.setOnClickListener(new OnClickListener() {
 			
 			@Override
