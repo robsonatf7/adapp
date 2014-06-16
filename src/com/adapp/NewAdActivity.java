@@ -30,7 +30,7 @@ public class NewAdActivity extends Activity {
 	String feedUrl = "http://192.168.0.16:3000/categories.json";
 	ArrayList<SpinnerCategory> spinnerCategories = new ArrayList<SpinnerCategory>();
 	ArrayList<String> spinnerCategoryNames = new ArrayList<String>();
-	int categoryId;
+	ArrayList<Integer> spinnerCategoryIds = new ArrayList<Integer>();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +89,7 @@ public class NewAdActivity extends Activity {
 					spinnerCategoryNames.add(category.optString("name"));
 					
 					spinnerCategory.setId(category.optInt("id"));
-					categoryId = category.optInt("id");
+					spinnerCategoryIds.add(category.optInt("id"));
 					
 					spinnerCategories.add(spinnerCategory);
 				}
@@ -112,18 +112,19 @@ public class NewAdActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 
-				//Spinner adCategory = (Spinner)findViewById(R.id.new_ad_category);
-				int value1 = categoryId;
+				Spinner adCategory = (Spinner)findViewById(R.id.new_ad_category);
+				String categoryName = (String) adCategory.getItemAtPosition(adCategory.getSelectedItemPosition());
+				int position = -1;
+				for (String s : spinnerCategoryNames) {
+					position++;
+					if (s.equals(categoryName)) {
+						break;
+					}
+				}
+				String value1 = spinnerCategoryIds.get(position).toString();
 				
 				TextView adTitle = (TextView)findViewById(R.id.new_ad_title);
 				String value2 = adTitle.getText().toString();
-
-				for (SpinnerCategory s : spinnerCategories) {
-					s.setName("name");
-					String catName = s.getName();
-					System.out.println(catName);
-				}
-				System.out.println(spinnerCategories);
 				
 				TextView adPrice = (TextView)findViewById(R.id.new_ad_price);
 				String value3 = adPrice.getText().toString();
@@ -134,7 +135,7 @@ public class NewAdActivity extends Activity {
 				Intent intent = new Intent(context, AddPhotoActivity.class);
 				Bundle extras = new Bundle();
 				
-				extras.putInt("categoryId", value1);
+				extras.putString("categoryId", value1);
 				extras.putString("title", value2);
 				extras.putString("price", value3);
 				extras.putString("description", value4);

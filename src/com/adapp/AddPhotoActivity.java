@@ -51,12 +51,14 @@ public class AddPhotoActivity extends Activity {
 					public void run() {
 			            	
 						Intent i = getIntent();
-						int adCategory = i.getIntExtra("categoryId", 0);
+						String adCategory = i.getStringExtra("categoryId");
 						String adTitle = i.getStringExtra("title");
 						String adPrice = i.getStringExtra("price");
 						String adDescription = i.getStringExtra("description");
-			            	
-			            Looper.prepare(); //For Preparing Message Pool for the child Thread
+			            
+						int catId = Integer.parseInt(adCategory);
+						
+			            Looper.prepare();
 			            HttpClient client = new DefaultHttpClient();
 			            HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000); //Timeout Limit
 			            HttpResponse response;
@@ -64,7 +66,7 @@ public class AddPhotoActivity extends Activity {
 
 			            try {
 			            	HttpPost post = new HttpPost("http://192.168.0.16:3000/ads");
-			                json.put("category_id", adCategory);
+			                json.put("category_id", catId);
 			                json.put("title", adTitle);
 			                json.put("price", adPrice);
 			                json.put("description", adDescription);
