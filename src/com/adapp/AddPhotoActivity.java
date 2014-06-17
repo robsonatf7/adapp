@@ -1,8 +1,11 @@
 package com.adapp;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -29,13 +32,17 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.protocol.HttpContext;
 import org.json.JSONObject;
 
+import com.adapp.CategoryListActivity.CategoryListTask;
+
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Looper;
@@ -55,6 +62,7 @@ public class AddPhotoActivity extends Activity {
 	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 	private Uri fileUri;
 	private Bitmap bitmap;
+	static File mediaFile;
 	
 	private static Uri getUri(int type){
 		
@@ -68,7 +76,7 @@ public class AddPhotoActivity extends Activity {
 		}
 		
 		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-		File mediaFile;
+		//File mediaFile;
 		
 		if (type == MEDIA_TYPE_IMAGE) {
 			mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timeStamp + ".jpg");
@@ -122,6 +130,91 @@ public class AddPhotoActivity extends Activity {
 		}
 	}
 	
+	private class ImageUploader extends AsyncTask<Void, Void, String> {
+		
+		@Override
+		protected String doInBackground(Void... params) {
+			
+			String result = "";
+
+			// Client-side HTTP transport library
+			HttpClient httpClient = new DefaultHttpClient();
+
+			// using POST method
+			HttpPost httpPostRequest = new HttpPost("http://192.168.0.16:3000/ads");
+			try {
+
+				Intent i = getIntent();
+				String adCategory = i.getStringExtra("categoryId");
+				String adTitle = i.getStringExtra("title");
+				String adPrice = i.getStringExtra("price");
+				String adDescription = i.getStringExtra("description");
+				int catId = Integer.parseInt(adCategory);
+				
+				JSONObject json = new JSONObject();
+				json.put("category_id", adCategory);
+				json.put("title", adTitle);
+				json.put("price", adPrice);
+				json.put("description", adDescription);
+				StringEntity adParams = new StringEntity(json.toString());
+				adParams.setContentType(new BasicHeader());
+				
+				FileBody bin = new FileBody(mediaFile);
+
+//				MultipartEntityBuilder multiPartEntityBuilder = MultipartEntityBuilder.create();
+//				multiPartEntityBuilder.addTextBody("category_id", adCategory);
+//				multiPartEntityBuilder.addTextBody("title", adTitle);
+//				multiPartEntityBuilder.addTextBody("price", adPrice);
+//				multiPartEntityBuilder.addTextBody("description", adDescription);
+//				multiPartEntityBuilder.addTextBody("ad", adParams);
+//				multiPartEntityBuilder.addPart("image", bin);
+				
+				httpPostRequest.setEntity(multiPartEntityBuilder.build());
+
+				// Execute POST request to the given URL
+				HttpResponse httpResponse = null;
+				httpResponse = httpClient.execute(httpPostRequest);
+
+				// receive response as inputStream
+				InputStream inputStream = null;
+				inputStream = httpResponse.getEntity().getContent();
+
+				if (inputStream != null)
+					result = convertInputStreamToString(inputStream);
+				else
+					result = "Did not work!";
+				return result;
+			} catch (Exception e) {
+				return null;
+			}
+
+			// return result;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+		}
+
+	}
+ 
+	private static String convertInputStreamToString(InputStream inputStream)
+			throws IOException {
+		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+		String line = "";
+		String result = "";
+		while ((line = bufferedReader.readLine()) != null)
+			result += line;
+
+		inputStream.close();
+		return result;
+	}
+	
 	private void onClickFinishAd() {
 		
 		final Context context = this;
@@ -130,66 +223,10 @@ public class AddPhotoActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-
-				Thread t = new Thread() {
-
-					public void run() {
-			            	
-						Intent i = getIntent();
-						String adCategory = i.getStringExtra("categoryId");
-						String adTitle = i.getStringExtra("title");
-						String adPrice = i.getStringExtra("price");
-						String adDescription = i.getStringExtra("description");
-			            
-						int catId = Integer.parseInt(adCategory);
-						
-			            Looper.prepare();
-			            HttpClient client = new DefaultHttpClient();
-			            HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000); //Timeout Limit
-			            HttpContext context = new BasicHttpContext();
-			            HttpResponse response;
-			            JSONObject json = new JSONObject();
-
-			            try {
-			            	HttpPost post = new HttpPost("http://192.168.0.16:3000/ads");
-			            	
-			                json.put("category_id", catId);
-			                json.put("title", adTitle);
-			                json.put("price", adPrice);
-			                json.put("description", adDescription);
-			                
-			                StringEntity se = new StringEntity(json.toString());  
-			                se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-			                //post.setEntity(se);
-			                //response = client.execute(post);
-			                
-			                MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-			                builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-			                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			                bitmap.compress(CompressFormat.JPEG, 100, bos);
-			                byte[] data = bos.toByteArray();
-			                String file = Base64.encodeBytes(data);
-							builder.addPart("picture", new StringBody(file));
-			                builder.addPart("json", new StringBody(json.toString()));
-			                HttpEntity entity = builder.build();
-			                
-			                post.setEntity(entity);
-			                response = client.execute(post);
-
-			                if(response!=null){
-			                	InputStream in = response.getEntity().getContent(); //Get the data in the entity
-			                }
-
-			            } catch(Exception e) {
-			            	e.printStackTrace();
-			            }
-
-			            	Looper.loop();
-			            }
-			        };
-
-			        t.start();      
-
+      
+				ImageUploader loaderTask = new ImageUploader();
+				loaderTask.execute();
+				
 				Intent intent = new Intent(context, NewAdActivity.class);
 				startActivity(intent);
 			}
