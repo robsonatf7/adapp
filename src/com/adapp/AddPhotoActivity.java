@@ -117,11 +117,6 @@ public class AddPhotoActivity extends Activity {
 				Toast.makeText(this, "imagem salva", Toast.LENGTH_SHORT).show();
 				ImageView imageView = (ImageView)findViewById(R.id.add_photo_caught_picture);
 				imageView.setImageURI(fileUri);
-				
-				BitmapFactory.Options o = new BitmapFactory.Options();
-				o.inJustDecodeBounds = true;
-				bitmap = BitmapFactory.decodeFile(fileUri.toString(), o);
-				
 			} else if(resultCode == RESULT_CANCELED) {
 				
 			} else {
@@ -151,25 +146,38 @@ public class AddPhotoActivity extends Activity {
 				String adDescription = i.getStringExtra("description");
 				int catId = Integer.parseInt(adCategory);
 				
-				JSONObject json = new JSONObject();
-				json.put("category_id", adCategory);
-				json.put("title", adTitle);
-				json.put("price", adPrice);
-				json.put("description", adDescription);
-				StringEntity adParams = new StringEntity(json.toString());
-				adParams.setContentType(new BasicHeader());
+				Log.i("oioioioio", fileUri.toString());
+				
+//				FileBody bin = new FileBody(mediaFile);
+//				MultipartEntityBuilder multiPartEntityBuilder = MultipartEntityBuilder.create();
+//				multiPartEntityBuilder.addPart("image", bin);
+//				multiPartEntityBuilder.build();
+//				String teste = multiPartEntityBuilder.toString();
+				//httpPostRequest.setEntity(multiPartEntityBuilder.build());
+				
+//				JSONObject json = new JSONObject();
+//				json.put("category_id", adCategory);
+//				json.put("title", adTitle);
+//				json.put("price", adPrice);
+//				json.put("description", adDescription);
+//				json.put("image", teste);
+//				StringEntity adParams = new StringEntity(json.toString());
+//				adParams.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+//				httpPostRequest.setEntity(adParams);
+				
 				
 				FileBody bin = new FileBody(mediaFile);
 
-//				MultipartEntityBuilder multiPartEntityBuilder = MultipartEntityBuilder.create();
-//				multiPartEntityBuilder.addTextBody("category_id", adCategory);
-//				multiPartEntityBuilder.addTextBody("title", adTitle);
-//				multiPartEntityBuilder.addTextBody("price", adPrice);
-//				multiPartEntityBuilder.addTextBody("description", adDescription);
-//				multiPartEntityBuilder.addTextBody("ad", adParams);
-//				multiPartEntityBuilder.addPart("image", bin);
+				MultipartEntityBuilder ad = MultipartEntityBuilder.create();
+				ad.addPart("image", bin);
+				ad.addTextBody("category_id", adCategory);
+				ad.addTextBody("title", adTitle);
+				ad.addTextBody("price", adPrice);
+				ad.addTextBody("description", adDescription);
+				//multiPartEntityBuilder.addTextBody("ad", adParams);
 				
-				httpPostRequest.setEntity(multiPartEntityBuilder.build());
+				
+				httpPostRequest.setEntity(ad.build());
 
 				// Execute POST request to the given URL
 				HttpResponse httpResponse = null;
