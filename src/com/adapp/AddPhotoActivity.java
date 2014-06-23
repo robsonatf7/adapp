@@ -16,12 +16,12 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.entity.mime.HttpMultipartMode;
-import org.apache.http.entity.mime.MultipartEntity;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.entity.mime.content.ContentBody;
-import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
+//import org.apache.http.entity.mime.HttpMultipartMode;
+//import org.apache.http.entity.mime.MultipartEntity;
+//import org.apache.http.entity.mime.MultipartEntityBuilder;
+//import org.apache.http.entity.mime.content.ContentBody;
+//import org.apache.http.entity.mime.content.FileBody;
+//import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.params.BasicHttpParams;
@@ -131,11 +131,7 @@ public class AddPhotoActivity extends Activity {
 		protected String doInBackground(Void... params) {
 			
 			String result = "";
-
-			// Client-side HTTP transport library
 			HttpClient httpClient = new DefaultHttpClient();
-
-			// using POST method
 			HttpPost httpPostRequest = new HttpPost("http://192.168.0.16:3000/ads");
 			try {
 
@@ -155,29 +151,28 @@ public class AddPhotoActivity extends Activity {
 //				String teste = multiPartEntityBuilder.toString();
 				//httpPostRequest.setEntity(multiPartEntityBuilder.build());
 				
-//				JSONObject json = new JSONObject();
-//				json.put("category_id", adCategory);
-//				json.put("title", adTitle);
-//				json.put("price", adPrice);
-//				json.put("description", adDescription);
+				JSONObject json = new JSONObject();
+				json.put("category_id", adCategory);
+				json.put("title", adTitle);
+				json.put("price", adPrice);
+				json.put("description", adDescription);
 //				json.put("image", teste);
-//				StringEntity adParams = new StringEntity(json.toString());
-//				adParams.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-//				httpPostRequest.setEntity(adParams);
+				StringEntity adParams = new StringEntity(json.toString());
+				adParams.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+				httpPostRequest.setEntity(adParams);
 				
 				
-				FileBody bin = new FileBody(mediaFile);
-
-				MultipartEntityBuilder ad = MultipartEntityBuilder.create();
-				ad.addPart("image", bin);
-				ad.addTextBody("category_id", adCategory);
-				ad.addTextBody("title", adTitle);
-				ad.addTextBody("price", adPrice);
-				ad.addTextBody("description", adDescription);
+//				FileBody bin = new FileBody(mediaFile);
+//
+//				MultipartEntityBuilder ad = MultipartEntityBuilder.create();
+//				ad.addPart("image", bin);
+//				ad.addTextBody("category_id", adCategory);
+//				ad.addTextBody("title", adTitle);
+//				ad.addTextBody("price", adPrice);
+//				ad.addTextBody("description", adDescription);
 				//multiPartEntityBuilder.addTextBody("ad", adParams);
 				
-				
-				httpPostRequest.setEntity(ad.build());
+//				httpPostRequest.setEntity(ad.build());
 
 				// Execute POST request to the given URL
 				HttpResponse httpResponse = null;

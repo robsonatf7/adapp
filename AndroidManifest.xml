@@ -19,7 +19,7 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.Light" >
         <activity
-            android:name="com.adapp.UserLoginActivity"
+            android:name="com.adapp.MainActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:label="@string/app_name" >
@@ -36,6 +36,8 @@
         <activity android:name="com.adapp.AdListActivity"></activity>
         <activity android:name="com.adapp.AdViewActivity"></activity>
         <activity android:name="com.adapp.SendMessageActivity"></activity>
+        <activity android:name="com.facebook.LoginActivity"></activity>
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/app_id"/>
         
     </application>
 
