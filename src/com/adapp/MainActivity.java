@@ -16,6 +16,7 @@ public class MainActivity extends FragmentActivity  {
 	private static final int SPLASH = 0;
 	private static final int SELECTION = 1;
 	private static final int FRAGMENT_COUNT = SELECTION +1;
+	
 	private Fragment[] fragments = new Fragment[FRAGMENT_COUNT];
 	private boolean isResumed = false;
 	private UiLifecycleHelper uiHelper;
@@ -51,11 +52,11 @@ public class MainActivity extends FragmentActivity  {
 			} else {
 				transaction.hide(fragments[i]);
 			}
-			if (addToBackStack) {
-				transaction.addToBackStack(null);
-			}
-			transaction.commit();
 		}
+		if (addToBackStack) {
+			transaction.addToBackStack(null);
+		}
+		transaction.commit();
 	}
 		
 	@Override

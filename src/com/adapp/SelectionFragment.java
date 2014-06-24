@@ -8,15 +8,13 @@ import android.view.ViewGroup;
 
 public class SelectionFragment extends Fragment {
 	
+	private static final String TAG = "SelectionFragment";
+	
 	@Override
-	public View onCreateView(LayoutInflater inflater, 
-	        ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 	    super.onCreateView(inflater, container, savedInstanceState);
-	    View view = inflater.inflate(R.layout.selection, 
-	            container, false);
+	    View view = inflater.inflate(R.layout.selection, container, false);
 	    return view;
 	}
 	
-	private static final String TAG = "SelectionFragment";
-
 }
