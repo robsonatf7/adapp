@@ -13,4 +13,16 @@
     	android:textSize="18sp"
     	android:text="Welcome, you are now logged in."  />
 
+    <Button
+        android:id="@+id/main_categories_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Comprar" />
+
+    <Button
+        android:id="@+id/main_new_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Anunciar" />
+
 </LinearLayout>

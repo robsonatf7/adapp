@@ -1,11 +1,16 @@
 package com.adapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.facebook.*;
@@ -15,23 +20,28 @@ public class MainActivity extends FragmentActivity  {
 	
 	private static final int SPLASH = 0;
 	private static final int SELECTION = 1;
-	private static final int FRAGMENT_COUNT = SELECTION +1;
+	private static final int SETTINGS = 2;
+	private static final int FRAGMENT_COUNT = SETTINGS +1;
 	
 	private Fragment[] fragments = new Fragment[FRAGMENT_COUNT];
 	private boolean isResumed = false;
 	private UiLifecycleHelper uiHelper;
+	private MenuItem settings;
 	
-	Button login;
+	Button categories;
+	Button newAd;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-//		onClickLogin();
+		onClickCategories();
+		onClickNewAd();
 		
 		FragmentManager fm = getSupportFragmentManager();
 		fragments[SPLASH] = fm.findFragmentById(R.id.splashFragment);
 		fragments[SELECTION] = fm.findFragmentById(R.id.selectionFragment);
+		fragments[SETTINGS] = fm.findFragmentById(R.id.userSettingsFragment);
 		
 		FragmentTransaction transaction = fm.beginTransaction();
 		for (int i = 0; i < fragments.length; i++) {
@@ -125,44 +135,55 @@ public class MainActivity extends FragmentActivity  {
 		super.onSaveInstanceState(outState);
 		uiHelper.onSaveInstanceState(outState);
 	}
-//	    Session.openActiveSession(this, true, new Session.StatusCallback() {
-//
-//	      @Override
-//	      public void call(Session session, SessionState state, Exception exception) {
-//	        if (session.isOpened()) {
-//
-//	          Request.newMeRequest(session, new Request.GraphUserCallback() {
-//
-//	            @Override
-//	            public void onCompleted(GraphUser user, Response response) {
-//	              if (user != null) {
-//	                //TextView welcome = (TextView) findViewById(R.id.welcome);
-//	                //welcome.setText("Hello " + user.getName() + "!");
-//	              }
-//	            }
-//	          }).executeAsync();
-//	        }
-//	      }
-//	    });
-//	}
-
-//	@Override
-//	  public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//	      super.onActivityResult(requestCode, resultCode, data);
-//	      Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
-//	  }
 	
-//	public void onClickLogin() {
-//		
-//		final Context context = this;
-//		login = (Button) findViewById(R.id.user_login_button);
-//		login.setOnClickListener(new OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View v) {
-//				Intent intent = new Intent(context, CategoryListActivity.class);
-//				startActivity(intent);
-//			}
-//		});
-//	}
+	@Override
+	public boolean onPrepareOptionsMenu (Menu menu) {
+		if (fragments[SELECTION].isVisible()) {
+			if (menu.size() == 0) {
+				settings = menu.add(R.string.settings);
+			}
+			return true;
+		} else {
+			menu.clear();
+			settings = null;
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected (MenuItem item) {
+		if (item.equals(settings)) {
+			showFragment(SETTINGS, true);
+			return true;
+		}
+		return false;
+	}
+	
+	public void onClickCategories() {
+		
+		final Context context = this;
+		categories = (Button) findViewById(R.id.main_categories_button);
+		categories.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(context, CategoryListActivity.class);
+				startActivity(intent);
+			}
+		});
+	}
+	
+	public void onClickNewAd() {
+		
+		final Context context = this;
+		newAd = (Button) findViewById(R.id.main_new_button);
+		newAd.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(context, NewAdActivity.class);
+				startActivity(intent);
+			}
+		});
+	}
 }

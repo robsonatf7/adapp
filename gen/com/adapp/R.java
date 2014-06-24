@@ -1293,7 +1293,7 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f050018;
         public static final int action_menu_presenter=0x7f050019;
         public static final int action_mode_close_button=0x7f050026;
-        public static final int action_settings=0x7f050078;
+        public static final int action_settings=0x7f05007b;
         public static final int activity_chooser_view_content=0x7f050027;
         public static final int ad_list=0x7f05003e;
         public static final int ad_list_button=0x7f05003f;
@@ -1355,21 +1355,23 @@ containing a value of this type.
         public static final int large=0x7f050002;
         public static final int listMode=0x7f050003;
         public static final int list_item=0x7f05002b;
-        public static final int login_button=0x7f050077;
-        public static final int message_sent_cat_button=0x7f05006a;
-        public static final int message_sent_header=0x7f050069;
-        public static final int message_sent_pro_button=0x7f05006b;
+        public static final int login_button=0x7f05007a;
+        public static final int main_categories_button=0x7f050072;
+        public static final int main_new_button=0x7f050073;
+        public static final int message_sent_cat_button=0x7f05006b;
+        public static final int message_sent_header=0x7f05006a;
+        public static final int message_sent_pro_button=0x7f05006c;
         public static final int middle=0x7f050014;
         public static final int never=0x7f05000b;
-        public static final int new_ad_button=0x7f050070;
-        public static final int new_ad_category=0x7f05006c;
-        public static final int new_ad_description=0x7f05006f;
-        public static final int new_ad_price=0x7f05006e;
-        public static final int new_ad_title=0x7f05006d;
+        public static final int new_ad_button=0x7f050071;
+        public static final int new_ad_category=0x7f05006d;
+        public static final int new_ad_description=0x7f050070;
+        public static final int new_ad_price=0x7f05006f;
+        public static final int new_ad_title=0x7f05006e;
         public static final int none=0x7f050012;
         public static final int normal=0x7f050001;
         public static final int picker_subtitle=0x7f05005c;
-        public static final int profile_name=0x7f050076;
+        public static final int profile_name=0x7f050079;
         public static final int progress_circular=0x7f05001a;
         public static final int progress_horizontal=0x7f05001b;
         public static final int radio=0x7f050031;
@@ -1384,11 +1386,11 @@ containing a value of this type.
         public static final int search_src_text=0x7f050039;
         public static final int search_voice_btn=0x7f05003d;
         public static final int selectionFragment=0x7f050067;
-        public static final int send_message_button=0x7f050075;
-        public static final int send_message_email=0x7f050074;
-        public static final int send_message_header=0x7f050071;
-        public static final int send_message_message=0x7f050072;
-        public static final int send_message_telefone=0x7f050073;
+        public static final int send_message_button=0x7f050078;
+        public static final int send_message_email=0x7f050077;
+        public static final int send_message_header=0x7f050074;
+        public static final int send_message_message=0x7f050075;
+        public static final int send_message_telefone=0x7f050076;
         public static final int shortcut=0x7f050030;
         public static final int showCustom=0x7f050009;
         public static final int showHome=0x7f050006;
@@ -1402,6 +1404,7 @@ containing a value of this type.
         public static final int top_action_bar=0x7f050022;
         public static final int up=0x7f050023;
         public static final int useLogo=0x7f050005;
+        public static final int userSettingsFragment=0x7f050069;
         public static final int withText=0x7f05000e;
     }
     public static final class integer {
@@ -1557,6 +1560,7 @@ containing a value of this type.
         public static final int com_facebook_usersettingsfragment_logged_in=0x7f080009;
         public static final int com_facebook_usersettingsfragment_not_logged_in=0x7f08000a;
         public static final int hello_world=0x7f080028;
+        public static final int settings=0x7f08002b;
     }
     public static final class style {
         /** 
