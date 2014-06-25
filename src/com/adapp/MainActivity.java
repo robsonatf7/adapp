@@ -51,6 +51,7 @@ public class MainActivity extends FragmentActivity  {
 		
 		uiHelper = new UiLifecycleHelper(this, callback);
 		uiHelper.onCreate(savedInstanceState);
+
 	}
 	
 	private void showFragment(int fragmentIndex, boolean addToBackStack) {
