@@ -7,16 +7,20 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.facebook.*;
 import com.facebook.model.*;
 
 public class MainActivity extends FragmentActivity  {
+	
+	private TextView userInfoTextView;
 	
 	private static final int SPLASH = 0;
 	private static final int SELECTION = 1;
@@ -35,6 +39,7 @@ public class MainActivity extends FragmentActivity  {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+
 		onClickCategories();
 		onClickNewAd();
 		
