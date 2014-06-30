@@ -1307,6 +1307,7 @@ containing a value of this type.
         public static final int add_photo_add_picture=0x7f050041;
         public static final int add_photo_caught_picture=0x7f050040;
         public static final int always=0x7f05000d;
+        public static final int authButton=0x7f050068;
         public static final int beginning=0x7f050013;
         public static final int category_list_button=0x7f05004a;
         public static final int category_list_view=0x7f050049;
@@ -1353,21 +1354,22 @@ containing a value of this type.
         public static final int image=0x7f050029;
         public static final int label=0x7f05004c;
         public static final int large=0x7f050002;
+        public static final int lblEmail=0x7f050067;
         public static final int listMode=0x7f050003;
         public static final int list_item=0x7f05002b;
         public static final int login_button=0x7f05007c;
         public static final int main_categories_button=0x7f050074;
         public static final int main_new_button=0x7f050075;
-        public static final int message_sent_cat_button=0x7f05006b;
-        public static final int message_sent_header=0x7f05006a;
-        public static final int message_sent_pro_button=0x7f05006c;
+        public static final int message_sent_cat_button=0x7f05006a;
+        public static final int message_sent_header=0x7f050069;
+        public static final int message_sent_pro_button=0x7f05006b;
         public static final int middle=0x7f050014;
         public static final int never=0x7f05000b;
-        public static final int new_ad_button=0x7f050071;
-        public static final int new_ad_category=0x7f05006d;
-        public static final int new_ad_description=0x7f050070;
-        public static final int new_ad_price=0x7f05006f;
-        public static final int new_ad_title=0x7f05006e;
+        public static final int new_ad_button=0x7f050070;
+        public static final int new_ad_category=0x7f05006c;
+        public static final int new_ad_description=0x7f05006f;
+        public static final int new_ad_price=0x7f05006e;
+        public static final int new_ad_title=0x7f05006d;
         public static final int none=0x7f050012;
         public static final int normal=0x7f050001;
         public static final int picker_subtitle=0x7f05005c;
@@ -1385,9 +1387,9 @@ containing a value of this type.
         public static final int search_plate=0x7f050038;
         public static final int search_src_text=0x7f050039;
         public static final int search_voice_btn=0x7f05003d;
-        public static final int selectionFragment=0x7f050067;
-        public static final int selection_profile_pic=0x7f050072;
-        public static final int selection_user_name=0x7f050073;
+        public static final int selection_profile_pic=0x7f050071;
+        public static final int selection_user_email=0x7f050073;
+        public static final int selection_user_name=0x7f050072;
         public static final int send_message_button=0x7f05007a;
         public static final int send_message_email=0x7f050079;
         public static final int send_message_header=0x7f050076;
@@ -1398,7 +1400,6 @@ containing a value of this type.
         public static final int showHome=0x7f050006;
         public static final int showTitle=0x7f050008;
         public static final int small=0x7f050000;
-        public static final int splashFragment=0x7f050068;
         public static final int split_action_bar=0x7f050020;
         public static final int submit_area=0x7f05003b;
         public static final int tabMode=0x7f050004;
@@ -1406,7 +1407,6 @@ containing a value of this type.
         public static final int top_action_bar=0x7f050022;
         public static final int up=0x7f050023;
         public static final int useLogo=0x7f050005;
-        public static final int userSettingsFragment=0x7f050069;
         public static final int withText=0x7f05000e;
     }
     public static final class integer {

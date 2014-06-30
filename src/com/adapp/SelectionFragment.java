@@ -21,6 +21,7 @@ public class SelectionFragment extends Fragment {
 	private static final String TAG = "SelectionFragment";
 	private ProfilePictureView profilePictureView;
 	private TextView userNameView;
+	private TextView userEmail;
 	private static final int REAUTH_ACTIVITY_CODE = 100;
 	
 	@Override
@@ -35,15 +36,15 @@ public class SelectionFragment extends Fragment {
 
 	    // Find the user's name view
 	    userNameView = (TextView) view.findViewById(R.id.selection_user_name);
+	    userEmail = (TextView) view.findViewById(R.id.selection_user_email);
 	    
 	    return view;
 	}
 	
 	private void makeMeRequest(final Session session) {
-	    // Make an API call to get user data and define a 
-	    // new callback to handle the response.
-	    Request request = Request.newMeRequest(session, 
-	            new Request.GraphUserCallback() {
+	   
+	    Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
+	    	
 	        @Override
 	        public void onCompleted(GraphUser user, Response response) {
 	            // If the response is successful
@@ -54,6 +55,7 @@ public class SelectionFragment extends Fragment {
 	                    profilePictureView.setProfileId(user.getId());
 	                    // Set the Textview's text to the user's name.
 	                    userNameView.setText(user.getName());
+//	                    userEmail.setText(user.asMap().get("email").toString());
 	                }
 	            }
 	            if (response.getError() != null) {
