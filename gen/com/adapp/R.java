@@ -1293,7 +1293,7 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f050018;
         public static final int action_menu_presenter=0x7f050019;
         public static final int action_mode_close_button=0x7f050026;
-        public static final int action_settings=0x7f05007d;
+        public static final int action_settings=0x7f050076;
         public static final int activity_chooser_view_content=0x7f050027;
         public static final int ad_list=0x7f05003e;
         public static final int ad_list_button=0x7f05003f;
@@ -1307,7 +1307,7 @@ containing a value of this type.
         public static final int add_photo_add_picture=0x7f050041;
         public static final int add_photo_caught_picture=0x7f050040;
         public static final int always=0x7f05000d;
-        public static final int authButton=0x7f050068;
+        public static final int authButton=0x7f050067;
         public static final int beginning=0x7f050013;
         public static final int category_list_button=0x7f05004a;
         public static final int category_list_view=0x7f050049;
@@ -1354,12 +1354,9 @@ containing a value of this type.
         public static final int image=0x7f050029;
         public static final int label=0x7f05004c;
         public static final int large=0x7f050002;
-        public static final int lblEmail=0x7f050067;
         public static final int listMode=0x7f050003;
         public static final int list_item=0x7f05002b;
-        public static final int login_button=0x7f05007c;
-        public static final int main_categories_button=0x7f050074;
-        public static final int main_new_button=0x7f050075;
+        public static final int main_user_name=0x7f050068;
         public static final int message_sent_cat_button=0x7f05006a;
         public static final int message_sent_header=0x7f050069;
         public static final int message_sent_pro_button=0x7f05006b;
@@ -1373,7 +1370,6 @@ containing a value of this type.
         public static final int none=0x7f050012;
         public static final int normal=0x7f050001;
         public static final int picker_subtitle=0x7f05005c;
-        public static final int profile_name=0x7f05007b;
         public static final int progress_circular=0x7f05001a;
         public static final int progress_horizontal=0x7f05001b;
         public static final int radio=0x7f050031;
@@ -1387,14 +1383,11 @@ containing a value of this type.
         public static final int search_plate=0x7f050038;
         public static final int search_src_text=0x7f050039;
         public static final int search_voice_btn=0x7f05003d;
-        public static final int selection_profile_pic=0x7f050071;
-        public static final int selection_user_email=0x7f050073;
-        public static final int selection_user_name=0x7f050072;
-        public static final int send_message_button=0x7f05007a;
-        public static final int send_message_email=0x7f050079;
-        public static final int send_message_header=0x7f050076;
-        public static final int send_message_message=0x7f050077;
-        public static final int send_message_telefone=0x7f050078;
+        public static final int send_message_button=0x7f050075;
+        public static final int send_message_email=0x7f050074;
+        public static final int send_message_header=0x7f050071;
+        public static final int send_message_message=0x7f050072;
+        public static final int send_message_telefone=0x7f050073;
         public static final int shortcut=0x7f050030;
         public static final int showCustom=0x7f050009;
         public static final int showHome=0x7f050006;
@@ -1483,10 +1476,8 @@ containing a value of this type.
         public static final int main=0x7f03002d;
         public static final int message_sent=0x7f03002e;
         public static final int new_ad=0x7f03002f;
-        public static final int selection=0x7f030030;
-        public static final int send_message=0x7f030031;
-        public static final int splash=0x7f030032;
-        public static final int support_simple_spinner_dropdown_item=0x7f030033;
+        public static final int send_message=0x7f030030;
+        public static final int support_simple_spinner_dropdown_item=0x7f030031;
     }
     public static final class menu {
         public static final int main=0x7f0c0000;
