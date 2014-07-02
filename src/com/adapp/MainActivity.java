@@ -5,14 +5,14 @@ import android.support.v4.app.FragmentActivity;
 import android.widget.Button;
 import android.widget.TextView;
 
-
+import com.facebook.*;
+import com.facebook.model.*;
+import android.widget.TextView;
+import android.content.Intent;
 
 public class MainActivity extends FragmentActivity {
 
 	private MainFragment mainFragment;
-	
-	private String TAG = "MainActivity";
-	private TextView lblEmail;
 	
 	Button categories;
 	Button newAd;
@@ -33,6 +33,37 @@ public class MainActivity extends FragmentActivity {
 	        mainFragment = (MainFragment) getSupportFragmentManager()
 	        .findFragmentById(android.R.id.content);
 	    }
+	    
+	 // start Facebook Login
+	    Session.openActiveSession(this, true, new Session.StatusCallback() {
+
+	      // callback when session changes state
+	      @Override
+	      public void call(Session session, SessionState state, Exception exception) {
+	    	  if (session.isOpened()) {
+	    		  // make request to the /me API
+	    		  Request.newMeRequest(session, new Request.GraphUserCallback() {
+
+	    		  // callback after Graph API response with user object
+	    		  @Override
+	    		  public void onCompleted(GraphUser user, Response response) {
+	    		    	if (user != null) {
+	    		    		Intent inetnt = new Intent(getApplicationContext(), CategoryListActivity.class);
+	    		    		inetnt.putExtra("user_name", user.getName());
+	    		    		inetnt.putExtra("user_email", user.asMap().get("email").toString());
+	    		    		startActivity(inetnt);
+	    		    	}
+	    		    }
+	    		  }).executeAsync();
+	    	  }
+	      }
+	    });
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+	  super.onActivityResult(requestCode, resultCode, data);
+	  Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
 	}
 //		onClickCategories();
 //		onClickNewAd();
