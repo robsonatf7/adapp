@@ -61,7 +61,6 @@ public class AddPhotoActivity extends Activity {
 	public static final int MEDIA_TYPE_IMAGE = 1;
 	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 	private Uri fileUri;
-	private Bitmap bitmap;
 	static File mediaFile;
 	
 	private static Uri getUri(int type){
@@ -140,39 +139,18 @@ public class AddPhotoActivity extends Activity {
 				String adTitle = i.getStringExtra("title");
 				String adPrice = i.getStringExtra("price");
 				String adDescription = i.getStringExtra("description");
+				String adUserEmail = i.getStringExtra("userEmail");
 				int catId = Integer.parseInt(adCategory);
-				
-				Log.i("oioioioio", fileUri.toString());
-				
-//				FileBody bin = new FileBody(mediaFile);
-//				MultipartEntityBuilder multiPartEntityBuilder = MultipartEntityBuilder.create();
-//				multiPartEntityBuilder.addPart("image", bin);
-//				multiPartEntityBuilder.build();
-//				String teste = multiPartEntityBuilder.toString();
-				//httpPostRequest.setEntity(multiPartEntityBuilder.build());
-				
+
 				JSONObject json = new JSONObject();
 				json.put("category_id", adCategory);
 				json.put("title", adTitle);
 				json.put("price", adPrice);
 				json.put("description", adDescription);
-//				json.put("image", teste);
+				json.put("user_email", adUserEmail);
 				StringEntity adParams = new StringEntity(json.toString());
 				adParams.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
 				httpPostRequest.setEntity(adParams);
-				
-				
-//				FileBody bin = new FileBody(mediaFile);
-//
-//				MultipartEntityBuilder ad = MultipartEntityBuilder.create();
-//				ad.addPart("image", bin);
-//				ad.addTextBody("category_id", adCategory);
-//				ad.addTextBody("title", adTitle);
-//				ad.addTextBody("price", adPrice);
-//				ad.addTextBody("description", adDescription);
-				//multiPartEntityBuilder.addTextBody("ad", adParams);
-				
-//				httpPostRequest.setEntity(ad.build());
 
 				// Execute POST request to the given URL
 				HttpResponse httpResponse = null;

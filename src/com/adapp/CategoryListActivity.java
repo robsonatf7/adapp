@@ -33,7 +33,7 @@ public class CategoryListActivity extends Activity {
 		JSONArray categoriesJson = new JSONArray();
 		Context context;
 		String feedUrl = "http://192.168.0.16:3000/categories.json";
-			
+		
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
@@ -48,9 +48,12 @@ public class CategoryListActivity extends Activity {
 			listView.setAdapter(categoryListAdapter);
 			
 			listView.setOnItemClickListener(new ListClickHandler());
-		
-			onClickNewAd();
 			
+//			Intent getUserData = getIntent();
+//			String userEmail = getUserData.getStringExtra("user_email");
+//			Log.i("shauiehaueha", userEmail);
+			
+			onClickNewAd();
 		}
 		
 		public void onClickNewAd() {
@@ -62,7 +65,12 @@ public class CategoryListActivity extends Activity {
 				@Override
 				public void onClick(View v) {
 					
+					Intent getUserData = getIntent();
+					String userEmail = getUserData.getStringExtra("user_email");
+//					Log.i("shauiehaueha", userEmail);
+					
 					Intent intent = new Intent(context, NewAdActivity.class);
+					intent.putExtra("userEmail", userEmail);
 					startActivity(intent);
 				}
 			});

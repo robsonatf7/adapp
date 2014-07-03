@@ -132,6 +132,10 @@ public class NewAdActivity extends Activity {
 				TextView adDescription = (TextView)findViewById(R.id.new_ad_description);
 				String value4 = adDescription.getText().toString();
 				
+				Intent getUserData = getIntent();
+				String value5 = getUserData.getStringExtra("userEmail");
+//				Log.i("hsuahusa", value5);
+				
 				Intent intent = new Intent(context, AddPhotoActivity.class);
 				Bundle extras = new Bundle();
 				
@@ -139,6 +143,7 @@ public class NewAdActivity extends Activity {
 				extras.putString("title", value2);
 				extras.putString("price", value3);
 				extras.putString("description", value4);
+				extras.putString("userEmail", value5);
 				intent.putExtras(extras);
 				
 				startActivity(intent);
