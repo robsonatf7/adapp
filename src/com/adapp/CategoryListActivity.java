@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,10 +35,16 @@ public class CategoryListActivity extends Activity {
 		Context context;
 		String feedUrl = "http://192.168.0.16:3000/categories.json";
 		
+		private DrawerLayout drawerLayout;
+		private ListView listView;
+		
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
 			setContentView(R.layout.category_list);
+			
+			drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+			listView = (ListView) findViewById(R.id.left_drawer);
 			
 			context = this;
 			CategoryListTask loaderTask = new CategoryListTask();

@@ -6,5 +6,10 @@
     <string name="action_settings">Settings</string>
     <string name="app_id">1449588191966336</string>
     <string name="settings">Settings</string>
+    <string-array name="features">
+        <item>New ad</item>
+        <item>My ads</item>
+        <item>Log out</item>
+    </string-array>
 
 </resources>
