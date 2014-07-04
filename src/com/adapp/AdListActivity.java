@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,17 +28,23 @@ import android.widget.Toast;
 
 public class AdListActivity extends Activity {
 	
-	Button newAdOne;
+//	Button newAdOne;
 	ArrayList<String> adsTitlesArray = new ArrayList<String>();
 	AdListAdapter adListAdapter;
 	String[] adsString = {""};
 	Context context;
 	String feedUrl;
+	
+	private DrawerLayout drawerLayout;
+	private ListView listView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ad_list);
+		
+		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		listView = (ListView) findViewById(R.id.left_drawer);
 
 		context = this;
 		AdListTask loaderTask = new AdListTask();
@@ -49,23 +56,23 @@ public class AdListActivity extends Activity {
 		
 		listView.setOnItemClickListener(new ListClickHandler());
 		
-		onClickNewAd();
+//		onClickNewAd();
 	}
 
-	public void onClickNewAd() {
-		
-		final Context context = this;
-		newAdOne = (Button) findViewById(R.id.ad_list_button);
-		newAdOne.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				
-				Intent intent = new Intent(context, NewAdActivity.class);
-				startActivity(intent);
-			}
-		});
-	}
+//	public void onClickNewAd() {
+//		
+//		final Context context = this;
+//		newAdOne = (Button) findViewById(R.id.ad_list_button);
+//		newAdOne.setOnClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				
+//				Intent intent = new Intent(context, NewAdActivity.class);
+//				startActivity(intent);
+//			}
+//		});
+//	}
 
 	private class ListClickHandler implements OnItemClickListener {
 		

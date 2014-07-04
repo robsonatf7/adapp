@@ -1,81 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:padding="5dp" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center_horizontal|center_vertical" >
+        <FrameLayout
+        	android:id="@+id/content_frame"
+        	android:layout_width="match_parent"
+        	android:layout_height="match_parent">
+    
+    		<LinearLayout
+        		android:layout_width="match_parent"
+        		android:layout_height="match_parent"
+        		
+        		android:gravity="center_horizontal|center_vertical" >
 
-        <Spinner
-            android:id="@+id/new_ad_category"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-    </LinearLayout>
+        		<Spinner
+            		android:id="@+id/new_ad_category"
+            		android:layout_width="wrap_content"
+            		android:layout_height="wrap_content"
+            		 />
+    		</LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center_horizontal|center_vertical" >
+    		<LinearLayout
+        		android:layout_width="match_parent"
+        		android:layout_height="match_parent"
+        		
+        		android:gravity="center_horizontal|center_vertical" >
 
-        <EditText
-            android:id="@+id/new_ad_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="escreva o titulo do anuncio" >
+        		<EditText
+            		android:id="@+id/new_ad_title"
+            		android:layout_width="wrap_content"
+            		android:layout_height="wrap_content"
+            		
+            		android:ems="10"
+            		android:hint="escreva o titulo do anuncio" >
 
-            <requestFocus />
-        </EditText>
-    </LinearLayout>
+            	<requestFocus />
+        		</EditText>
+    		</LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center_horizontal|center_vertical" >
+    		<LinearLayout
+        		android:layout_width="match_parent"
+        		android:layout_height="match_parent"
+        		
+        		android:gravity="center_horizontal|center_vertical" >
 
-        <EditText
-            android:id="@+id/new_ad_price"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="escreva o preco do artigo" />
-    </LinearLayout>
+        	<EditText
+            	android:id="@+id/new_ad_price"
+            	android:layout_width="wrap_content"
+            	android:layout_height="wrap_content"
+            	
+            	android:ems="10"
+            	android:hint="escreva o preco do artigo" />
+    		</LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center_horizontal|center_vertical" >
+    		<LinearLayout
+        		android:layout_width="match_parent"
+        		android:layout_height="match_parent"
+        		
+        		android:gravity="center_horizontal|center_vertical" >
 
-        <EditText
-            android:id="@+id/new_ad_description"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="descreva o artigo" />
-    </LinearLayout>
+        		<EditText
+            		android:id="@+id/new_ad_description"
+            		android:layout_width="0dp"
+            		android:layout_height="wrap_content"
+            		android:layout_weight="1"
+            		android:ems="10"
+            		android:hint="descreva o artigo" />
+    		</LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center_horizontal|center_vertical" >
+    		<LinearLayout
+        		android:layout_width="match_parent"
+        		android:layout_height="match_parent"
+        		
+       			android:gravity="center_horizontal|center_vertical" >
 
-        <Button
-            android:id="@+id/new_ad_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Proximo" />
-    </LinearLayout>
+        		<Button
+            		android:id="@+id/new_ad_button"
+            		android:layout_width="wrap_content"
+            		android:layout_height="wrap_content"
+            		android:text="Proximo" />
+    		</LinearLayout>
+    		
+    	</FrameLayout>
+    	
+        <ListView 
+        	android:id="@+id/left_drawer"
+        	android:entries="@array/features"
+        	android:layout_width="240dp"
+        	android:layout_height="match_parent"
+        	android:layout_gravity="left"
+        	android:choiceMode="singleChoice"
+        	android:divider="@android:color/transparent"
+        	android:dividerHeight="0dp"
+        />
 
-</LinearLayout>
+</android.support.v4.widget.DrawerLayout>

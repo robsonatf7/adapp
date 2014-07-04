@@ -32,7 +32,7 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.protocol.HttpContext;
 import org.json.JSONObject;
 
-import com.adapp.CategoryListActivity.CategoryListTask;
+//import com.adapp.CategoryListActivity.CategoryListTask;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -49,7 +49,9 @@ import android.os.Looper;
 import android.provider.MediaStore;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -62,6 +64,9 @@ public class AddPhotoActivity extends Activity {
 	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 	private Uri fileUri;
 	static File mediaFile;
+	
+	private DrawerLayout drawerLayout;
+	private ListView listView;
 	
 	private static Uri getUri(int type){
 		
@@ -89,6 +94,10 @@ public class AddPhotoActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ad_photo);
+		
+		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		listView = (ListView) findViewById(R.id.left_drawer);
+		
 		onClickAddPicture();
 		onClickFinishAd();
 	}

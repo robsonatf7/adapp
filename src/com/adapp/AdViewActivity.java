@@ -25,56 +25,65 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.view.View.OnClickListener;
 
 public class AdViewActivity extends Activity{
 
-	Button buy, pro, cat;
+	Button buy;
 	Context context;
 	String position = null;
 	String feedUrl = null;
 	AdModel jParser = new AdModel();
 	
+	private DrawerLayout drawerLayout;
+	private ListView listView;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ad_view);
+		
+		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		listView = (ListView) findViewById(R.id.left_drawer);
+		
 		onClickBuy();
-		onClickPro();
-		onClickCat();
+//		onClickPro();
+//		onClickCat();
 		
 		context = this;
 		AdViewTask loaderTask = new AdViewTask();
 		loaderTask.execute();
 	}
 
-	private void onClickCat() {
-		final Context context = this;
-		cat = (Button) findViewById(R.id.ad_view_cat_button);
-		cat.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(context, CategoryListActivity.class);
-				startActivity(intent);
-			}
-		});
-	}
-
-	private void onClickPro() {
-		final Context context = this;
-		pro = (Button) findViewById(R.id.ad_view_pro_button);
-		pro.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(context, AdListActivity.class);
-				startActivity(intent);
-			}
-		});
-	}
+//	private void onClickCat() {
+//		final Context context = this;
+//		cat = (Button) findViewById(R.id.ad_view_cat_button);
+//		cat.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				Intent intent = new Intent(context, CategoryListActivity.class);
+//				startActivity(intent);
+//			}
+//		});
+//	}
+//
+//	private void onClickPro() {
+//		final Context context = this;
+//		pro = (Button) findViewById(R.id.ad_view_pro_button);
+//		pro.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				Intent intent = new Intent(context, AdListActivity.class);
+//				startActivity(intent);
+//			}
+//		});
+//	}
 
 	private void onClickBuy() {
 		final Context context = this;

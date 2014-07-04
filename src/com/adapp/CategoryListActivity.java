@@ -27,7 +27,7 @@ import android.widget.TextView;
 
 public class CategoryListActivity extends Activity {
 
-		Button newAd;
+//		Button newAd;
 		ArrayList<String> categoriesNamesArray = new ArrayList<String>();
 		CategoryListAdapter categoryListAdapter;
 		String[] categoriesString = {""};
@@ -56,32 +56,27 @@ public class CategoryListActivity extends Activity {
 			
 			listView.setOnItemClickListener(new ListClickHandler());
 			
-//			Intent getUserData = getIntent();
-//			String userEmail = getUserData.getStringExtra("user_email");
-//			Log.i("shauiehaueha", userEmail);
-			
-			onClickNewAd();
+//			onClickNewAd();
 		}
 		
-		public void onClickNewAd() {
-			
-			final Context context = this;
-			newAd = (Button) findViewById(R.id.category_list_button);
-			newAd.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					
-					Intent getUserData = getIntent();
-					String userEmail = getUserData.getStringExtra("user_email");
-//					Log.i("shauiehaueha", userEmail);
-					
-					Intent intent = new Intent(context, NewAdActivity.class);
-					intent.putExtra("userEmail", userEmail);
-					startActivity(intent);
-				}
-			});
-		}
+//		public void onClickNewAd() {
+//			
+//			final Context context = this;
+//			newAd = (Button) findViewById(R.id.category_list_button);
+//			newAd.setOnClickListener(new OnClickListener() {
+//				
+//				@Override
+//				public void onClick(View v) {
+//					
+//					Intent getUserData = getIntent();
+//					String userEmail = getUserData.getStringExtra("user_email");
+//					
+//					Intent intent = new Intent(context, NewAdActivity.class);
+//					intent.putExtra("userEmail", userEmail);
+//					startActivity(intent);
+//				}
+//			});
+//		}
 		
 		private class ListClickHandler implements OnItemClickListener {
 			@Override
