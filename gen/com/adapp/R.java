@@ -1296,7 +1296,7 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f050018;
         public static final int action_menu_presenter=0x7f050019;
         public static final int action_mode_close_button=0x7f050026;
-        public static final int action_settings=0x7f050076;
+        public static final int action_settings=0x7f050077;
         public static final int activity_chooser_view_content=0x7f050027;
         public static final int ad_list=0x7f050040;
         public static final int ad_photo_finish_button=0x7f050044;
@@ -1364,12 +1364,13 @@ containing a value of this type.
         public static final int message_sent_header=0x7f050069;
         public static final int message_sent_pro_button=0x7f05006b;
         public static final int middle=0x7f050014;
+        public static final int my_ads_list=0x7f05006c;
         public static final int never=0x7f05000b;
-        public static final int new_ad_button=0x7f050070;
-        public static final int new_ad_category=0x7f05006c;
-        public static final int new_ad_description=0x7f05006f;
-        public static final int new_ad_price=0x7f05006e;
-        public static final int new_ad_title=0x7f05006d;
+        public static final int new_ad_button=0x7f050071;
+        public static final int new_ad_category=0x7f05006d;
+        public static final int new_ad_description=0x7f050070;
+        public static final int new_ad_price=0x7f05006f;
+        public static final int new_ad_title=0x7f05006e;
         public static final int none=0x7f050012;
         public static final int normal=0x7f050001;
         public static final int picker_subtitle=0x7f05005b;
@@ -1386,11 +1387,11 @@ containing a value of this type.
         public static final int search_plate=0x7f050038;
         public static final int search_src_text=0x7f050039;
         public static final int search_voice_btn=0x7f05003d;
-        public static final int send_message_button=0x7f050075;
-        public static final int send_message_email=0x7f050074;
-        public static final int send_message_header=0x7f050071;
-        public static final int send_message_message=0x7f050072;
-        public static final int send_message_telefone=0x7f050073;
+        public static final int send_message_button=0x7f050076;
+        public static final int send_message_email=0x7f050075;
+        public static final int send_message_header=0x7f050072;
+        public static final int send_message_message=0x7f050073;
+        public static final int send_message_telefone=0x7f050074;
         public static final int shortcut=0x7f050030;
         public static final int showCustom=0x7f050009;
         public static final int showHome=0x7f050006;
@@ -1478,9 +1479,11 @@ containing a value of this type.
         public static final int com_facebook_usersettingsfragment=0x7f03002c;
         public static final int main=0x7f03002d;
         public static final int message_sent=0x7f03002e;
-        public static final int new_ad=0x7f03002f;
-        public static final int send_message=0x7f030030;
-        public static final int support_simple_spinner_dropdown_item=0x7f030031;
+        public static final int my_ads_list=0x7f03002f;
+        public static final int my_ads_row=0x7f030030;
+        public static final int new_ad=0x7f030031;
+        public static final int send_message=0x7f030032;
+        public static final int support_simple_spinner_dropdown_item=0x7f030033;
     }
     public static final class menu {
         public static final int main=0x7f0d0000;

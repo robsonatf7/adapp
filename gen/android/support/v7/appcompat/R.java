@@ -466,7 +466,7 @@ public final class R {
 		public static final int com_facebook_search_bar_layout = 0x7f03002a;
 		public static final int com_facebook_tooltip_bubble = 0x7f03002b;
 		public static final int com_facebook_usersettingsfragment = 0x7f03002c;
-		public static final int support_simple_spinner_dropdown_item = 0x7f030031;
+		public static final int support_simple_spinner_dropdown_item = 0x7f030033;
 	}
 	public static final class string {
 		public static final int abc_action_bar_home_description = 0x7f08001b;

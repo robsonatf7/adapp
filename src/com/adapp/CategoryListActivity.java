@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import com.adapp.adapters.CategoryListAdapter;
 import com.adapp.models.CategoryModel;
+import com.facebook.Session;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -21,13 +22,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class CategoryListActivity extends Activity {
+public class CategoryListActivity extends Activity implements OnItemClickListener {
 
-//		Button newAd;
 		ArrayList<String> categoriesNamesArray = new ArrayList<String>();
 		CategoryListAdapter categoryListAdapter;
 		String[] categoriesString = {""};
@@ -36,15 +38,19 @@ public class CategoryListActivity extends Activity {
 		String feedUrl = "http://192.168.0.16:3000/categories.json";
 		
 		private DrawerLayout drawerLayout;
-		private ListView listView;
+		private ListView featuresList;
+		private String[] features;
 		
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
 			setContentView(R.layout.category_list);
 			
+			features = getResources().getStringArray(R.array.features);
 			drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-			listView = (ListView) findViewById(R.id.left_drawer);
+			featuresList = (ListView) findViewById(R.id.left_drawer);
+			featuresList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, features));
+			featuresList.setOnItemClickListener(this);
 			
 			context = this;
 			CategoryListTask loaderTask = new CategoryListTask();
@@ -56,27 +62,7 @@ public class CategoryListActivity extends Activity {
 			
 			listView.setOnItemClickListener(new ListClickHandler());
 			
-//			onClickNewAd();
 		}
-		
-//		public void onClickNewAd() {
-//			
-//			final Context context = this;
-//			newAd = (Button) findViewById(R.id.category_list_button);
-//			newAd.setOnClickListener(new OnClickListener() {
-//				
-//				@Override
-//				public void onClick(View v) {
-//					
-//					Intent getUserData = getIntent();
-//					String userEmail = getUserData.getStringExtra("user_email");
-//					
-//					Intent intent = new Intent(context, NewAdActivity.class);
-//					intent.putExtra("userEmail", userEmail);
-//					startActivity(intent);
-//				}
-//			});
-//		}
 		
 		private class ListClickHandler implements OnItemClickListener {
 			@Override
@@ -133,5 +119,43 @@ public class CategoryListActivity extends Activity {
 				super.onPostExecute(json);
 			}
 			
+		}
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View arg1, int position,
+				long arg3) {
+			
+			if (position == 0) {
+				Toast.makeText(this, "categories baby", Toast.LENGTH_SHORT).show();
+			} else if (position == 1){
+				
+				final Context context = this;
+
+				Intent getUserData = getIntent();
+				String userEmail = getUserData.getStringExtra("user_email");
+						
+				Intent intent = new Intent(context, NewAdActivity.class);
+				intent.putExtra("userEmail", userEmail);
+				startActivity(intent);
+
+				
+			} else if (position == 2){
+				
+				final Context context = this;
+
+				Intent getUserData = getIntent();
+				String userEmail = getUserData.getStringExtra("user_email");
+						
+				Intent intent = new Intent(context, MyAdsActivity.class);
+				intent.putExtra("userEmail", userEmail);
+				startActivity(intent);
+				
+			} else {
+				Session session = Session.getActiveSession();
+				session.closeAndClearTokenInformation();
+				
+				Intent intent = new Intent(context, MainActivity.class);
+				startActivity(intent);
+			}
 		}
 }

@@ -28,7 +28,8 @@
         android:layout_height="match_parent"
         android:layout_gravity="left"
         android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
+        android:divider="@null"
+        android:background="#E0E0E0"
         android:dividerHeight="0dp"
         />
     
