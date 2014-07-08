@@ -146,7 +146,7 @@ public class CategoryListActivity extends Activity implements OnItemClickListene
 				Intent getUserData = getIntent();
 				String userEmail = getUserData.getStringExtra("user_email");
 						
-				Intent intent = new Intent(context, MyAdsActivity.class);
+				Intent intent = new Intent(context, AdListActivity.class);
 				intent.putExtra("userEmail", userEmail);
 				startActivity(intent);
 				

@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.adapp.models.CategoryModel;
+import com.facebook.Session;
 
 import android.R.string;
 import android.app.Activity;
@@ -15,6 +16,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -25,7 +28,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-public class NewAdActivity extends Activity {
+public class NewAdActivity extends Activity implements OnItemClickListener {
 	
 	Button createAd;
 	Context context;
@@ -35,7 +38,8 @@ public class NewAdActivity extends Activity {
 	ArrayList<Integer> spinnerCategoryIds = new ArrayList<Integer>();
 	
 	private DrawerLayout drawerLayout;
-	private ListView listView;
+	private ListView featuresList;
+	private String[] features;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +47,11 @@ public class NewAdActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.new_ad);
 		
+		features = getResources().getStringArray(R.array.features);
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		listView = (ListView) findViewById(R.id.left_drawer);
+		featuresList = (ListView) findViewById(R.id.left_drawer);
+		featuresList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, features));
+		featuresList.setOnItemClickListener(this);
 		
 		context = this;
 		NewAdSpinnerTask loaderTask = new NewAdSpinnerTask();
@@ -158,5 +165,42 @@ public class NewAdActivity extends Activity {
 			}
 		});
 	}
+	@Override
+	public void onItemClick(AdapterView<?> parent, View arg1, int position, long arg3) {
+		
+		if (position == 0) {
+			final Context context = this;
 
+			Intent intent = new Intent(context, CategoryListActivity.class);
+			startActivity(intent);
+		} else if (position == 1){
+			
+			final Context context = this;
+
+			Intent getUserData = getIntent();
+			String userEmail = getUserData.getStringExtra("user_email");
+					
+			Intent intent = new Intent(context, NewAdActivity.class);
+			intent.putExtra("userEmail", userEmail);
+			startActivity(intent);
+
+		} else if (position == 2){
+			
+			final Context context = this;
+
+			Intent getUserData = getIntent();
+			String userEmail = getUserData.getStringExtra("user_email");
+					
+			Intent intent = new Intent(context, AdListActivity.class);
+			intent.putExtra("userEmail", userEmail);
+			startActivity(intent);
+			
+		} else {
+			Session session = Session.getActiveSession();
+			session.closeAndClearTokenInformation();
+			
+			Intent intent = new Intent(context, MainActivity.class);
+			startActivity(intent);
+		}
+	}
 }

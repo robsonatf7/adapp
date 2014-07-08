@@ -32,6 +32,8 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.protocol.HttpContext;
 import org.json.JSONObject;
 
+import com.facebook.Session;
+
 //import com.adapp.CategoryListActivity.CategoryListTask;
 
 import android.app.Activity;
@@ -47,16 +49,19 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Looper;
 import android.provider.MediaStore;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-public class AddPhotoActivity extends Activity {
+public class AddPhotoActivity extends Activity implements OnItemClickListener {
 
 	Button finishAd;
 	Button addPicture;
@@ -66,7 +71,8 @@ public class AddPhotoActivity extends Activity {
 	static File mediaFile;
 	
 	private DrawerLayout drawerLayout;
-	private ListView listView;
+	private ListView featuresList;
+	private String[] features;
 	
 	private static Uri getUri(int type){
 		
@@ -95,8 +101,11 @@ public class AddPhotoActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ad_photo);
 		
+		features = getResources().getStringArray(R.array.features);
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		listView = (ListView) findViewById(R.id.left_drawer);
+		featuresList = (ListView) findViewById(R.id.left_drawer);
+		featuresList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, features));
+		featuresList.setOnItemClickListener(this);
 		
 		onClickAddPicture();
 		onClickFinishAd();
@@ -222,5 +231,44 @@ public class AddPhotoActivity extends Activity {
 			}
 		});
 	}
-	
+	@Override
+	public void onItemClick(AdapterView<?> parent, View arg1, int position, long arg3) {
+		
+		if (position == 0) {
+			final Context context = this;
+
+			Intent intent = new Intent(context, CategoryListActivity.class);
+			startActivity(intent);
+		} else if (position == 1){
+			
+			final Context context = this;
+
+			Intent getUserData = getIntent();
+			String userEmail = getUserData.getStringExtra("user_email");
+					
+			Intent intent = new Intent(context, NewAdActivity.class);
+			intent.putExtra("userEmail", userEmail);
+			startActivity(intent);
+
+		} else if (position == 2){
+			
+			final Context context = this;
+
+			Intent getUserData = getIntent();
+			String userEmail = getUserData.getStringExtra("user_email");
+					
+			Intent intent = new Intent(context, AdListActivity.class);
+			intent.putExtra("userEmail", userEmail);
+			startActivity(intent);
+			
+		} else {
+			final Context context = this;
+			
+			Session session = Session.getActiveSession();
+			session.closeAndClearTokenInformation();
+			
+			Intent intent = new Intent(context, MainActivity.class);
+			startActivity(intent);
+		}
+	}
 }

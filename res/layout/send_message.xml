@@ -6,93 +6,60 @@
     android:layout_height="match_parent"
     android:padding="5dp" >
 
-        <FrameLayout
-        	android:id="@+id/content_frame"
-        	android:layout_width="match_parent"
-        	android:layout_height="match_parent">
-    
-    		<LinearLayout
-        		android:layout_width="match_parent"
-        		android:layout_height="match_parent"
-        		
-        		android:gravity="center_horizontal|center_vertical" >
-
-        		<TextView
-            		android:id="@+id/send_message_header"
-            		android:layout_width="wrap_content"
-            		android:layout_height="wrap_content"
-            		android:text="Envie sua mensagem / oferta" />
-    		</LinearLayout>
-
-    		<LinearLayout
-        		android:layout_width="match_parent"
-        		android:layout_height="match_parent"
-        		
-        		android:gravity="center_horizontal|center_vertical" >
-
-        		<EditText
-            		android:id="@+id/send_message_message"
-            		android:layout_width="wrap_content"
-            		android:layout_height="wrap_content"
-            		
-            		android:ems="10" >
-
-            		<requestFocus />
-        		</EditText>
-    	</LinearLayout>
-
-    	<LinearLayout
-        	android:layout_width="match_parent"
-        	android:layout_height="match_parent"
-        	
-        	android:gravity="center_horizontal|center_vertical" >
-
-        	<EditText
-            	android:id="@+id/send_message_telefone"
-            	android:layout_width="wrap_content"
-            	android:layout_height="wrap_content"
-            	
-            	android:ems="10" />
-    	</LinearLayout>
-
-    	<LinearLayout
-        	android:layout_width="match_parent"
-        	android:layout_height="match_parent"
-        	
-        	android:gravity="center_horizontal|center_vertical" >
-
-        	<EditText
-            	android:id="@+id/send_message_email"
-            	android:layout_width="wrap_content"
-            	android:layout_height="wrap_content"
-            	
-            	android:ems="10" />
-    	</LinearLayout>
-
-    	<LinearLayout
-        	android:layout_width="match_parent"
-        	android:layout_height="match_parent"
-        	
-        	android:gravity="center_horizontal|center_vertical" >
-
-        	<Button
-            	android:id="@+id/send_message_button"
-            	android:layout_width="wrap_content"
-            	android:layout_height="wrap_content"
-            	android:text="Enviar" />
-    	</LinearLayout>
-    	
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        
+ 		<TextView
+ 		    android:id="@+id/textViewPhoneNo"
+ 		    android:layout_width="wrap_content"
+ 		    android:layout_height="wrap_content"
+    		android:text="To : "
+    		android:textAppearance="?android:attr/textAppearanceLarge" />
+ 		
+ 		<EditText
+ 		    android:id="@+id/editTextTo"
+ 		    android:layout_width="fill_parent"
+ 		    android:layout_height="wrap_content"
+ 		    android:inputType="textEmailAddress" >
+ 		    <requestFocus />
+ 		</EditText>
+ 		
+ 		<TextView
+ 		    android:id="@+id/textViewSubject"
+ 		    android:layout_width="wrap_content"
+ 		    android:layout_height="wrap_content"
+    		android:text="Subject : "
+    		android:textAppearance="?android:attr/textAppearanceLarge" />
+ 		
+ 		<EditText 
+ 		    android:id="@+id/editTextSubject"
+ 		    android:layout_width="fill_parent"
+ 		    android:layout_height="wrap_content" />
+ 		
+ 		<TextView
+ 		    android:id="@+id/textViewMessage"
+ 		    android:layout_width="wrap_content"
+ 		    android:layout_height="wrap_content"
+    		android:text="Message : "
+    		android:textAppearance="?android:attr/textAppearanceLarge" />
+ 		
+ 		<EditText 
+ 		    android:id="@+id/editTextMessage"
+ 		    android:layout_width="fill_parent"
+ 		    android:layout_height="wrap_content"
+ 		    android:gravity="top"
+ 		    android:inputType="textMultiLine"
+ 		    android:lines="5" />
+ 		
+ 		<Button 
+ 		    android:id="@+id/buttonSend"
+ 		    android:layout_width="fill_parent"
+ 		    android:layout_height="wrap_content"
+ 		    android:text="send"/>
+ 		
     </FrameLayout>
     
-    <ListView 
-        android:id="@+id/left_drawer"
-        android:entries="@array/features"
-        android:layout_width="240dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="left"
-        android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"
-        />    
+    <include layout="@layout/drawer"/>   
 
 </android.support.v4.widget.DrawerLayout>

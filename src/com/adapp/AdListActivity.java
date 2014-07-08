@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import com.adapp.adapters.AdListAdapter;
 import com.adapp.models.AdModel;
+import com.facebook.Session;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -21,14 +22,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class AdListActivity extends Activity {
+public class AdListActivity extends Activity implements OnItemClickListener {
 	
-//	Button newAdOne;
 	ArrayList<String> adsTitlesArray = new ArrayList<String>();
 	AdListAdapter adListAdapter;
 	String[] adsString = {""};
@@ -36,15 +37,19 @@ public class AdListActivity extends Activity {
 	String feedUrl;
 	
 	private DrawerLayout drawerLayout;
-	private ListView listView;
+	private ListView featuresList;
+	private String[] features;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ad_list);
 		
+		features = getResources().getStringArray(R.array.features);
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		listView = (ListView) findViewById(R.id.left_drawer);
+		featuresList = (ListView) findViewById(R.id.left_drawer);
+		featuresList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, features));
+		featuresList.setOnItemClickListener(this);
 
 		context = this;
 		AdListTask loaderTask = new AdListTask();
@@ -56,23 +61,7 @@ public class AdListActivity extends Activity {
 		
 		listView.setOnItemClickListener(new ListClickHandler());
 		
-//		onClickNewAd();
 	}
-
-//	public void onClickNewAd() {
-//		
-//		final Context context = this;
-//		newAdOne = (Button) findViewById(R.id.ad_list_button);
-//		newAdOne.setOnClickListener(new OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				
-//				Intent intent = new Intent(context, NewAdActivity.class);
-//				startActivity(intent);
-//			}
-//		});
-//	}
 
 	private class ListClickHandler implements OnItemClickListener {
 		
@@ -107,10 +96,17 @@ public class AdListActivity extends Activity {
 		@Override
 		protected JSONArray doInBackground(Void... params) {
 			
+			String feedUrl;
 			Intent intent = getIntent();
-			String catName = intent.getStringExtra("categoryName");
-			String feedUrl = "http://192.168.0.16:3000/ads.json?category_name="+ catName;
 			
+			if (intent.getStringExtra("categoryName") != null) {
+				String catName = intent.getStringExtra("categoryName");
+				feedUrl = "http://192.168.0.16:3000/ads.json?category_name="+ catName;
+			} else {
+				String userEmail = intent.getStringExtra("userEmail");
+				feedUrl = "http://192.168.0.16:3000/ads.json?user_email="+ userEmail;
+			}
+
 			AdModel jParser = new AdModel();
 			JSONArray json = jParser.getJSONFromUrl(feedUrl);
 			return json;
@@ -138,6 +134,45 @@ public class AdListActivity extends Activity {
 			listView.setAdapter(adListAdapter);
 			
 			super.onPostExecute(json);
+		}
+	}
+	
+	@Override
+	public void onItemClick(AdapterView<?> parent, View arg1, int position, long arg3) {
+		
+		if (position == 0) {
+			final Context context = this;
+
+			Intent intent = new Intent(context, CategoryListActivity.class);
+			startActivity(intent);
+		} else if (position == 1){
+			
+			final Context context = this;
+
+			Intent getUserData = getIntent();
+			String userEmail = getUserData.getStringExtra("user_email");
+					
+			Intent intent = new Intent(context, NewAdActivity.class);
+			intent.putExtra("userEmail", userEmail);
+			startActivity(intent);
+
+		} else if (position == 2){
+			
+			final Context context = this;
+
+			Intent getUserData = getIntent();
+			String userEmail = getUserData.getStringExtra("user_email");
+					
+			Intent intent = new Intent(context, AdListActivity.class);
+			intent.putExtra("userEmail", userEmail);
+			startActivity(intent);
+			
+		} else {
+			Session session = Session.getActiveSession();
+			session.closeAndClearTokenInformation();
+			
+			Intent intent = new Intent(context, MainActivity.class);
+			startActivity(intent);
 		}
 	}
 }

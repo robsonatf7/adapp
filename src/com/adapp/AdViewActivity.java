@@ -14,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.adapp.models.AdModel;
+import com.facebook.Session;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -23,15 +24,19 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-public class AdViewActivity extends Activity{
+public class AdViewActivity extends Activity implements OnItemClickListener{
 
 	Button buy;
 	Context context;
@@ -40,62 +45,25 @@ public class AdViewActivity extends Activity{
 	AdModel jParser = new AdModel();
 	
 	private DrawerLayout drawerLayout;
-	private ListView listView;
+	private ListView featuresList;
+	private String[] features;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ad_view);
 		
+		features = getResources().getStringArray(R.array.features);
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		listView = (ListView) findViewById(R.id.left_drawer);
-		
-		onClickBuy();
-//		onClickPro();
-//		onClickCat();
+		featuresList = (ListView) findViewById(R.id.left_drawer);
+		featuresList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, features));
+		featuresList.setOnItemClickListener(this);
 		
 		context = this;
 		AdViewTask loaderTask = new AdViewTask();
 		loaderTask.execute();
-	}
-
-//	private void onClickCat() {
-//		final Context context = this;
-//		cat = (Button) findViewById(R.id.ad_view_cat_button);
-//		cat.setOnClickListener(new OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View v) {
-//				Intent intent = new Intent(context, CategoryListActivity.class);
-//				startActivity(intent);
-//			}
-//		});
-//	}
-//
-//	private void onClickPro() {
-//		final Context context = this;
-//		pro = (Button) findViewById(R.id.ad_view_pro_button);
-//		pro.setOnClickListener(new OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View v) {
-//				Intent intent = new Intent(context, AdListActivity.class);
-//				startActivity(intent);
-//			}
-//		});
-//	}
-
-	private void onClickBuy() {
-		final Context context = this;
-		buy = (Button) findViewById(R.id.add_photo_add_picture);
-		buy.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(context, SendMessageActivity.class);
-				startActivity(intent);
-			}
-		});
+		
+		onClickBuy();
 	}
 	
 	public class AdViewTask extends AsyncTask<Void, Void, JSONArray> {
@@ -173,6 +141,58 @@ public class AdViewActivity extends Activity{
 			dialog.dismiss();
 			super.onPostExecute(json);
 			
+		}
+	}
+	
+	private void onClickBuy() {
+		final Context context = this;
+		buy = (Button) findViewById(R.id.ad_view_buy);
+		buy.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(context, SendMessageActivity.class);
+				startActivity(intent);
+			}
+		});
+	}
+	
+	@Override
+	public void onItemClick(AdapterView<?> parent, View arg1, int position, long arg3) {
+		
+		if (position == 0) {
+			final Context context = this;
+
+			Intent intent = new Intent(context, CategoryListActivity.class);
+			startActivity(intent);
+		} else if (position == 1){
+			
+			final Context context = this;
+
+			Intent getUserData = getIntent();
+			String userEmail = getUserData.getStringExtra("user_email");
+					
+			Intent intent = new Intent(context, NewAdActivity.class);
+			intent.putExtra("userEmail", userEmail);
+			startActivity(intent);
+
+		} else if (position == 2){
+			
+			final Context context = this;
+
+			Intent getUserData = getIntent();
+			String userEmail = getUserData.getStringExtra("user_email");
+					
+			Intent intent = new Intent(context, AdListActivity.class);
+			intent.putExtra("userEmail", userEmail);
+			startActivity(intent);
+			
+		} else {
+			Session session = Session.getActiveSession();
+			session.closeAndClearTokenInformation();
+			
+			Intent intent = new Intent(context, MainActivity.class);
+			startActivity(intent);
 		}
 	}
 }

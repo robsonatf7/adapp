@@ -51,15 +51,6 @@
     		</LinearLayout>
     	</FrameLayout>
     	
-        <ListView 
-        	android:id="@+id/left_drawer"
-        	android:entries="@array/features"
-        	android:layout_width="240dp"
-        	android:layout_height="match_parent"
-        	android:layout_gravity="left"
-        	android:choiceMode="singleChoice"
-        	android:divider="@android:color/transparent"
-        	android:dividerHeight="0dp"
-        />	
+        <include layout="@layout/drawer"/>
 
 </android.support.v4.widget.DrawerLayout>
