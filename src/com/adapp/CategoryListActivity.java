@@ -44,82 +44,82 @@ public class CategoryListActivity extends Activity implements OnItemClickListene
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
-			setContentView(R.layout.category_list);
+			setContentView(R.layout.category_alternative);
 			
-			features = getResources().getStringArray(R.array.features);
-			drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-			featuresList = (ListView) findViewById(R.id.left_drawer);
-			featuresList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, features));
-			featuresList.setOnItemClickListener(this);
+//			features = getResources().getStringArray(R.array.features);
+//			drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+//			featuresList = (ListView) findViewById(R.id.left_drawer);
+//			featuresList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, features));
+//			featuresList.setOnItemClickListener(this);
 			
-			context = this;
-			CategoryListTask loaderTask = new CategoryListTask();
-			loaderTask.execute();
-						
-			CategoryListAdapter categoryListAdapter = new CategoryListAdapter(this, categoriesString);	
-			ListView listView = (ListView) findViewById(R.id.category_list_view);
-			listView.setAdapter(categoryListAdapter);
-			
-			listView.setOnItemClickListener(new ListClickHandler());
-			
-		}
-		
-		private class ListClickHandler implements OnItemClickListener {
-			@Override
-			public void onItemClick(AdapterView<?> Adapter, View view, int position, long arg3) {
-				
-				TextView listText = (TextView) view.findViewById(R.id.category_row_text);
-				String categoryName = listText.getText().toString();
-
-				Intent intent = new Intent(context, AdListActivity.class);
-				intent.putExtra("categoryName", categoryName);
-				startActivity(intent);
-			}
-		}
-		
-		public class CategoryListTask extends AsyncTask<Void, Void, JSONArray> {
-			
-			ProgressDialog dialog;
-
-			@Override
-			protected void onPreExecute() {
-				dialog = new ProgressDialog(context);
-				dialog.setTitle("Loading categories");
-				dialog.show();
-				super.onPreExecute();
-			}
-
-			@Override
-			protected JSONArray doInBackground(Void... params) {
-				CategoryModel jParser = new CategoryModel();
-				JSONArray json = jParser.getJSONFromUrl(feedUrl);
-				return json;
-			}
-			
-			@Override
-			protected void onPostExecute(JSONArray json) {
-				dialog.dismiss();
-				
-				try{
-					for (int i = 0; i < json.length(); i++) {
-						JSONObject category = json.getJSONObject(i);
-						String name = category.getString("name");
-						categoriesNamesArray.add(name);
-					}
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-				
-				categoriesString = categoriesNamesArray.toArray(new String[categoriesNamesArray.size()]);
-				
-				CategoryListAdapter categoryListAdapter = new CategoryListAdapter(context, categoriesString);	
-				ListView listView = (ListView) findViewById(R.id.category_list_view);
-				listView.setAdapter(categoryListAdapter);
-				
-				super.onPostExecute(json);
-			}
+//			context = this;
+//			CategoryListTask loaderTask = new CategoryListTask();
+//			loaderTask.execute();
+//						
+//			CategoryListAdapter categoryListAdapter = new CategoryListAdapter(this, categoriesString);	
+//			ListView listView = (ListView) findViewById(R.id.category_list_view);
+//			listView.setAdapter(categoryListAdapter);
+//			
+//			listView.setOnItemClickListener(new ListClickHandler());
 			
 		}
+//		
+//		private class ListClickHandler implements OnItemClickListener {
+//			@Override
+//			public void onItemClick(AdapterView<?> Adapter, View view, int position, long arg3) {
+//				
+//				TextView listText = (TextView) view.findViewById(R.id.category_row_text);
+//				String categoryName = listText.getText().toString();
+//
+//				Intent intent = new Intent(context, AdListActivity.class);
+//				intent.putExtra("categoryName", categoryName);
+//				startActivity(intent);
+//			}
+//		}
+//		
+//		public class CategoryListTask extends AsyncTask<Void, Void, JSONArray> {
+//			
+//			ProgressDialog dialog;
+//
+//			@Override
+//			protected void onPreExecute() {
+//				dialog = new ProgressDialog(context);
+//				dialog.setTitle("Loading categories");
+//				dialog.show();
+//				super.onPreExecute();
+//			}
+//
+//			@Override
+//			protected JSONArray doInBackground(Void... params) {
+//				CategoryModel jParser = new CategoryModel();
+//				JSONArray json = jParser.getJSONFromUrl(feedUrl);
+//				return json;
+//			}
+//			
+//			@Override
+//			protected void onPostExecute(JSONArray json) {
+//				dialog.dismiss();
+//				
+//				try{
+//					for (int i = 0; i < json.length(); i++) {
+//						JSONObject category = json.getJSONObject(i);
+//						String name = category.getString("name");
+//						categoriesNamesArray.add(name);
+//					}
+//				} catch (JSONException e) {
+//					e.printStackTrace();
+//				}
+//				
+//				categoriesString = categoriesNamesArray.toArray(new String[categoriesNamesArray.size()]);
+//				
+//				CategoryListAdapter categoryListAdapter = new CategoryListAdapter(context, categoriesString);	
+//				ListView listView = (ListView) findViewById(R.id.category_list_view);
+//				listView.setAdapter(categoryListAdapter);
+//				
+//				super.onPostExecute(json);
+//			}
+//			
+//		}
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View arg1, int position,
