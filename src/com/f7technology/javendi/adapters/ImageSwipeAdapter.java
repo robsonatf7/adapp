@@ -16,7 +16,8 @@ public class ImageSwipeAdapter extends PagerAdapter {
 	Context context;
 	private int[] GalImages = new int[] { R.drawable.one,
 										  R.drawable.two,
-										  R.drawable.three };
+										  R.drawable.three,
+										  R.drawable.four };
 	
 	public ImageSwipeAdapter (Context context) {
 		this.context = context;

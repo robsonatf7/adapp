@@ -16,6 +16,8 @@ import org.json.JSONObject;
 import com.f7technology.javendi.R;
 import com.f7technology.javendi.models.AdModel;
 import com.facebook.Session;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -53,6 +55,10 @@ public class AdViewActivity extends Activity implements OnItemClickListener{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ad_view);
+		
+		AdView adView = (AdView)this.findViewById(R.id.adView2);
+	    AdRequest adRequest = new AdRequest.Builder().build();
+	    adView.loadAd(adRequest);
 		
 		features = getResources().getStringArray(R.array.features);
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);

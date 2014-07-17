@@ -10,6 +10,8 @@ import com.f7technology.javendi.R;
 import com.f7technology.javendi.adapters.AdListAdapter;
 import com.f7technology.javendi.models.AdModel;
 import com.facebook.Session;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -46,6 +48,10 @@ public class AdListActivity extends Activity implements OnItemClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ad_list);
 		
+		AdView adView = (AdView)this.findViewById(R.id.adView1);
+	    AdRequest adRequest = new AdRequest.Builder().build();
+	    adView.loadAd(adRequest);
+		
 		features = getResources().getStringArray(R.array.features);
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		featuresList = (ListView) findViewById(R.id.left_drawer);
@@ -59,6 +65,7 @@ public class AdListActivity extends Activity implements OnItemClickListener {
 		AdListAdapter adListAdapter = new AdListAdapter(this, adsString);
 		ListView listView = (ListView) findViewById(R.id.ad_list);
 		listView.setAdapter(adListAdapter);
+		listView.setDivider(null);
 		
 		listView.setOnItemClickListener(new ListClickHandler());
 		
