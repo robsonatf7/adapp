@@ -452,8 +452,8 @@ int id ad_photo_finish_button 0x7f080068
 int id ad_row_text 0x7f080069
 int id ad_view_buy 0x7f08006f
 int id ad_view_description 0x7f08006d
-int id ad_view_photo_image 0x7f08006e
-int id ad_view_price 0x7f08006c
+int id ad_view_photo_image 0x7f08006c
+int id ad_view_price 0x7f08006e
 int id add_photo_add_picture 0x7f080067
 int id add_photo_caught_picture 0x7f080066
 int id alignBounds 0x7f080016

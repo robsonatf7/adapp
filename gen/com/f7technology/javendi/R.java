@@ -1902,8 +1902,8 @@ containing a value of this type.
         public static final int ad_row_text=0x7f080069;
         public static final int ad_view_buy=0x7f08006f;
         public static final int ad_view_description=0x7f08006d;
-        public static final int ad_view_photo_image=0x7f08006e;
-        public static final int ad_view_price=0x7f08006c;
+        public static final int ad_view_photo_image=0x7f08006c;
+        public static final int ad_view_price=0x7f08006e;
         public static final int add_photo_add_picture=0x7f080067;
         public static final int add_photo_caught_picture=0x7f080066;
         public static final int alignBounds=0x7f080016;
