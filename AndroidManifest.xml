@@ -20,7 +20,7 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.Light" >
         <activity
-            android:name="com.f7technology.javendi.MainActivity"
+            android:name="com.f7technology.javendi.CategoryListActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:label="@string/app_name" >
@@ -31,7 +31,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.f7technology.javendi.AddPhotoActivity"></activity>
-        <activity android:name="com.f7technology.javendi.CategoryListActivity"></activity>
+        <activity android:name="com.f7technology.javendi.MainActivity"></activity>
         <activity android:name="com.f7technology.javendi.MessageSentActivity"></activity>
         <activity android:name="com.f7technology.javendi.NewAdActivity"></activity>
         <activity android:name="com.f7technology.javendi.AdListActivity"></activity>

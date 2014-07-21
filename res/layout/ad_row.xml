@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@+id/ad_row_text"
-        android:textSize="40sp"
+        android:textSize="20sp"
         android:background="@drawable/custom_button"/>
 
 </LinearLayout>

@@ -11,57 +11,31 @@
         	android:layout_width="match_parent"
         	android:layout_height="match_parent">
     
-    		<LinearLayout
-        		android:layout_width="match_parent"
-        		android:layout_height="match_parent"
-        		
-        		android:gravity="center_horizontal|center_vertical" >
+            <LinearLayout
+            	android:layout_width="match_parent"
+            	android:layout_height="match_parent"
+            	android:orientation="vertical" >
 
         		<Spinner
             		android:id="@+id/new_ad_category"
             		android:layout_width="wrap_content"
-            		android:layout_height="wrap_content"
-            		 />
-    		</LinearLayout>
-
-    		<LinearLayout
-        		android:layout_width="match_parent"
-        		android:layout_height="match_parent"
-        		
-        		android:gravity="center_horizontal|center_vertical" >
+            		android:layout_height="wrap_content"/>
 
         		<EditText
             		android:id="@+id/new_ad_title"
             		android:layout_width="wrap_content"
             		android:layout_height="wrap_content"
-            		
             		android:ems="10"
             		android:hint="escreva o titulo do anuncio" >
-
-            	<requestFocus />
+            		<requestFocus />
         		</EditText>
-    		</LinearLayout>
 
-    		<LinearLayout
-        		android:layout_width="match_parent"
-        		android:layout_height="match_parent"
-        		
-        		android:gravity="center_horizontal|center_vertical" >
-
-        	<EditText
-            	android:id="@+id/new_ad_price"
-            	android:layout_width="wrap_content"
-            	android:layout_height="wrap_content"
-            	
-            	android:ems="10"
-            	android:hint="escreva o preco do artigo" />
-    		</LinearLayout>
-
-    		<LinearLayout
-        		android:layout_width="match_parent"
-        		android:layout_height="match_parent"
-        		
-        		android:gravity="center_horizontal|center_vertical" >
+        		<EditText
+            		android:id="@+id/new_ad_price"
+            		android:layout_width="wrap_content"
+            		android:layout_height="wrap_content"
+            		android:ems="10"
+            		android:hint="escreva o preco do artigo" />
 
         		<EditText
             		android:id="@+id/new_ad_description"
@@ -70,13 +44,6 @@
             		android:layout_weight="1"
             		android:ems="10"
             		android:hint="descreva o artigo" />
-    		</LinearLayout>
-
-    		<LinearLayout
-        		android:layout_width="match_parent"
-        		android:layout_height="match_parent"
-        		
-       			android:gravity="center_horizontal|center_vertical" >
 
         		<Button
             		android:id="@+id/new_ad_button"

@@ -144,10 +144,7 @@ public class AdViewActivity extends Activity implements OnItemClickListener{
 		
 		@Override
 		protected void onPostExecute(JSONArray json) {
-			
-			dialog.dismiss();
-			super.onPostExecute(json);
-			
+			dialog.dismiss();			
 		}
 	}
 	
