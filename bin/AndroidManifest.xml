@@ -31,7 +31,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.f7technology.javendi.AddPhotoActivity"></activity>
-        <activity android:name="com.f7technology.javendi.MainActivity"></activity>
+        <activity android:name="com.f7technology.javendi.LoginActivity"></activity>
         <activity android:name="com.f7technology.javendi.MessageSentActivity"></activity>
         <activity android:name="com.f7technology.javendi.NewAdActivity"></activity>
         <activity android:name="com.f7technology.javendi.AdListActivity"></activity>

@@ -10,7 +10,11 @@ import com.f7technology.javendi.R;
 import com.f7technology.javendi.adapters.CategoryListAdapter;
 import com.f7technology.javendi.adapters.ImageSwipeAdapter;
 import com.f7technology.javendi.models.CategoryModel;
+import com.facebook.Request;
+import com.facebook.Response;
 import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.model.GraphUser;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
@@ -35,14 +39,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CategoryListActivity extends Activity implements OnItemClickListener {
+public class CategoryListActivity extends DrawerCode {
 
 		ArrayList<String> categoriesNamesArray = new ArrayList<String>();
 		CategoryListAdapter categoryListAdapter;
 		String[] categoriesString = {""};
 		JSONArray categoriesJson = new JSONArray();
 		Context context;
-		String feedUrl = "http://192.168.0.16:3000/categories.json";
+		String feedUrl = "http://192.168.0.11:3000/categories.json";
 		
 		private DrawerLayout drawerLayout;
 		private ListView featuresList;
@@ -53,15 +57,24 @@ public class CategoryListActivity extends Activity implements OnItemClickListene
 			super.onCreate(savedInstanceState);
 			setContentView(R.layout.category_list);
 			
+			Session session = Session.getActiveSession();
+			if(session != null && session.isOpened()) {
+				features = getResources().getStringArray(R.array.loggedin);
+				drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+				featuresList = (ListView) findViewById(R.id.left_drawer);
+				featuresList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, features));
+				featuresList.setOnItemClickListener(this);
+			} else {
+				features = getResources().getStringArray(R.array.loggedout);
+				drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+				featuresList = (ListView) findViewById(R.id.left_drawer);
+				featuresList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, features));
+				featuresList.setOnItemClickListener(this);
+			}
+			
 			AdView adView = (AdView)this.findViewById(R.id.adView);
 		    AdRequest adRequest = new AdRequest.Builder().build();
 		    adView.loadAd(adRequest);
-			
-			features = getResources().getStringArray(R.array.features);
-			drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-			featuresList = (ListView) findViewById(R.id.left_drawer);
-			featuresList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, features));
-			featuresList.setOnItemClickListener(this);
 			
 			context = this;
 			CategoryListTask loaderTask = new CategoryListTask();
@@ -134,43 +147,5 @@ public class CategoryListActivity extends Activity implements OnItemClickListene
 				super.onPostExecute(json);
 			}
 			
-		}
-
-		@Override
-		public void onItemClick(AdapterView<?> parent, View arg1, int position,
-				long arg3) {
-			
-			if (position == 0) {
-				Toast.makeText(this, "categories baby", Toast.LENGTH_SHORT).show();
-			} else if (position == 1){
-				
-				final Context context = this;
-
-				Intent getUserData = getIntent();
-				String userEmail = getUserData.getStringExtra("user_email");
-						
-				Intent intent = new Intent(context, NewAdActivity.class);
-				intent.putExtra("userEmail", userEmail);
-				startActivity(intent);
-
-				
-			} else if (position == 2){
-				
-				final Context context = this;
-
-				Intent getUserData = getIntent();
-				String userEmail = getUserData.getStringExtra("user_email");
-						
-				Intent intent = new Intent(context, AdListActivity.class);
-				intent.putExtra("userEmail", userEmail);
-				startActivity(intent);
-				
-			} else {
-				Session session = Session.getActiveSession();
-				session.closeAndClearTokenInformation();
-				
-				Intent intent = new Intent(context, MainActivity.class);
-				startActivity(intent);
-			}
 		}
 }

@@ -39,7 +39,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-public class AdViewActivity extends Activity implements OnItemClickListener{
+public class AdViewActivity extends DrawerCode {
 
 	Button buy;
 	Context context;
@@ -56,15 +56,24 @@ public class AdViewActivity extends Activity implements OnItemClickListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ad_view);
 		
+		Session session = Session.getActiveSession();
+		if(session != null && session.isOpened()) {
+			features = getResources().getStringArray(R.array.loggedin);
+			drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+			featuresList = (ListView) findViewById(R.id.left_drawer);
+			featuresList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, features));
+			featuresList.setOnItemClickListener(this);
+		} else {
+			features = getResources().getStringArray(R.array.loggedout);
+			drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+			featuresList = (ListView) findViewById(R.id.left_drawer);
+			featuresList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, features));
+			featuresList.setOnItemClickListener(this);
+		}
+		
 		AdView adView = (AdView)this.findViewById(R.id.adView2);
 	    AdRequest adRequest = new AdRequest.Builder().build();
 	    adView.loadAd(adRequest);
-		
-		features = getResources().getStringArray(R.array.features);
-		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		featuresList = (ListView) findViewById(R.id.left_drawer);
-		featuresList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, features));
-		featuresList.setOnItemClickListener(this);
 		
 		context = this;
 		AdViewTask loaderTask = new AdViewTask();
@@ -119,7 +128,7 @@ public class AdViewActivity extends Activity implements OnItemClickListener{
 			TextView viewDescription = (TextView) findViewById(R.id.ad_view_description);
 			viewDescription.setText(description);
 
-			final String imageURL = "http://192.168.0.16:3000" + image;
+			final String imageURL = "http://192.168.0.11:3000" + image;
 			ImageView img = (ImageView)findViewById(R.id.ad_view_photo_image);
 			try {
 			        URL url = new URL(imageURL);
@@ -159,44 +168,5 @@ public class AdViewActivity extends Activity implements OnItemClickListener{
 				startActivity(intent);
 			}
 		});
-	}
-	
-	@Override
-	public void onItemClick(AdapterView<?> parent, View arg1, int position, long arg3) {
-		
-		if (position == 0) {
-			final Context context = this;
-
-			Intent intent = new Intent(context, CategoryListActivity.class);
-			startActivity(intent);
-		} else if (position == 1){
-			
-			final Context context = this;
-
-			Intent getUserData = getIntent();
-			String userEmail = getUserData.getStringExtra("user_email");
-					
-			Intent intent = new Intent(context, NewAdActivity.class);
-			intent.putExtra("userEmail", userEmail);
-			startActivity(intent);
-
-		} else if (position == 2){
-			
-			final Context context = this;
-
-			Intent getUserData = getIntent();
-			String userEmail = getUserData.getStringExtra("user_email");
-					
-			Intent intent = new Intent(context, AdListActivity.class);
-			intent.putExtra("userEmail", userEmail);
-			startActivity(intent);
-			
-		} else {
-			Session session = Session.getActiveSession();
-			session.closeAndClearTokenInformation();
-			
-			Intent intent = new Intent(context, MainActivity.class);
-			startActivity(intent);
-		}
 	}
 }

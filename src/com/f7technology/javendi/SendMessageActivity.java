@@ -17,7 +17,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-public class SendMessageActivity extends Activity implements OnItemClickListener {
+public class SendMessageActivity extends DrawerCode {
 	
 	Button buttonSend;
 	EditText textTo;
@@ -33,11 +33,20 @@ public class SendMessageActivity extends Activity implements OnItemClickListener
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.send_message);
 		
-		features = getResources().getStringArray(R.array.features);
-		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		featuresList = (ListView) findViewById(R.id.left_drawer);
-		featuresList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, features));
-		featuresList.setOnItemClickListener(this);
+		Session session = Session.getActiveSession();
+		if(session != null && session.isOpened()) {
+			features = getResources().getStringArray(R.array.loggedin);
+			drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+			featuresList = (ListView) findViewById(R.id.left_drawer);
+			featuresList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, features));
+			featuresList.setOnItemClickListener(this);
+		} else {
+			features = getResources().getStringArray(R.array.loggedout);
+			drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+			featuresList = (ListView) findViewById(R.id.left_drawer);
+			featuresList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, features));
+			featuresList.setOnItemClickListener(this);
+		}
 		
 		buttonSend = (Button) findViewById(R.id.buttonSend);
 		textTo = (EditText) findViewById(R.id.editTextTo);
@@ -63,46 +72,5 @@ public class SendMessageActivity extends Activity implements OnItemClickListener
 			}
 			
 		});
-	}
-
-	@Override
-	public void onItemClick(AdapterView<?> parent, View arg1, int position, long arg3) {
-		
-		if (position == 0) {
-			final Context context = this;
-
-			Intent intent = new Intent(context, CategoryListActivity.class);
-			startActivity(intent);
-		} else if (position == 1){
-			
-			final Context context = this;
-
-			Intent getUserData = getIntent();
-			String userEmail = getUserData.getStringExtra("user_email");
-					
-			Intent intent = new Intent(context, NewAdActivity.class);
-			intent.putExtra("userEmail", userEmail);
-			startActivity(intent);
-
-		} else if (position == 2){
-			
-			final Context context = this;
-
-			Intent getUserData = getIntent();
-			String userEmail = getUserData.getStringExtra("user_email");
-					
-			Intent intent = new Intent(context, AdListActivity.class);
-			intent.putExtra("userEmail", userEmail);
-			startActivity(intent);
-			
-		} else {
-			final Context context = this;
-			
-			Session session = Session.getActiveSession();
-			session.closeAndClearTokenInformation();
-			
-			Intent intent = new Intent(context, MainActivity.class);
-			startActivity(intent);
-		}
 	}
 }

@@ -31,7 +31,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class AdListActivity extends Activity implements OnItemClickListener {
+public class AdListActivity extends DrawerCode {
 	
 	ArrayList<String> adsTitlesArray = new ArrayList<String>();
 	AdListAdapter adListAdapter;
@@ -48,15 +48,24 @@ public class AdListActivity extends Activity implements OnItemClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ad_list);
 		
+		Session session = Session.getActiveSession();
+		if(session != null && session.isOpened()) {
+			features = getResources().getStringArray(R.array.loggedin);
+			drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+			featuresList = (ListView) findViewById(R.id.left_drawer);
+			featuresList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, features));
+			featuresList.setOnItemClickListener(this);
+		} else {
+			features = getResources().getStringArray(R.array.loggedout);
+			drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+			featuresList = (ListView) findViewById(R.id.left_drawer);
+			featuresList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, features));
+			featuresList.setOnItemClickListener(this);
+		}
+		
 		AdView adView = (AdView)this.findViewById(R.id.adView1);
 	    AdRequest adRequest = new AdRequest.Builder().build();
 	    adView.loadAd(adRequest);
-		
-		features = getResources().getStringArray(R.array.features);
-		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		featuresList = (ListView) findViewById(R.id.left_drawer);
-		featuresList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, features));
-		featuresList.setOnItemClickListener(this);
 
 		context = this;
 		AdListTask loaderTask = new AdListTask();
@@ -78,7 +87,8 @@ public class AdListActivity extends Activity implements OnItemClickListener {
 
 			Intent i = getIntent();
 			String catName = i.getStringExtra("categoryName");
-			String feedUrl = "http://192.168.0.16:3000/ads.json?category_name="+ catName;
+			String catName1 = catName.replaceAll("\\s", "%20");
+			String feedUrl = "http://192.168.0.11:3000/ads.json?category_name="+ catName1;
 			
 			Intent intent = new Intent(context, AdViewActivity.class);
 			Bundle extras = new Bundle();
@@ -109,10 +119,12 @@ public class AdListActivity extends Activity implements OnItemClickListener {
 			
 			if (intent.getStringExtra("categoryName") != null) {
 				String catName = intent.getStringExtra("categoryName");
-				feedUrl = "http://192.168.0.16:3000/ads.json?category_name="+ catName;
+				String catName1 = catName.replaceAll("\\s", "%20");
+				System.out.println(catName1);
+				feedUrl = "http://192.168.0.11:3000/ads.json?category_name="+ catName1;
 			} else {
 				String userEmail = intent.getStringExtra("userEmail");
-				feedUrl = "http://192.168.0.16:3000/ads.json?user_email="+ userEmail;
+				feedUrl = "http://192.168.0.11:3000/ads.json?user_email="+ userEmail;
 			}
 
 			AdModel jParser = new AdModel();
@@ -142,45 +154,6 @@ public class AdListActivity extends Activity implements OnItemClickListener {
 			listView.setAdapter(adListAdapter);
 			
 			super.onPostExecute(json);
-		}
-	}
-	
-	@Override
-	public void onItemClick(AdapterView<?> parent, View arg1, int position, long arg3) {
-		
-		if (position == 0) {
-			final Context context = this;
-
-			Intent intent = new Intent(context, CategoryListActivity.class);
-			startActivity(intent);
-		} else if (position == 1){
-			
-			final Context context = this;
-
-			Intent getUserData = getIntent();
-			String userEmail = getUserData.getStringExtra("user_email");
-					
-			Intent intent = new Intent(context, NewAdActivity.class);
-			intent.putExtra("userEmail", userEmail);
-			startActivity(intent);
-
-		} else if (position == 2){
-			
-			final Context context = this;
-
-			Intent getUserData = getIntent();
-			String userEmail = getUserData.getStringExtra("user_email");
-					
-			Intent intent = new Intent(context, AdListActivity.class);
-			intent.putExtra("userEmail", userEmail);
-			startActivity(intent);
-			
-		} else {
-			Session session = Session.getActiveSession();
-			session.closeAndClearTokenInformation();
-			
-			Intent intent = new Intent(context, MainActivity.class);
-			startActivity(intent);
 		}
 	}
 }
