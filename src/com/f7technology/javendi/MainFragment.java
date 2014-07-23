@@ -35,7 +35,7 @@ public class MainFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		
-	    View view = inflater.inflate(R.layout.main, container, false);
+	    View view = inflater.inflate(R.layout.login, container, false);
 	    
 	    LoginButton authButton = (LoginButton) view.findViewById(R.id.authButton);
 	    authButton.setReadPermissions(Arrays.asList("public_profile", "email"));

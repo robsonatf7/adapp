@@ -36,16 +36,18 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-public class AdViewActivity extends DrawerCode {
+public class AdViewActivity extends DrawerCode implements AsyncResponse {
 
-	Button buy;
+	Button buy, back;
 	Context context;
 	String position = null;
 	String feedUrl = null;
 	AdModel jParser = new AdModel();
+	String mailTo = "";
 	
 	private DrawerLayout drawerLayout;
 	private ListView featuresList;
@@ -77,14 +79,18 @@ public class AdViewActivity extends DrawerCode {
 		
 		context = this;
 		AdViewTask loaderTask = new AdViewTask();
+		loaderTask.delegate = this;
 		loaderTask.execute();
 		
 		onClickBuy();
+		onClickBack();
 	}
-	
+
 	public class AdViewTask extends AsyncTask<Void, Void, JSONArray> {
 		
+		public AsyncResponse delegate = null;
 		ProgressDialog dialog;
+		String sellerEmail = "";
 		
 		@Override
 		protected void onPreExecute() {
@@ -118,10 +124,11 @@ public class AdViewActivity extends DrawerCode {
 				price = ad.getString("price");
 				description = ad.getString("description");
 				image = ad.getString("image");
+				sellerEmail = ad.getString("user_email");
 			} catch (JSONException ex) {
 				ex.printStackTrace();
 			}
-			
+
 			TextView viewPrice = (TextView) findViewById(R.id.ad_view_price);
 			viewPrice.setText(price);
 			
@@ -153,8 +160,14 @@ public class AdViewActivity extends DrawerCode {
 		
 		@Override
 		protected void onPostExecute(JSONArray json) {
-			dialog.dismiss();			
+			dialog.dismiss();
+			delegate.processFinish(sellerEmail);
 		}
+	}
+	
+	@Override
+	public void processFinish(String output) {
+		mailTo = output;
 	}
 	
 	private void onClickBuy() {
@@ -164,9 +177,32 @@ public class AdViewActivity extends DrawerCode {
 			
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(context, SendMessageActivity.class);
-				startActivity(intent);
+
+				Intent email = new Intent(Intent.ACTION_SEND);
+				email.putExtra(android.content.Intent.EXTRA_EMAIL,new String[] { mailTo });
+				email.setType("message/rfc822");
+				
+				startActivity(Intent.createChooser(email, "Choose an Email client :"));
 			}
 		});
 	}
+	
+
+	private void onClickBack() {
+		final Context context = this;
+		back = (Button) findViewById(R.id.ad_view_back);
+		
+		back.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+
+				Intent intent = new Intent(context, AdListActivity.class);
+				intent.putExtra("categoryName", "Celulares");
+				startActivity(intent);
+				
+			}
+		});
+	}
+
 }
