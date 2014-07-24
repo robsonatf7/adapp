@@ -23,11 +23,14 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -39,7 +42,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CategoryListActivity extends DrawerCode {
+public class CategoryListActivity extends SharedCode {
 
 		ArrayList<String> categoriesNamesArray = new ArrayList<String>();
 		CategoryListAdapter categoryListAdapter;
@@ -48,33 +51,14 @@ public class CategoryListActivity extends DrawerCode {
 		Context context;
 		String feedUrl = "http://192.168.0.11:3000/categories.json";
 		
-		private DrawerLayout drawerLayout;
-		private ListView featuresList;
-		private String[] features;
-		
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
 			setContentView(R.layout.category_list);
 			
-			Session session = Session.getActiveSession();
-			if(session != null && session.isOpened()) {
-				features = getResources().getStringArray(R.array.loggedin);
-				drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-				featuresList = (ListView) findViewById(R.id.left_drawer);
-				featuresList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, features));
-				featuresList.setOnItemClickListener(this);
-			} else {
-				features = getResources().getStringArray(R.array.loggedout);
-				drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-				featuresList = (ListView) findViewById(R.id.left_drawer);
-				featuresList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, features));
-				featuresList.setOnItemClickListener(this);
-			}
-			
-			AdView adView = (AdView)this.findViewById(R.id.adView);
-		    AdRequest adRequest = new AdRequest.Builder().build();
-		    adView.loadAd(adRequest);
+			setTitle("Categories");
+			setDrawer();
+			setAdMob();
 			
 			context = this;
 			CategoryListTask loaderTask = new CategoryListTask();

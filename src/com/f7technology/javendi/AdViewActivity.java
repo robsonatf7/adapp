@@ -40,7 +40,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-public class AdViewActivity extends DrawerCode implements AsyncResponse {
+public class AdViewActivity extends SharedCode implements AsyncResponse {
 
 	Button buy, back;
 	Context context;
@@ -48,34 +48,20 @@ public class AdViewActivity extends DrawerCode implements AsyncResponse {
 	String feedUrl = null;
 	AdModel jParser = new AdModel();
 	String mailTo = "";
-	
-	private DrawerLayout drawerLayout;
-	private ListView featuresList;
-	private String[] features;
+	String categoryName;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ad_view);
 		
-		Session session = Session.getActiveSession();
-		if(session != null && session.isOpened()) {
-			features = getResources().getStringArray(R.array.loggedin);
-			drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-			featuresList = (ListView) findViewById(R.id.left_drawer);
-			featuresList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, features));
-			featuresList.setOnItemClickListener(this);
-		} else {
-			features = getResources().getStringArray(R.array.loggedout);
-			drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-			featuresList = (ListView) findViewById(R.id.left_drawer);
-			featuresList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, features));
-			featuresList.setOnItemClickListener(this);
-		}
+		Intent ii = getIntent();
+		Bundle ee = ii.getExtras();
+		categoryName = ee.getString("categoryName");
 		
-		AdView adView = (AdView)this.findViewById(R.id.adView2);
-	    AdRequest adRequest = new AdRequest.Builder().build();
-	    adView.loadAd(adRequest);
+		setTitle(categoryName);
+		setDrawer();
+		setAdMob();
 		
 		context = this;
 		AdViewTask loaderTask = new AdViewTask();
@@ -196,9 +182,9 @@ public class AdViewActivity extends DrawerCode implements AsyncResponse {
 			
 			@Override
 			public void onClick(View v) {
-
+				
 				Intent intent = new Intent(context, AdListActivity.class);
-				intent.putExtra("categoryName", "Celulares");
+				intent.putExtra("categoryName", categoryName);
 				startActivity(intent);
 				
 			}

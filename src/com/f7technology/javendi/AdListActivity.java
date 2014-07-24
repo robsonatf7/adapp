@@ -31,13 +31,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class AdListActivity extends DrawerCode {
+public class AdListActivity extends SharedCode {
 	
 	ArrayList<String> adsTitlesArray = new ArrayList<String>();
 	AdListAdapter adListAdapter;
 	String[] adsString = {""};
 	Context context;
 	String feedUrl;
+	String catName;
 	
 	private DrawerLayout drawerLayout;
 	private ListView featuresList;
@@ -48,25 +49,13 @@ public class AdListActivity extends DrawerCode {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ad_list);
 		
-		Session session = Session.getActiveSession();
-		if(session != null && session.isOpened()) {
-			features = getResources().getStringArray(R.array.loggedin);
-			drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-			featuresList = (ListView) findViewById(R.id.left_drawer);
-			featuresList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, features));
-			featuresList.setOnItemClickListener(this);
-		} else {
-			features = getResources().getStringArray(R.array.loggedout);
-			drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-			featuresList = (ListView) findViewById(R.id.left_drawer);
-			featuresList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, features));
-			featuresList.setOnItemClickListener(this);
-		}
+		Intent i = getIntent();
+		catName = i.getStringExtra("categoryName");
 		
-		AdView adView = (AdView)this.findViewById(R.id.adView1);
-	    AdRequest adRequest = new AdRequest.Builder().build();
-	    adView.loadAd(adRequest);
-
+		setTitle(catName);
+		setDrawer();
+		setAdMob();
+		
 		context = this;
 		AdListTask loaderTask = new AdListTask();
 		loaderTask.execute();
@@ -85,15 +74,17 @@ public class AdListActivity extends DrawerCode {
 		@Override
 		public void onItemClick(AdapterView<?> Adapter, View view, int position, long id) {
 
-			Intent i = getIntent();
-			String catName = i.getStringExtra("categoryName");
-			String catName1 = catName.replaceAll("\\s", "%20");
-			String feedUrl = "http://192.168.0.11:3000/ads.json?category_name="+ catName1;
+			Intent y = getIntent();
+			catName = y.getStringExtra("categoryName");
+			String catUrl = catName.replaceAll("\\s", "%20");
+			String feedUrl = "http://192.168.0.11:3000/ads.json?category_name="+ catUrl;
 			
 			Intent intent = new Intent(context, AdViewActivity.class);
 			Bundle extras = new Bundle();
 			extras.putString("feedUrl", feedUrl);
 			extras.putString("position", String.valueOf(id));
+			extras.putString("categoryUrl", catUrl);
+			extras.putString("categoryName", catName);
 			intent.putExtras(extras);
 			startActivity(intent);
 		}

@@ -29,7 +29,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-public class NewAdActivity extends DrawerCode {
+public class NewAdActivity extends SharedCode {
 	
 	Button createAd;
 	Context context;
@@ -48,20 +48,9 @@ public class NewAdActivity extends DrawerCode {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.new_ad);
 		
-		Session session = Session.getActiveSession();
-		if(session != null && session.isOpened()) {
-			features = getResources().getStringArray(R.array.loggedin);
-			drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-			featuresList = (ListView) findViewById(R.id.left_drawer);
-			featuresList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, features));
-			featuresList.setOnItemClickListener(this);
-		} else {
-			features = getResources().getStringArray(R.array.loggedout);
-			drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-			featuresList = (ListView) findViewById(R.id.left_drawer);
-			featuresList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, features));
-			featuresList.setOnItemClickListener(this);
-		}
+		setTitle("New ad");
+		setDrawer();
+		setAdMob();
 		
 		context = this;
 		NewAdSpinnerTask loaderTask = new NewAdSpinnerTask();

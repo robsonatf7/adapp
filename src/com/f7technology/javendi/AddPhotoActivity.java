@@ -62,7 +62,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-public class AddPhotoActivity extends DrawerCode {
+public class AddPhotoActivity extends SharedCode {
 
 	Button finishAd;
 	Button addPicture;
@@ -102,20 +102,9 @@ public class AddPhotoActivity extends DrawerCode {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ad_photo);
 		
-		Session session = Session.getActiveSession();
-		if(session != null && session.isOpened()) {
-			features = getResources().getStringArray(R.array.loggedin);
-			drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-			featuresList = (ListView) findViewById(R.id.left_drawer);
-			featuresList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, features));
-			featuresList.setOnItemClickListener(this);
-		} else {
-			features = getResources().getStringArray(R.array.loggedout);
-			drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-			featuresList = (ListView) findViewById(R.id.left_drawer);
-			featuresList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, features));
-			featuresList.setOnItemClickListener(this);
-		}
+		setTitle("New ad");
+		setDrawer();
+		setAdMob();
 		
 		onClickAddPicture();
 		onClickFinishAd();
