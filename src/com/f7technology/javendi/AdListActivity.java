@@ -15,6 +15,7 @@ import com.google.android.gms.ads.AdView;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -39,20 +40,32 @@ public class AdListActivity extends SharedCode {
 	Context context;
 	String feedUrl;
 	String catName;
-	
-	private DrawerLayout drawerLayout;
-	private ListView featuresList;
-	private String[] features;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ad_list);
 		
-		Intent i = getIntent();
-		catName = i.getStringExtra("categoryName");
+//		checkSearch();
+		Intent intent = getIntent();
+		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+		      String query = intent.getStringExtra(SearchManager.QUERY);
+		      setTitle("Resultados para '" +query+"'");
+		      String query1 = query.replaceAll("\\s", "%20");
+		      feedUrl = "http://192.168.0.11:3000/ads.json?category_name="+ query1;
+		    } else {
+		    	if (intent.getStringExtra("categoryName") != null) {
+					String catName = intent.getStringExtra("categoryName");
+					setTitle(catName);
+					String catName1 = catName.replaceAll("\\s", "%20");
+					feedUrl = "http://192.168.0.11:3000/ads.json?category_name="+ catName1;
+				} else {
+					String userEmail = intent.getStringExtra("userEmail");
+					setTitle("My ads");
+					feedUrl = "http://192.168.0.11:3000/ads.json?user_email="+ "robsonsky@yahooo.com.br";
+				}
+		    }
 		
-		setTitle(catName);
 		setDrawer();
 		setAdMob();
 		
@@ -105,18 +118,18 @@ public class AdListActivity extends SharedCode {
 		@Override
 		protected JSONArray doInBackground(Void... params) {
 			
-			String feedUrl;
-			Intent intent = getIntent();
+//			String feedUrl;
+//			Intent intent = getIntent();
 			
-			if (intent.getStringExtra("categoryName") != null) {
-				String catName = intent.getStringExtra("categoryName");
-				String catName1 = catName.replaceAll("\\s", "%20");
-				System.out.println(catName1);
-				feedUrl = "http://192.168.0.11:3000/ads.json?category_name="+ catName1;
-			} else {
-				String userEmail = intent.getStringExtra("userEmail");
-				feedUrl = "http://192.168.0.11:3000/ads.json?user_email="+ userEmail;
-			}
+//			if (intent.getStringExtra("categoryName") != null) {
+//				String catName = intent.getStringExtra("categoryName");
+//				String catName1 = catName.replaceAll("\\s", "%20");
+//				System.out.println(catName1);
+//				feedUrl = "http://192.168.0.11:3000/ads.json?category_name="+ catName1;
+//			} else {
+//				String userEmail = intent.getStringExtra("userEmail");
+//				feedUrl = "http://192.168.0.11:3000/ads.json?user_email="+ userEmail;
+//			}
 
 			AdModel jParser = new AdModel();
 			JSONArray json = jParser.getJSONFromUrl(feedUrl);

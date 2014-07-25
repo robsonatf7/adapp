@@ -4,7 +4,6 @@ import com.facebook.Session;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -12,6 +11,8 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -57,10 +58,12 @@ public class SharedCode extends ActionBarActivity implements OnItemClickListener
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (drawerListener.onOptionsItemSelected(item)) {
 			return true;
+		} else {
+			onSearchRequested();
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	@Override
     protected void onPostCreate(Bundle savedInstanceState) {
     	super.onPostCreate(savedInstanceState);
@@ -117,13 +120,20 @@ public class SharedCode extends ActionBarActivity implements OnItemClickListener
 		}
 		
 	}
-
-/** Action Bar -----------------------------------------------------------*/
+/** Navigation Drawer End------------------------------------------------------*/
+	
 	public void setTitle (String title) {
 		getSupportActionBar().setTitle(title);
 	}
 
-/** AdMob ----------------------------------------------------------------*/
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    // Inflate the menu items for use in the action bar
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.main, menu);
+	    return super.onCreateOptionsMenu(menu);
+	}
+	
 	public void setAdMob() {
 		AdView adView = (AdView)this.findViewById(R.id.adView);
 	    AdRequest adRequest = new AdRequest.Builder().build();
