@@ -52,7 +52,7 @@ public class AdListActivity extends SharedCode {
 		      String query = intent.getStringExtra(SearchManager.QUERY);
 		      setTitle("Resultados para '" +query+"'");
 		      String query1 = query.replaceAll("\\s", "%20");
-		      feedUrl = "http://192.168.0.11:3000/ads.json?category_name="+ query1;
+		      feedUrl = "http://192.168.0.11:3000/ads.json?search="+ query1;
 		    } else {
 		    	if (intent.getStringExtra("categoryName") != null) {
 					String catName = intent.getStringExtra("categoryName");
@@ -62,7 +62,7 @@ public class AdListActivity extends SharedCode {
 				} else {
 					String userEmail = intent.getStringExtra("userEmail");
 					setTitle("My ads");
-					feedUrl = "http://192.168.0.11:3000/ads.json?user_email="+ "robsonsky@yahooo.com.br";
+					feedUrl = "http://192.168.0.11:3000/ads.json?user_email="+ userEmail;
 				}
 		    }
 		
