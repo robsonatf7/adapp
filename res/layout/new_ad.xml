@@ -19,20 +19,20 @@
                 <com.google.android.gms.ads.AdView
             		xmlns:ads="http://schemas.android.com/apk/res-auto"
                 	android:id="@+id/adView"
-                	android:layout_width="320dp"
-                	android:layout_height="50dp"
+                	android:layout_width="wrap_content"
+                	android:layout_height="wrap_content"
                 	ads:adUnitId="ca-app-pub-7098126077977688/3494300657"
                 	ads:adSize="BANNER"
                 	android:layout_gravity="center"/>
                 
         		<Spinner
             		android:id="@+id/new_ad_category"
-            		android:layout_width="wrap_content"
+            		android:layout_width="match_parent"
             		android:layout_height="wrap_content"/>
 
         		<EditText
             		android:id="@+id/new_ad_title"
-            		android:layout_width="wrap_content"
+            		android:layout_width="match_parent"
             		android:layout_height="wrap_content"
             		android:ems="10"
             		android:hint="escreva o titulo do anuncio" >
@@ -41,16 +41,15 @@
 
         		<EditText
             		android:id="@+id/new_ad_price"
-            		android:layout_width="wrap_content"
+            		android:layout_width="match_parent"
             		android:layout_height="wrap_content"
             		android:ems="10"
             		android:hint="escreva o preco do artigo" />
 
         		<EditText
             		android:id="@+id/new_ad_description"
-            		android:layout_width="0dp"
+            		android:layout_width="match_parent"
             		android:layout_height="wrap_content"
-            		android:layout_weight="1"
             		android:ems="10"
             		android:hint="descreva o artigo" />
 

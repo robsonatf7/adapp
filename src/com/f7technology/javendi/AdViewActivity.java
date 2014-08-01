@@ -32,10 +32,12 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v4.widget.DrawerLayout;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -46,14 +48,25 @@ public class AdViewActivity extends SharedCode implements AsyncResponse {
 	Context context;
 	String position = null;
 	String feedUrl = null;
+	TextView viewDescription;
+	String description;
+	TextView viewPrice;
+	String price;
+	ImageView img;
+	String image;
 	AdModel jParser = new AdModel();
 	String mailTo = "";
 	String categoryName;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ad_view);
+		
+		viewDescription = (TextView) findViewById(R.id.ad_view_description);
+		viewPrice = (TextView) findViewById(R.id.ad_view_price);
+		img = (ImageView)findViewById(R.id.ad_view_photo_image);
 		
 		Intent ii = getIntent();
 		Bundle ee = ii.getExtras();
@@ -74,6 +87,9 @@ public class AdViewActivity extends SharedCode implements AsyncResponse {
 
 	public class AdViewTask extends AsyncTask<Void, Void, JSONArray> {
 		
+		ImageView img1 = (ImageView)findViewById(R.id.ad_view_photo_image);
+		Bitmap newBitmap;
+		
 		public AsyncResponse delegate = null;
 		ProgressDialog dialog;
 		String sellerEmail = "";
@@ -84,6 +100,21 @@ public class AdViewActivity extends SharedCode implements AsyncResponse {
 			dialog.setTitle("Loading ads");
 			dialog.show();
 			super.onPreExecute();
+		}
+		
+		private float getBitmapScalingFactor(Bitmap bm) {
+			
+			DisplayMetrics displaymetrics = new DisplayMetrics();
+			((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+			int screenWidth = displaymetrics.widthPixels;
+			
+			LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams)this.img1.getLayoutParams();
+			int leftMargin = layoutParams.leftMargin;
+			int rightMargin = layoutParams.rightMargin;
+			
+			int imageViewWidth = screenWidth - (leftMargin + rightMargin);
+			
+			return ((float) imageViewWidth / (float) bm.getWidth());
 		}
 		
 		@Override
@@ -98,10 +129,6 @@ public class AdViewActivity extends SharedCode implements AsyncResponse {
 			Bundle e = i.getExtras();
 			feedUrl = e.getString("feedUrl");
 			
-			String price = "";
-			String description = "";
-			String image = "";
-			
 			AdModel jParser = new AdModel();
 			JSONArray json = jParser.getJSONFromUrl(feedUrl);
 
@@ -115,35 +142,44 @@ public class AdViewActivity extends SharedCode implements AsyncResponse {
 				ex.printStackTrace();
 			}
 
-			TextView viewPrice = (TextView) findViewById(R.id.ad_view_price);
-			viewPrice.setText(price);
-			
-			TextView viewDescription = (TextView) findViewById(R.id.ad_view_description);
-			viewDescription.setText(description);
-
 			final String imageURL = "http://192.168.0.11:3000" + image;
-			ImageView img = (ImageView)findViewById(R.id.ad_view_photo_image);
 			try {
-			        URL url = new URL(imageURL);
-			        HttpGet httpRequest = null;
-			        httpRequest = new HttpGet(url.toURI());
-			        HttpClient httpclient = new DefaultHttpClient();
-			        HttpResponse response = (HttpResponse) httpclient
-			                .execute(httpRequest);
+		        URL url = new URL(imageURL);
+		        HttpGet httpRequest = null;
+		        httpRequest = new HttpGet(url.toURI());
+		        HttpClient httpclient = new DefaultHttpClient();
+		        HttpResponse response = (HttpResponse) httpclient
+		                .execute(httpRequest);
 
-			        HttpEntity entity = response.getEntity();
-			        BufferedHttpEntity b_entity = new BufferedHttpEntity(entity);
-			        InputStream input = b_entity.getContent();
+		        HttpEntity entity = response.getEntity();
+		        BufferedHttpEntity b_entity = new BufferedHttpEntity(entity);
+		        InputStream input = b_entity.getContent();
 
-			        Bitmap bitmap = BitmapFactory.decodeStream(input);
-			        img.setImageBitmap(bitmap);
-			        
-			    } catch (Exception ex) {
-			    	ex.printStackTrace();
-			    }
+		        Bitmap bitmap = BitmapFactory.decodeStream(input);
+		        float scalingFactor = this.getBitmapScalingFactor(bitmap);
+		        newBitmap = ScaleImage.ScaleBitmap(bitmap, scalingFactor);
+		        
+		        
+		    } catch (Exception ex) {
+		    	ex.printStackTrace();
+		    }
+			
+			runOnUiThread(new Runnable() {
+
+				@Override
+				public void run() {
+					
+					viewPrice.setText(price);
+					viewDescription.setText(description);
+					img.setImageBitmap(newBitmap);
+					
+				}
+				
+			});
+			
 			return json;
 		}
-		
+
 		@Override
 		protected void onPostExecute(JSONArray json) {
 			dialog.dismiss();

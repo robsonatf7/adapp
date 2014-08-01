@@ -46,7 +46,6 @@ public class AdListActivity extends SharedCode {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ad_list);
 		
-//		checkSearch();
 		Intent intent = getIntent();
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 		      String query = intent.getStringExtra(SearchManager.QUERY);
@@ -117,19 +116,6 @@ public class AdListActivity extends SharedCode {
 		
 		@Override
 		protected JSONArray doInBackground(Void... params) {
-			
-//			String feedUrl;
-//			Intent intent = getIntent();
-			
-//			if (intent.getStringExtra("categoryName") != null) {
-//				String catName = intent.getStringExtra("categoryName");
-//				String catName1 = catName.replaceAll("\\s", "%20");
-//				System.out.println(catName1);
-//				feedUrl = "http://192.168.0.11:3000/ads.json?category_name="+ catName1;
-//			} else {
-//				String userEmail = intent.getStringExtra("userEmail");
-//				feedUrl = "http://192.168.0.11:3000/ads.json?user_email="+ userEmail;
-//			}
 
 			AdModel jParser = new AdModel();
 			JSONArray json = jParser.getJSONFromUrl(feedUrl);

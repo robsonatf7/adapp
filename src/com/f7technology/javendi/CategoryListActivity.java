@@ -1,53 +1,44 @@
 package com.f7technology.javendi;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.entity.BufferedHttpEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.f7technology.javendi.R;
 import com.f7technology.javendi.adapters.CategoryListAdapter;
-import com.f7technology.javendi.adapters.ImageSwipeAdapter;
 import com.f7technology.javendi.models.CategoryModel;
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.model.GraphUser;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class CategoryListActivity extends SharedCode {
 
 		ArrayList<String> categoriesNamesArray = new ArrayList<String>();
+		ArrayList<String> imageUrls = new ArrayList<String>();
+		ArrayList<Bitmap> categoriesBitmapsArray = new ArrayList<Bitmap>();
 		CategoryListAdapter categoryListAdapter;
-		String[] categoriesString = {""};
 		JSONArray categoriesJson = new JSONArray();
 		Context context;
 		String feedUrl = "http://192.168.0.11:3000/categories.json";
@@ -64,16 +55,94 @@ public class CategoryListActivity extends SharedCode {
 			context = this;
 			CategoryListTask loaderTask = new CategoryListTask();
 			loaderTask.execute();
-				
+/**				
 			ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
 			ImageSwipeAdapter adapter = new ImageSwipeAdapter (this);
 			viewPager.setAdapter(adapter);
+*/			
+			CategoryListAdapter categoryListAdapter = new CategoryListAdapter(this, categoriesNamesArray, categoriesBitmapsArray);	
+			GridView gridView = (GridView) findViewById(R.id.category_grid_view);
+			gridView.setAdapter(categoryListAdapter);
 			
-			CategoryListAdapter categoryListAdapter = new CategoryListAdapter(this, categoriesString);	
-			ListView listView = (ListView) findViewById(R.id.category_list_view);
-			listView.setAdapter(categoryListAdapter);
+			gridView.setOnItemClickListener(new ListClickHandler());
 			
-			listView.setOnItemClickListener(new ListClickHandler());
+		}
+		
+		public class CategoryListTask extends AsyncTask<Void, Void, JSONArray> {
+			
+			ProgressDialog dialog;
+			String img;
+			Bitmap bmp;
+			
+			@Override
+			protected void onPreExecute() {
+				dialog = new ProgressDialog(context);
+				dialog.setTitle("Loading categories");
+				dialog.show();
+				super.onPreExecute();
+			}
+
+			@Override
+			protected JSONArray doInBackground(Void... params) {
+				
+				CategoryModel jParser = new CategoryModel();
+				JSONArray json = jParser.getJSONFromUrl(feedUrl);
+				
+				try{
+					for (int i = 0; i < json.length(); i++) {
+						
+						JSONObject category = json.getJSONObject(i);
+						String name = category.getString("name");
+						categoriesNamesArray.add(name);
+						img = category.getString("image");
+						imageUrls.add(img);
+						
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				
+				return json;
+			}
+			
+			@Override
+			protected void onPostExecute(JSONArray json) {
+				dialog.dismiss();
+				
+				
+				
+				for (int i = 0; i < imageUrls.size(); i++) {
+					
+					String imgUrl = "http://192.168.0.11:3000" + i;
+					
+					try {
+				        URL url = new URL(imgUrl);
+				        HttpGet httpRequest = null;
+				        httpRequest = new HttpGet(url.toURI());
+				        HttpClient httpclient = new DefaultHttpClient();
+				        HttpResponse response = (HttpResponse) httpclient
+				                .execute(httpRequest);
+
+				        HttpEntity entity = response.getEntity();
+				        BufferedHttpEntity b_entity = new BufferedHttpEntity(entity);
+				        InputStream input = b_entity.getContent();
+
+				        bmp = BitmapFactory.decodeStream(input);
+				        
+				    } catch (Exception ex) {
+				    	ex.printStackTrace();
+				    }
+					
+					categoriesBitmapsArray.add(bmp);
+					
+				}
+				
+				CategoryListAdapter categoryListAdapter = new CategoryListAdapter(context, categoriesNamesArray, categoriesBitmapsArray);	
+				GridView gridView = (GridView) findViewById(R.id.category_grid_view);
+				gridView.setAdapter(categoryListAdapter);
+				
+				super.onPostExecute(json);
+			}
 			
 		}
 		
@@ -88,49 +157,5 @@ public class CategoryListActivity extends SharedCode {
 				intent.putExtra("categoryName", categoryName);
 				startActivity(intent);
 			}
-		}
-		
-		public class CategoryListTask extends AsyncTask<Void, Void, JSONArray> {
-			
-			ProgressDialog dialog;
-
-			@Override
-			protected void onPreExecute() {
-				dialog = new ProgressDialog(context);
-				dialog.setTitle("Loading categories");
-				dialog.show();
-				super.onPreExecute();
-			}
-
-			@Override
-			protected JSONArray doInBackground(Void... params) {
-				CategoryModel jParser = new CategoryModel();
-				JSONArray json = jParser.getJSONFromUrl(feedUrl);
-				return json;
-			}
-			
-			@Override
-			protected void onPostExecute(JSONArray json) {
-				dialog.dismiss();
-				
-				try{
-					for (int i = 0; i < json.length(); i++) {
-						JSONObject category = json.getJSONObject(i);
-						String name = category.getString("name");
-						categoriesNamesArray.add(name);
-					}
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-				
-				categoriesString = categoriesNamesArray.toArray(new String[categoriesNamesArray.size()]);
-				
-				CategoryListAdapter categoryListAdapter = new CategoryListAdapter(context, categoriesString);	
-				ListView listView = (ListView) findViewById(R.id.category_list_view);
-				listView.setAdapter(categoryListAdapter);
-				
-				super.onPostExecute(json);
-			}
-			
 		}
 }
