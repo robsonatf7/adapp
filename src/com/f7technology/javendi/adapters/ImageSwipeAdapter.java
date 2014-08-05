@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+import android.widget.TableLayout.LayoutParams;
 
 public class ImageSwipeAdapter extends PagerAdapter {
 	
@@ -36,9 +37,9 @@ public class ImageSwipeAdapter extends PagerAdapter {
 	@Override
 	public Object instantiateItem (ViewGroup container, int position) {
 		ImageView imageView = new ImageView (context);
-		int padding = context.getResources().getDimensionPixelSize(R.dimen.padding_medium);
+		int padding = context.getResources().getDimensionPixelSize(R.dimen.padding_none);
 		imageView.setPadding(padding, padding, padding, padding);
-		imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+//		imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 		imageView.setImageResource(GalImages[position]);
 		((ViewGroup) container).addView(imageView, 0);
 		return imageView;

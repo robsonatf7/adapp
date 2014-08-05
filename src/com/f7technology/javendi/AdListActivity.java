@@ -1,7 +1,15 @@
 package com.f7technology.javendi;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.entity.BufferedHttpEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,6 +26,8 @@ import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -28,15 +38,13 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class AdListActivity extends SharedCode {
 	
-	ArrayList<String> adsTitlesArray = new ArrayList<String>();
-	AdListAdapter adListAdapter;
-	String[] adsString = {""};
 	Context context;
 	String feedUrl;
 	String catName;
@@ -71,14 +79,7 @@ public class AdListActivity extends SharedCode {
 		context = this;
 		AdListTask loaderTask = new AdListTask();
 		loaderTask.execute();
-		
-		AdListAdapter adListAdapter = new AdListAdapter(this, adsString);
-		ListView listView = (ListView) findViewById(R.id.ad_list);
-		listView.setAdapter(adListAdapter);
-		listView.setDivider(null);
-		
-		listView.setOnItemClickListener(new ListClickHandler());
-		
+	
 	}
 
 	private class ListClickHandler implements OnItemClickListener {
@@ -105,6 +106,10 @@ public class AdListActivity extends SharedCode {
 	public class AdListTask extends AsyncTask<Void, Void, JSONArray> {
 		
 		ProgressDialog dialog;
+		Bitmap bmp;
+		ArrayList<String> adsTitlesArray = new ArrayList<String>();
+		ArrayList<Bitmap> adsBitmapsArray = new ArrayList<Bitmap>();
+		ArrayList<String> imageUrls = new ArrayList<String>();
 		
 		@Override
 		protected void onPreExecute() {
@@ -119,6 +124,58 @@ public class AdListActivity extends SharedCode {
 
 			AdModel jParser = new AdModel();
 			JSONArray json = jParser.getJSONFromUrl(feedUrl);
+			
+			try {
+				for (int i = 0; i < json.length(); i++) {
+					JSONObject ad = json.getJSONObject(i);
+					String title = ad.getString("title");
+					adsTitlesArray.add(title);
+					String image = ad.getString("image");
+					imageUrls.add(image);
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			
+			for (int i = 0; i < imageUrls.size(); i++) {
+				
+				String imgUrl = "http://192.168.0.11:3000" + imageUrls.get(i);
+				
+				try {
+			        URL url = new URL(imgUrl);
+			        HttpGet httpRequest = null;
+			        httpRequest = new HttpGet(url.toURI());
+			        HttpClient httpclient = new DefaultHttpClient();
+			        HttpResponse response = (HttpResponse) httpclient
+			                .execute(httpRequest);
+
+			        HttpEntity entity = response.getEntity();
+			        BufferedHttpEntity b_entity = new BufferedHttpEntity(entity);
+			        InputStream input = b_entity.getContent();
+
+			        bmp = BitmapFactory.decodeStream(input);
+			        
+			    } catch (Exception ex) {
+			    	ex.printStackTrace();
+			    }
+				
+				adsBitmapsArray.add(bmp);
+			}
+
+			
+			runOnUiThread(new Runnable() {
+
+				@Override
+				public void run() {
+					AdListAdapter adListAdapter = new AdListAdapter(context, adsTitlesArray, adsBitmapsArray);
+					GridView gridView = (GridView) findViewById(R.id.ad_list);
+					gridView.setAdapter(adListAdapter);
+			
+					gridView.setOnItemClickListener(new ListClickHandler());
+				}
+				
+			});
+			
 			return json;
 			
 		}
@@ -126,23 +183,6 @@ public class AdListActivity extends SharedCode {
 		@Override
 		protected void onPostExecute(JSONArray json) {
 			dialog.dismiss();
-			
-			try {
-				for (int i = 0; i < json.length(); i++) {
-					JSONObject ad = json.getJSONObject(i);
-					String title = ad.getString("title");
-					adsTitlesArray.add(title);
-				}
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			
-			adsString = adsTitlesArray.toArray(new String[adsTitlesArray.size()]);
-			
-			AdListAdapter adListAdapter = new AdListAdapter(context, adsString);
-			ListView listView = (ListView) findViewById(R.id.ad_list);
-			listView.setAdapter(adListAdapter);
-			
 			super.onPostExecute(json);
 		}
 	}

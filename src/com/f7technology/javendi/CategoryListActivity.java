@@ -35,9 +35,6 @@ import android.widget.TextView;
 
 public class CategoryListActivity extends SharedCode {
 
-		ArrayList<String> categoriesNamesArray = new ArrayList<String>();
-		ArrayList<String> imageUrls = new ArrayList<String>();
-		ArrayList<Bitmap> categoriesBitmapsArray = new ArrayList<Bitmap>();
 		CategoryListAdapter categoryListAdapter;
 		JSONArray categoriesJson = new JSONArray();
 		Context context;
@@ -60,12 +57,6 @@ public class CategoryListActivity extends SharedCode {
 			ImageSwipeAdapter adapter = new ImageSwipeAdapter (this);
 			viewPager.setAdapter(adapter);
 */			
-			CategoryListAdapter categoryListAdapter = new CategoryListAdapter(this, categoriesNamesArray, categoriesBitmapsArray);	
-			GridView gridView = (GridView) findViewById(R.id.category_grid_view);
-			gridView.setAdapter(categoryListAdapter);
-			
-			gridView.setOnItemClickListener(new ListClickHandler());
-			
 		}
 		
 		public class CategoryListTask extends AsyncTask<Void, Void, JSONArray> {
@@ -73,6 +64,9 @@ public class CategoryListActivity extends SharedCode {
 			ProgressDialog dialog;
 			String img;
 			Bitmap bmp;
+			ArrayList<String> categoriesNamesArray = new ArrayList<String>();
+			ArrayList<Bitmap> categoriesBitmapsArray = new ArrayList<Bitmap>();
+			ArrayList<String> imageUrls = new ArrayList<String>();
 			
 			@Override
 			protected void onPreExecute() {
@@ -102,18 +96,9 @@ public class CategoryListActivity extends SharedCode {
 					e.printStackTrace();
 				}
 				
-				return json;
-			}
-			
-			@Override
-			protected void onPostExecute(JSONArray json) {
-				dialog.dismiss();
-				
-				
-				
 				for (int i = 0; i < imageUrls.size(); i++) {
 					
-					String imgUrl = "http://192.168.0.11:3000" + i;
+					String imgUrl = "http://192.168.0.11:3000" + imageUrls.get(i);
 					
 					try {
 				        URL url = new URL(imgUrl);
@@ -134,13 +119,27 @@ public class CategoryListActivity extends SharedCode {
 				    }
 					
 					categoriesBitmapsArray.add(bmp);
-					
 				}
+			
+				runOnUiThread(new Runnable() {
+
+					@Override
+					public void run() {
+						CategoryListAdapter categoryListAdapter = new CategoryListAdapter(context, categoriesNamesArray, categoriesBitmapsArray);	
+						GridView gridView = (GridView) findViewById(R.id.category_grid_view);
+						gridView.setAdapter(categoryListAdapter);
+						gridView.setOnItemClickListener(new ListClickHandler());
+					}
+					
+				});
 				
-				CategoryListAdapter categoryListAdapter = new CategoryListAdapter(context, categoriesNamesArray, categoriesBitmapsArray);	
-				GridView gridView = (GridView) findViewById(R.id.category_grid_view);
-				gridView.setAdapter(categoryListAdapter);
-				
+				return json;
+			}
+
+
+			@Override
+			protected void onPostExecute(JSONArray json) {
+				dialog.dismiss();
 				super.onPostExecute(json);
 			}
 			

@@ -26,13 +26,15 @@
                 	ads:adSize="BANNER"
                 	android:layout_gravity="center"/>
             
-    			<ListView
-        			android:id="@+id/ad_list"
-        			android:layout_width="match_parent"
-        			android:layout_height="match_parent"
-        			android:paddingTop="10dp"
-        			android:layout_gravity="center">
-    			</ListView>
+    			<GridView 
+    				android:id="@+id/ad_list"
+    				android:numColumns="2"
+    				android:gravity="center"
+    				android:columnWidth="50dp"
+    				android:stretchMode="columnWidth"
+    				android:layout_width="match_parent"
+    				android:layout_height="match_parent" >
+				</GridView>
     			
     		</LinearLayout>
 
