@@ -17,6 +17,7 @@ import org.json.JSONObject;
 import com.f7technology.javendi.R;
 import com.f7technology.javendi.adapters.AdListAdapter;
 import com.f7technology.javendi.adapters.ImageSwipeAdapter;
+import com.f7technology.javendi.adapters.SwipeAdapter;
 import com.f7technology.javendi.models.AdModel;
 import com.facebook.Session;
 import com.google.android.gms.ads.AdRequest;
@@ -58,11 +59,7 @@ public class MainActivity extends SharedCode {
 		setTitle("Já Vendi!");
 		setDrawer();
 		setAdMob();
-			
-		ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
-		ImageSwipeAdapter adapter = new ImageSwipeAdapter(this);
-		viewPager.setAdapter(adapter);
-		
+	
 		context = this;
 		MainListTask loaderTask = new MainListTask();
 		loaderTask.execute();
@@ -155,6 +152,11 @@ public class MainActivity extends SharedCode {
 
 				@Override
 				public void run() {
+					
+//					ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
+//					SwipeAdapter adapter = new SwipeAdapter(getApplicationContext(), adsBitmapsArray);
+//					viewPager.setAdapter(adapter);
+					
 					AdListAdapter adListAdapter = new AdListAdapter(context, adsTitlesArray, adsBitmapsArray);
 					GridView gridView = (GridView) findViewById(R.id.main_list);
 					gridView.setAdapter(adListAdapter);

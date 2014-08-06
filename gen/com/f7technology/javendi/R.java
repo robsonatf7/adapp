@@ -1933,7 +1933,7 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f09003b;
         public static final int action_menu_presenter=0x7f09003c;
         public static final int action_mode_close_button=0x7f090049;
-        public static final int action_search=0x7f09009b;
+        public static final int action_search=0x7f09009f;
         public static final int activity_chooser_view_content=0x7f09004a;
         public static final int adView=0x7f090063;
         public static final int ad_list=0x7f090064;
@@ -1954,6 +1954,7 @@ containing a value of this type.
         public static final int beginning=0x7f090037;
         public static final int book_now=0x7f090010;
         public static final int bottom=0x7f090019;
+        public static final int button1=0x7f090098;
         public static final int buyButton=0x7f09000a;
         public static final int buy_now=0x7f09000f;
         public static final int buy_with_google=0x7f09000e;
@@ -2024,18 +2025,22 @@ containing a value of this type.
         public static final int left_drawer=0x7f090090;
         public static final int listMode=0x7f090028;
         public static final int list_item=0x7f09004e;
-        public static final int main_list=0x7f090095;
+        public static final int main_list=0x7f090099;
+        public static final int main_newest=0x7f090097;
+        public static final int main_select_cat=0x7f090094;
+        public static final int main_sell=0x7f090096;
+        public static final int main_spinner=0x7f090095;
         public static final int main_user_email=0x7f090093;
         public static final int main_user_name=0x7f090092;
         public static final int match_parent=0x7f09000c;
         public static final int middle=0x7f090038;
         public static final int monochrome=0x7f090013;
         public static final int never=0x7f090030;
-        public static final int new_ad_button=0x7f09009a;
-        public static final int new_ad_category=0x7f090096;
-        public static final int new_ad_description=0x7f090099;
-        public static final int new_ad_price=0x7f090098;
-        public static final int new_ad_title=0x7f090097;
+        public static final int new_ad_button=0x7f09009e;
+        public static final int new_ad_category=0x7f09009a;
+        public static final int new_ad_description=0x7f09009d;
+        public static final int new_ad_price=0x7f09009c;
+        public static final int new_ad_title=0x7f09009b;
         public static final int none=0x7f090000;
         public static final int normal=0x7f090001;
         public static final int picker_subtitle=0x7f090085;
@@ -2074,7 +2079,6 @@ containing a value of this type.
         public static final int up=0x7f090046;
         public static final int useLogo=0x7f09002a;
         public static final int vertical=0x7f090015;
-        public static final int view_pager=0x7f090094;
         public static final int withText=0x7f090033;
         public static final int wrap_content=0x7f09000d;
     }
