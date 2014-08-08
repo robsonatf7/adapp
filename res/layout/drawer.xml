@@ -3,11 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/left_drawer"
     
-    android:layout_width="240dp"
+    android:layout_width="150dp"
     android:layout_height="match_parent"
     android:layout_gravity="left"
     android:choiceMode="singleChoice"
-    android:divider="@null"
-    android:background="#E0E0E0"
-    android:dividerHeight="0dp"
-    /> 
+    android:background="#ffcc11"
+    android:dividerHeight="1dp" />
+
+<!-- android:divider="@null" --> 

@@ -30,6 +30,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -50,6 +51,7 @@ public class MainActivity extends SharedCode {
 	
 	Context context;
 	String feedUrl, catName;
+	Button sell, more;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,9 @@ public class MainActivity extends SharedCode {
 		setContentView(R.layout.main);
 		
 		setTitle("Já Vendi!");
+//		int titleId = getResources().getIdentifier("action_bar_title", "id", "android");
+//		TextView abTitle = (TextView) findViewById(titleId);
+//		abTitle.setTextColor(Color.WHITE);
 		setDrawer();
 		setAdMob();
 	
@@ -71,19 +76,19 @@ public class MainActivity extends SharedCode {
 		@Override
 		public void onItemClick(AdapterView<?> Adapter, View view, int position, long id) {
 
-			Intent y = getIntent();
-			catName = y.getStringExtra("categoryName");
-			String catUrl = catName.replaceAll("\\s", "%20");
-			String feedUrl = "http://192.168.0.11:3000/ads.json?category_name="+ catUrl;
-			
-			Intent intent = new Intent(context, AdViewActivity.class);
-			Bundle extras = new Bundle();
-			extras.putString("feedUrl", feedUrl);
-			extras.putString("position", String.valueOf(id));
-			extras.putString("categoryUrl", catUrl);
-			extras.putString("categoryName", catName);
-			intent.putExtras(extras);
-			startActivity(intent);
+//			Intent y = getIntent();
+//			catName = y.getStringExtra("categoryName");
+//			String catUrl = catName.replaceAll("\\s", "%20");
+//			String feedUrl = "http://192.168.0.11:3000/ads.json?category_name="+ catUrl;
+//			
+//			Intent intent = new Intent(context, AdViewActivity.class);
+//			Bundle extras = new Bundle();
+//			extras.putString("feedUrl", feedUrl);
+//			extras.putString("position", String.valueOf(id));
+//			extras.putString("categoryUrl", catUrl);
+//			extras.putString("categoryName", catName);
+//			intent.putExtras(extras);
+//			startActivity(intent);
 		}
 	}
 	

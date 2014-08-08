@@ -4,7 +4,6 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5dp"
     android:background="#ffffff" >
 
     <FrameLayout
@@ -17,18 +16,10 @@
             android:layout_height="match_parent"
             android:orientation="vertical" >
         
-            <com.google.android.gms.ads.AdView
-            	xmlns:ads="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/adView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                ads:adUnitId="ca-app-pub-7098126077977688/3494300657"
-                ads:adSize="BANNER"
-                android:layout_gravity="center"/>
-
             <ScrollView 
                 android:layout_width="match_parent"
-            	android:layout_height="wrap_content"
+            	android:layout_height="0dp"
+            	android:layout_weight="5"
             	android:paddingTop="5dp">
             	
                 <LinearLayout
@@ -41,6 +32,33 @@
         	    		android:layout_width="match_parent"
         	    		android:layout_height="wrap_content"
         	    		android:layout_gravity="center"/>
+        			
+        			<LinearLayout
+            			android:layout_width="wrap_content"
+            			android:layout_height="wrap_content"
+            			android:layout_gravity="center"
+            			android:layout_marginTop="15dp">
+            			
+        			    <TextView
+        			        android:id="@+id/ad_view_currency"
+            				android:layout_width="wrap_content"
+            				android:layout_height="wrap_content"
+            				android:text="R$ " />
+            			        	
+        				<TextView
+            				android:id="@+id/ad_view_price"
+            				android:layout_width="wrap_content"
+            				android:layout_height="wrap_content"
+            				android:textAppearance="?android:attr/textAppearanceLarge"
+            				android:textStyle="bold"
+        					android:shadowColor="#000000"
+        					android:shadowDx="1"
+        					android:shadowDy="1"
+        					android:shadowRadius="1"
+        					android:typeface="serif"
+        					android:textColor="#ffcc11" />
+        				
+        			</LinearLayout>
 
         			<TextView
             			android:id="@+id/ad_view_description"
@@ -48,36 +66,89 @@
             			android:layout_width="wrap_content"
             			android:layout_height="wrap_content"
             			android:padding="5dp"
-            			android:layout_gravity="center" />
+            			android:layout_gravity="center"
+            			android:layout_marginTop="15dp" />
+        			
+        			<LinearLayout
+            			android:layout_width="wrap_content"
+            			android:layout_height="wrap_content"
+            			android:layout_gravity="center"
+            			android:layout_marginTop="15dp">
+            			
+        			    <TextView
+        			        android:id="@+id/ad_view_product_at"
+            				android:layout_width="wrap_content"
+            				android:layout_height="wrap_content"
+            				android:text="produto em " />
+            			        	
+        				<TextView
+            				android:id="@+id/ad_view_product_location"
+            				android:layout_width="wrap_content"
+            				android:layout_height="wrap_content"
+            				android:textStyle="bold"
+        					android:shadowColor="#000000"
+        					android:shadowDx="1"
+        					android:shadowDy="1"
+        					android:shadowRadius="1"
+        					android:typeface="serif"
+        					android:textColor="#ffcc11"
+        					android:text="Location" />
+        				
+        			</LinearLayout>
+        			
+        			<LinearLayout
+            			android:layout_width="wrap_content"
+            			android:layout_height="wrap_content"
+            			android:layout_gravity="center"
+            			android:layout_marginTop="15dp" >
         	
-        			<TextView
-            			android:id="@+id/ad_view_price"
-            			android:layout_width="wrap_content"
-            			android:layout_height="wrap_content"
-            			android:text="Large Text"
-            			android:textAppearance="?android:attr/textAppearanceLarge"
-            			android:padding="5dp"
-            			android:layout_gravity="center" />
-        	
-        			<Button
-            			android:id="@+id/ad_view_buy"
-            			android:text="Comprar"
-            			android:layout_width="wrap_content"
-            			android:layout_height="wrap_content"
-            			android:padding="5dp"
-            			android:layout_gravity="center" />
-        
-        			<Button
-            			android:id="@+id/ad_view_back"
-            			android:text="Voltar"
-            			android:layout_width="wrap_content"
-            			android:layout_height="wrap_content"
-            			android:padding="5dp"
-            			android:layout_gravity="center" />
+        				<Button
+            				android:id="@+id/ad_view_back"
+            				android:text="Voltar"
+            				android:layout_width="0dp"
+            				android:layout_weight="1"
+            				android:layout_height="wrap_content"
+            				android:background="@drawable/custom_button"
+            				android:textColor="#ffffff"
+            				android:textStyle="bold"
+            				android:textSize="17sp"
+            				android:shadowColor="#000000"
+                			android:shadowDx="1"
+                			android:shadowDy="1"
+                			android:shadowRadius="1"
+                			android:layout_marginRight="15dp"/>
+        				
+        				<Button
+            				android:id="@+id/ad_view_buy"
+            				android:text="Fale com o vendedor!"
+            				android:layout_width="0dp"
+            				android:layout_weight="4"
+            				android:layout_height="wrap_content"
+            				android:background="@drawable/custom_button"
+            				android:textColor="#ffffff"
+            				android:textStyle="bold"
+            				android:textSize="17sp"
+            				android:shadowColor="#000000"
+                			android:shadowDx="1"
+                			android:shadowDy="1"
+                			android:shadowRadius="1"
+                			android:layout_marginLeft="15dp"/>
+        			
+        			</LinearLayout>
         			
         		</LinearLayout>
         		
         	</ScrollView>
+        	
+            <com.google.android.gms.ads.AdView
+            	xmlns:ads="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/adView"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                ads:adUnitId="ca-app-pub-7098126077977688/3494300657"
+                ads:adSize="BANNER"
+                android:layout_gravity="center"/>
         	
         </LinearLayout>
         

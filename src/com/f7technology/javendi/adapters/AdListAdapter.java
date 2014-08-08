@@ -32,7 +32,8 @@ public class AdListAdapter extends ArrayAdapter<String> {
 		View rowView = inflater.inflate(R.layout.ad_row, parent, false);
 		
 		TextView textView = (TextView) rowView.findViewById(R.id.ad_row_text);
-		textView.setText(values.get(position));
+		String limited = values.get(position).substring(0,7) + "...";
+		textView.setText(limited);
 		
 		ImageView imageView = (ImageView)rowView.findViewById(R.id.ad_row_img);
 		imageView.setImageBitmap(bitmaps.get(position));

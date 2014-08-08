@@ -39,7 +39,7 @@ public class SharedCode extends ActionBarActivity implements OnItemClickListener
 		
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		featuresList = (ListView) findViewById(R.id.left_drawer);
-		featuresList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, features));
+		featuresList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_view, features));
 		featuresList.setOnItemClickListener(this);
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		drawerListener = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close);
@@ -73,7 +73,7 @@ public class SharedCode extends ActionBarActivity implements OnItemClickListener
 	@Override
 	public void onItemClick(AdapterView<?> parent, View arg1, int position, long arg3) {
 		
-		TextView text = (TextView) arg1.findViewById(android.R.id.text1);
+		TextView text = (TextView) arg1.findViewById(R.id.text1);
 		String string = text.getText().toString();
 		System.out.println(string);
 		
