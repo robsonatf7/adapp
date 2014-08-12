@@ -31,9 +31,9 @@ public class AdListAdapter extends ArrayAdapter<String> {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View rowView = inflater.inflate(R.layout.ad_row, parent, false);
 		
-		TextView textView = (TextView) rowView.findViewById(R.id.ad_row_text);
-		String limited = values.get(position).substring(0,7) + "...";
-		textView.setText(limited);
+		TextView textView = (TextView) rowView.findViewById(R.id.ad_row_title);
+//		String limited = values.get(position).substring(0,7) + "...";
+		textView.setText(values.get(position));
 		
 		ImageView imageView = (ImageView)rowView.findViewById(R.id.ad_row_img);
 		imageView.setImageBitmap(bitmaps.get(position));

@@ -115,7 +115,7 @@ public class SharedCode extends ActionBarActivity implements OnItemClickListener
 			Session session = Session.getActiveSession();
 			session.closeAndClearTokenInformation();
 			
-			Intent intent = new Intent(getApplicationContext(), CategoryListActivity.class);
+			Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 			startActivity(intent);
 		}
 		

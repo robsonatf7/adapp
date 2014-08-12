@@ -225,7 +225,7 @@ public class AddPhotoActivity extends SharedCode {
 				ImageUploader loaderTask = new ImageUploader();
 				loaderTask.execute();
 				
-				Intent intent = new Intent(context, NewAdActivity.class);
+				Intent intent = new Intent(context, AdListActivity.class);
 				startActivity(intent);
 			}
 		});

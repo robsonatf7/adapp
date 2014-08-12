@@ -15,27 +15,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.f7technology.javendi.R;
-import com.f7technology.javendi.adapters.AdListAdapter;
-import com.f7technology.javendi.adapters.ImageSwipeAdapter;
-import com.f7technology.javendi.adapters.SwipeAdapter;
+import com.f7technology.javendi.adapters.MainListAdapter;
 import com.f7technology.javendi.models.AdModel;
-import com.facebook.Session;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
+import com.f7technology.javendi.models.CategoryModel;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -43,15 +33,16 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.Spinner;
 
 public class MainActivity extends SharedCode {
 	
 	Context context;
 	String feedUrl, catName;
 	Button sell, more;
+	ArrayList<SpinnerCategory> spinnerCategories = new ArrayList<SpinnerCategory>();
+	ArrayList<String> spinnerCategoryNames = new ArrayList<String>();
+	ArrayList<Integer> spinnerCategoryIds = new ArrayList<Integer>();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -64,6 +55,9 @@ public class MainActivity extends SharedCode {
 //		abTitle.setTextColor(Color.WHITE);
 		setDrawer();
 		setAdMob();
+		
+		onClickMore();
+		onClickSell();
 	
 		context = this;
 		MainListTask loaderTask = new MainListTask();
@@ -99,7 +93,8 @@ public class MainActivity extends SharedCode {
 		ArrayList<String> adsTitlesArray = new ArrayList<String>();
 		ArrayList<Bitmap> adsBitmapsArray = new ArrayList<Bitmap>();
 		ArrayList<String> imageUrls = new ArrayList<String>();
-		String url = "http://192.168.0.11:3000/ads.json";
+		String adsUrl = "http://192.168.0.11:3000/ads.json";
+		String catsUrl = "http://192.168.0.11:3000/categories.json";
 		
 		@Override
 		protected void onPreExecute() {
@@ -112,8 +107,29 @@ public class MainActivity extends SharedCode {
 		@Override
 		protected JSONArray doInBackground(Void... params) {
 
+			CategoryModel jCatsParser = new CategoryModel();
+			JSONArray catsJson = jCatsParser.getJSONFromUrl(catsUrl);
+			
+			try {
+				for (int i = 0; i < catsJson.length(); i++) {
+					
+					JSONObject category = catsJson.getJSONObject(i);
+					SpinnerCategory spinnerCategory = new SpinnerCategory();
+					
+					spinnerCategory.setName(category.optString("name"));
+					spinnerCategoryNames.add(category.optString("name"));
+					
+					spinnerCategory.setId(category.optInt("id"));
+					spinnerCategoryIds.add(category.optInt("id"));
+					
+					spinnerCategories.add(spinnerCategory);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 			AdModel jParser = new AdModel();
-			JSONArray json = jParser.getJSONFromUrl(url);
+			JSONArray json = jParser.getJSONFromUrl(adsUrl);
 			
 			try {
 				for (int i = 0; i < json.length(); i++) {
@@ -162,9 +178,12 @@ public class MainActivity extends SharedCode {
 //					SwipeAdapter adapter = new SwipeAdapter(getApplicationContext(), adsBitmapsArray);
 //					viewPager.setAdapter(adapter);
 					
-					AdListAdapter adListAdapter = new AdListAdapter(context, adsTitlesArray, adsBitmapsArray);
+					Spinner mySpinner = (Spinner) findViewById(R.id.main_spinner);
+					mySpinner.setAdapter (new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, spinnerCategoryNames));
+					
+					MainListAdapter mainListAdapter = new MainListAdapter(context, adsTitlesArray, adsBitmapsArray);
 					GridView gridView = (GridView) findViewById(R.id.main_list);
-					gridView.setAdapter(adListAdapter);
+					gridView.setAdapter(mainListAdapter);
 			
 					gridView.setOnItemClickListener(new ListClickHandler());
 				}
@@ -180,5 +199,37 @@ public class MainActivity extends SharedCode {
 			dialog.dismiss();
 			super.onPostExecute(json);
 		}
+	}
+	
+	private void onClickSell() {
+		
+		sell = (Button) findViewById(R.id.main_sell);
+		sell.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+      
+//				final Context context = getApplicationContext();
+				Intent intent = new Intent(context, LoginActivity.class);
+				startActivity(intent);
+				
+			}
+		});
+	}
+	
+	private void onClickMore() {
+		
+		more = (Button) findViewById(R.id.main_more);
+		more.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+      
+//				final Context context = getApplicationContext();
+				Intent intent = new Intent(context, AdListActivity.class);
+				startActivity(intent);
+				
+			}
+		});
 	}
 }

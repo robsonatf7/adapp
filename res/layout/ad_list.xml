@@ -16,17 +16,14 @@
             	android:layout_height="match_parent"
             	android:orientation="vertical" >
     			
-    			<GridView 
+    			<ListView 
     				android:id="@+id/ad_list"
-    				android:numColumns="auto_fit"
     				android:gravity="center"
-    				android:columnWidth="100dp"
-    				android:stretchMode="columnWidth"
     				android:layout_width="match_parent"
     				android:layout_height="0dp"
     				android:layout_weight="5"
     				android:layout_marginTop="6dp" >
-				</GridView>
+				</ListView>
     			
     			<com.google.android.gms.ads.AdView
             		xmlns:ads="http://schemas.android.com/apk/res-auto"

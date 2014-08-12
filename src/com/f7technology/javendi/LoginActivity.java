@@ -48,7 +48,7 @@ public class LoginActivity extends FragmentActivity {
 	    		  @Override
 	    		  public void onCompleted(GraphUser user, Response response) {
 	    		    	if (user != null) {
-	    		    		Intent inetnt = new Intent(getApplicationContext(), NewAdActivity.class);
+	    		    		Intent inetnt = new Intent(getApplicationContext(), MainActivity.class);
 	    		    		inetnt.putExtra("user_name", user.getName());
 	    		    		inetnt.putExtra("user_email", user.asMap().get("email").toString());
 	    		    		startActivity(inetnt);

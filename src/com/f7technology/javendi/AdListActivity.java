@@ -168,10 +168,10 @@ public class AdListActivity extends SharedCode {
 				@Override
 				public void run() {
 					AdListAdapter adListAdapter = new AdListAdapter(context, adsTitlesArray, adsBitmapsArray);
-					GridView gridView = (GridView) findViewById(R.id.ad_list);
-					gridView.setAdapter(adListAdapter);
+					ListView listView = (ListView) findViewById(R.id.ad_list);
+					listView.setAdapter(adListAdapter);
 			
-					gridView.setOnItemClickListener(new ListClickHandler());
+					listView.setOnItemClickListener(new ListClickHandler());
 				}
 				
 			});
