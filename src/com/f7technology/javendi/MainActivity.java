@@ -30,10 +30,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 public class MainActivity extends SharedCode {
 	
@@ -93,8 +95,8 @@ public class MainActivity extends SharedCode {
 		ArrayList<String> adsTitlesArray = new ArrayList<String>();
 		ArrayList<Bitmap> adsBitmapsArray = new ArrayList<Bitmap>();
 		ArrayList<String> imageUrls = new ArrayList<String>();
-		String adsUrl = "http://192.168.0.11:3000/ads.json";
-		String catsUrl = "http://192.168.0.11:3000/categories.json";
+		String adsUrl = "http://192.168.1.15:3000/ads.json";
+		String catsUrl = "http://192.168.1.15:3000/categories.json";
 		
 		@Override
 		protected void onPreExecute() {
@@ -145,7 +147,7 @@ public class MainActivity extends SharedCode {
 			
 			for (int i = 0; i < imageUrls.size(); i++) {
 				
-				String imgUrl = "http://192.168.0.11:3000" + imageUrls.get(i);
+				String imgUrl = "http://192.168.1.15:3000" + imageUrls.get(i);
 				
 				try {
 			        URL url = new URL(imgUrl);
@@ -178,8 +180,13 @@ public class MainActivity extends SharedCode {
 //					SwipeAdapter adapter = new SwipeAdapter(getApplicationContext(), adsBitmapsArray);
 //					viewPager.setAdapter(adapter);
 					
-					Spinner mySpinner = (Spinner) findViewById(R.id.main_spinner);
+					final Spinner mySpinner = (Spinner) findViewById(R.id.main_spinner);
 					mySpinner.setAdapter (new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, spinnerCategoryNames));
+					mySpinner.post(new Runnable() {
+					    public void run() {
+					    	mySpinner.setOnItemSelectedListener(new SpinnerClickHandler());
+					    }
+					});
 					
 					MainListAdapter mainListAdapter = new MainListAdapter(context, adsTitlesArray, adsBitmapsArray);
 					GridView gridView = (GridView) findViewById(R.id.main_list);
@@ -198,6 +205,28 @@ public class MainActivity extends SharedCode {
 		protected void onPostExecute(JSONArray json) {
 			dialog.dismiss();
 			super.onPostExecute(json);
+		}
+	}
+	
+	private class SpinnerClickHandler implements OnItemSelectedListener {
+		
+		@Override
+		public void onItemSelected(AdapterView<?> parent, View view,
+				int position, long id) {
+			
+			TextView listText = (TextView) view.findViewById(android.R.id.text1);
+			String categoryName = listText.getText().toString();
+
+			Intent intent = new Intent(context, AdListActivity.class);
+			intent.putExtra("categoryName", categoryName);
+			startActivity(intent);
+			
+		}
+
+		@Override
+		public void onNothingSelected(AdapterView<?> parent) {
+			// TODO Auto-generated method stub
+			
 		}
 	}
 	

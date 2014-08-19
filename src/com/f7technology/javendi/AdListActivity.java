@@ -48,6 +48,11 @@ public class AdListActivity extends SharedCode {
 	Context context;
 	String feedUrl;
 	String catName;
+	ArrayList<Integer> adsIdsArray = new ArrayList<Integer>();
+	ArrayList<String> adsTitlesArray = new ArrayList<String>();
+	ArrayList<Double> adsPricesArray = new ArrayList<Double>();
+	ArrayList<String> adsLocationsArray = new ArrayList<String>();
+	ArrayList<Bitmap> adsBitmapsArray = new ArrayList<Bitmap>();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -59,17 +64,17 @@ public class AdListActivity extends SharedCode {
 		      String query = intent.getStringExtra(SearchManager.QUERY);
 		      setTitle("Resultados para '" +query+"'");
 		      String query1 = query.replaceAll("\\s", "%20");
-		      feedUrl = "http://192.168.0.11:3000/ads.json?search="+ query1;
+		      feedUrl = "http://192.168.1.15:3000/ads.json?search="+ query1;
 		    } else {
 		    	if (intent.getStringExtra("categoryName") != null) {
 					String catName = intent.getStringExtra("categoryName");
 					setTitle(catName);
 					String catName1 = catName.replaceAll("\\s", "%20");
-					feedUrl = "http://192.168.0.11:3000/ads.json?category_name="+ catName1;
+					feedUrl = "http://192.168.1.15:3000/ads.json?category_name="+ catName1;
 				} else {
 					String userEmail = intent.getStringExtra("userEmail");
 					setTitle("My ads");
-					feedUrl = "http://192.168.0.11:3000/ads.json?user_email="+ userEmail;
+					feedUrl = "http://192.168.1.15:3000/ads.json?user_email="+ userEmail;
 				}
 		    }
 		
@@ -90,7 +95,9 @@ public class AdListActivity extends SharedCode {
 			Intent y = getIntent();
 			catName = y.getStringExtra("categoryName");
 			String catUrl = catName.replaceAll("\\s", "%20");
-			String feedUrl = "http://192.168.0.11:3000/ads.json?category_name="+ catUrl;
+			String feedUrl = "http://192.168.1.15:3000/ads.json?category_name="+ catUrl;
+			
+			int adId = adsIdsArray.get(position);
 			
 			Intent intent = new Intent(context, AdViewActivity.class);
 			Bundle extras = new Bundle();
@@ -98,6 +105,7 @@ public class AdListActivity extends SharedCode {
 			extras.putString("position", String.valueOf(id));
 			extras.putString("categoryUrl", catUrl);
 			extras.putString("categoryName", catName);
+			extras.putInt("adId", adId);
 			intent.putExtras(extras);
 			startActivity(intent);
 		}
@@ -107,8 +115,9 @@ public class AdListActivity extends SharedCode {
 		
 		ProgressDialog dialog;
 		Bitmap bmp;
-		ArrayList<String> adsTitlesArray = new ArrayList<String>();
-		ArrayList<Bitmap> adsBitmapsArray = new ArrayList<Bitmap>();
+//		ArrayList<Integer> adsIdsArray = new ArrayList<Integer>();
+//		ArrayList<String> adsTitlesArray = new ArrayList<String>();
+//		ArrayList<Bitmap> adsBitmapsArray = new ArrayList<Bitmap>();
 		ArrayList<String> imageUrls = new ArrayList<String>();
 		
 		@Override
@@ -128,9 +137,16 @@ public class AdListActivity extends SharedCode {
 			try {
 				for (int i = 0; i < json.length(); i++) {
 					JSONObject ad = json.getJSONObject(i);
+					int id = ad.getInt("id");
+					adsIdsArray.add(id);
 					String title = ad.getString("title");
 					adsTitlesArray.add(title);
+					double price = ad.getDouble("price");
+					adsPricesArray.add(price);
+					String location = ad.getString("location");
+					adsLocationsArray.add(location);
 					String image = ad.getString("image");
+					Log.i("lalalalala", image);
 					imageUrls.add(image);
 				}
 			} catch (JSONException e) {
@@ -139,7 +155,7 @@ public class AdListActivity extends SharedCode {
 			
 			for (int i = 0; i < imageUrls.size(); i++) {
 				
-				String imgUrl = "http://192.168.0.11:3000" + imageUrls.get(i);
+				String imgUrl = "http://192.168.1.15:3000" + imageUrls.get(i);
 				
 				try {
 			        URL url = new URL(imgUrl);
@@ -167,7 +183,8 @@ public class AdListActivity extends SharedCode {
 
 				@Override
 				public void run() {
-					AdListAdapter adListAdapter = new AdListAdapter(context, adsTitlesArray, adsBitmapsArray);
+					AdListAdapter adListAdapter = new AdListAdapter(context, adsTitlesArray,
+													  adsPricesArray, adsLocationsArray, adsBitmapsArray);
 					ListView listView = (ListView) findViewById(R.id.ad_list);
 					listView.setAdapter(adListAdapter);
 			

@@ -57,6 +57,7 @@ public class AdViewActivity extends SharedCode implements AsyncResponse {
 	AdModel jParser = new AdModel();
 	String mailTo = "";
 	String categoryName;
+	int adId, id;
 	
 	
 	@Override
@@ -122,18 +123,14 @@ public class AdViewActivity extends SharedCode implements AsyncResponse {
 			
 			Intent intent = getIntent();
 			Bundle extras = intent.getExtras();
-			position = extras.getString("position");
-			int positionInt = Integer.parseInt(position);
-			
-			Intent i = getIntent();
-			Bundle e = i.getExtras();
-			feedUrl = e.getString("feedUrl");
+			adId = extras.getInt("adId");
 			
 			AdModel jParser = new AdModel();
-			JSONArray json = jParser.getJSONFromUrl(feedUrl);
-
+			JSONObject jsonObj = jParser.getJSONObjFromUrl("http://192.168.1.15:3000/ads/"+ String.valueOf(adId) +".json");
+			
 			try {
-				JSONObject ad = json.getJSONObject(positionInt);
+				JSONObject ad = jsonObj;
+				id = ad.getInt("id");
 				price = ad.getString("price");
 				description = ad.getString("description");
 				image = ad.getString("image");
@@ -142,7 +139,7 @@ public class AdViewActivity extends SharedCode implements AsyncResponse {
 				ex.printStackTrace();
 			}
 
-			final String imageURL = "http://192.168.0.11:3000" + image;
+			final String imageURL = "http://192.168.1.15:3000" + image;
 			try {
 		        URL url = new URL(imageURL);
 		        HttpGet httpRequest = null;
@@ -177,7 +174,7 @@ public class AdViewActivity extends SharedCode implements AsyncResponse {
 				
 			});
 			
-			return json;
+			return null;
 		}
 
 		@Override

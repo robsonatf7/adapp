@@ -16,13 +16,18 @@ import android.widget.TextView;
 public class AdListAdapter extends ArrayAdapter<String> {
 	
 	private final Context context;
-	private final ArrayList<String> values;
+	private final ArrayList<String> titles;
+	private final ArrayList<Double> prices;
+	private final ArrayList<String> locations;
 	private final ArrayList<Bitmap> bitmaps;
 	
-	public AdListAdapter(Context context, ArrayList<String> values, ArrayList<Bitmap> bitmaps) {
-		super(context, R.layout.ad_row, values);
+	public AdListAdapter(Context context, ArrayList<String> titles,
+						 ArrayList<Double> prices, ArrayList<String> locations, ArrayList<Bitmap> bitmaps) {
+		super(context, R.layout.ad_row, titles);
 		this.context = context;
-		this.values = values;
+		this.titles = titles;
+		this.prices = prices;
+		this.locations = locations;
 		this.bitmaps = bitmaps;
 	}
 	
@@ -31,9 +36,15 @@ public class AdListAdapter extends ArrayAdapter<String> {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View rowView = inflater.inflate(R.layout.ad_row, parent, false);
 		
-		TextView textView = (TextView) rowView.findViewById(R.id.ad_row_title);
+		TextView textTitle = (TextView) rowView.findViewById(R.id.ad_row_title);
 //		String limited = values.get(position).substring(0,7) + "...";
-		textView.setText(values.get(position));
+		textTitle.setText(titles.get(position));
+		
+		TextView textPrice = (TextView) rowView.findViewById(R.id.ad_row_price);
+		textPrice.setText("R$ " + prices.get(position).toString());
+		
+		TextView textLocation = (TextView) rowView.findViewById(R.id.ad_row_location);
+		textLocation.setText(locations.get(position));
 		
 		ImageView imageView = (ImageView)rowView.findViewById(R.id.ad_row_img);
 		imageView.setImageBitmap(bitmaps.get(position));

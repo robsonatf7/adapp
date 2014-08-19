@@ -38,7 +38,7 @@ public class CategoryListActivity extends SharedCode {
 		CategoryListAdapter categoryListAdapter;
 		JSONArray categoriesJson = new JSONArray();
 		Context context;
-		String feedUrl = "http://192.168.0.11:3000/categories.json";
+		String feedUrl = "http://192.168.1.15:3000/categories.json";
 		
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
@@ -52,11 +52,7 @@ public class CategoryListActivity extends SharedCode {
 			context = this;
 			CategoryListTask loaderTask = new CategoryListTask();
 			loaderTask.execute();
-/**				
-			ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
-			ImageSwipeAdapter adapter = new ImageSwipeAdapter (this);
-			viewPager.setAdapter(adapter);
-*/			
+		
 		}
 		
 		public class CategoryListTask extends AsyncTask<Void, Void, JSONArray> {
@@ -98,7 +94,7 @@ public class CategoryListActivity extends SharedCode {
 				
 				for (int i = 0; i < imageUrls.size(); i++) {
 					
-					String imgUrl = "http://192.168.0.11:3000" + imageUrls.get(i);
+					String imgUrl = "http://192.168.1.15:3000" + imageUrls.get(i);
 					
 					try {
 				        URL url = new URL(imgUrl);

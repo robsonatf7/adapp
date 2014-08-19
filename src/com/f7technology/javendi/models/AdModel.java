@@ -28,6 +28,7 @@ import com.f7technology.javendi.R;
 public class AdModel {
 	
 	JSONArray adsJson = new JSONArray();
+	JSONObject object = new JSONObject();
 	
 	public AdModel() {
 	}
@@ -75,4 +76,43 @@ public class AdModel {
 		return adsJson;
 	}
 
+	public JSONObject getJSONObjFromUrl(String url){
+		
+		HttpClient client = new DefaultHttpClient();
+		HttpGet getRequest = new HttpGet(url);
+		
+		try {
+			HttpResponse response = client.execute(getRequest);
+			StatusLine statusLine = response.getStatusLine();
+			int statusCode = statusLine.getStatusCode();
+			
+			if (statusCode != 200) {
+				return null;
+			}
+			
+			InputStream jsonStream = response.getEntity().getContent();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(jsonStream));
+			StringBuilder builder = new StringBuilder();
+			String line;
+			
+			while((line = reader.readLine()) != null) {
+				builder.append(line);
+			}
+			
+			String jsonData = builder.toString();
+			
+			object = new JSONObject(jsonData);
+			
+			
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		return object;
+	}
+	
 }
