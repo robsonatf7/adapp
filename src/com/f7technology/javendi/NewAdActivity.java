@@ -22,7 +22,7 @@ import android.widget.TextView;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.view.View.OnClickListener;
-a
+
 public class NewAdActivity extends SharedCode {
 	
 	Button createAd;
