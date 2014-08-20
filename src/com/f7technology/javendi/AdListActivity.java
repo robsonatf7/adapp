@@ -144,6 +144,7 @@ public class AdListActivity extends SharedCode {
 					double price = ad.getDouble("price");
 					adsPricesArray.add(price);
 					String location = ad.getString("location");
+					System.out.println(location);
 					adsLocationsArray.add(location);
 					String image = ad.getString("image");
 					Log.i("lalalalala", image);
@@ -185,6 +186,7 @@ public class AdListActivity extends SharedCode {
 				public void run() {
 					AdListAdapter adListAdapter = new AdListAdapter(context, adsTitlesArray,
 													  adsPricesArray, adsLocationsArray, adsBitmapsArray);
+					
 					ListView listView = (ListView) findViewById(R.id.ad_list);
 					listView.setAdapter(adListAdapter);
 			

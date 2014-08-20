@@ -1,31 +1,25 @@
 package com.f7technology.javendi;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.f7technology.javendi.R;
+import com.f7technology.javendi.adapters.MainListAdapter;
 import com.f7technology.javendi.models.CategoryModel;
-import com.facebook.Session;
 
-import android.R.string;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
@@ -33,7 +27,7 @@ public class NewAdActivity extends SharedCode {
 	
 	Button createAd;
 	Context context;
-	String feedUrl = "http://192.168.0.11:3000/categories.json";
+	String feedUrl = "http://192.168.1.15:3000/categories.json";
 	ArrayList<SpinnerCategory> spinnerCategories = new ArrayList<SpinnerCategory>();
 	ArrayList<String> spinnerCategoryNames = new ArrayList<String>();
 	ArrayList<Integer> spinnerCategoryIds = new ArrayList<Integer>();
@@ -66,11 +60,7 @@ public class NewAdActivity extends SharedCode {
 		protected JSONArray doInBackground(Void... params) {
 			CategoryModel jParser = new CategoryModel();
 			JSONArray json = jParser.getJSONFromUrl(feedUrl);
-			return json;
-		}
-		
-		protected void onPostExecute(JSONArray json){
-			
+			System.out.println(feedUrl);
 			try {
 				for (int i = 0; i < json.length(); i++) {
 					
@@ -88,9 +78,29 @@ public class NewAdActivity extends SharedCode {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			Spinner mySpinner = (Spinner) findViewById(R.id.new_ad_category);
-			mySpinner.setAdapter (new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, spinnerCategoryNames));
 			
+			runOnUiThread(new Runnable() {
+
+				@Override
+				public void run() {
+					
+					final Spinner mySpinner = (Spinner) findViewById(R.id.new_ad_category);
+					mySpinner.setAdapter (new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, spinnerCategoryNames));
+//					mySpinner.post(new Runnable() {
+//					    public void run() {
+//					    	mySpinner.setOnItemSelectedListener(new SpinnerClickHandler());
+//					    }
+//					});
+				}
+				
+			});
+			
+			return json;
+		}
+		
+		protected void onPostExecute(JSONArray json){
+//			dialog.dismiss();
+			super.onPostExecute(json);
 		}
 		
 	}
@@ -126,7 +136,6 @@ public class NewAdActivity extends SharedCode {
 				
 				Intent getUserData = getIntent();
 				String value5 = getUserData.getStringExtra("userEmail");
-//				Log.i("hsuahusa", value5);
 				
 				Intent intent = new Intent(context, AddPhotoActivity.class);
 				Bundle extras = new Bundle();
